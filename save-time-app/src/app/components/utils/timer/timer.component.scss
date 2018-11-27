@@ -1,0 +1,20 @@
+@import '../../../../colors.scss';
+div{
+   padding: 1.5em;
+   span{
+       color: $font-white;
+       margin: 4px 0;
+       letter-spacing: 1.1px;
+   }
+   span:first-of-type{
+       font-size: 14px;
+   }
+   span:last-of-type{
+       font-size: 24px;
+       b{
+           font-size: 12px;
+           margin-bottom: 2px;
+           font-weight: normal;
+       }
+   }
+}

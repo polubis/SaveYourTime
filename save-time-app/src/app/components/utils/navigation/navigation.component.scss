@@ -1,0 +1,71 @@
+@import '../../../../colors.scss';
+nav{
+    background: $side;
+    padding: 1.5em 0;
+    color: $font;
+    box-sizing: border-box;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 22.5% 1fr;
+    img{
+        width: 75px;
+        height: 75px;
+        border: 2px solid $border;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    ul{
+        overflow-y: auto;
+        & > li{
+            transition: .4s;
+            display: flex;
+            flex-flow: column;
+            .link-content{
+                padding: 1em;
+                span{
+                    margin-left: .66em;
+                }
+                .arrow{
+                    transition: .4s;
+                    transform: rotate(0);
+                    margin-left: auto;
+                }
+                &:hover{
+                    color: $main;
+                }
+            }
+            ul {
+                .child-link{
+                    opacity: 0;
+                    padding: .66em 1em;
+                    animation: .4s animate-link forwards;
+                    @for $i from 2 through 20 {
+                        &:nth-child(#{$i}) {
+                            animation-delay: $i * (1s / 18);
+                        }
+                    }
+                }
+                @keyframes animate-link {
+                    from {
+                        opacity: 0;
+                        transform: translateY(-7.5px);
+                    }
+                    to{
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            }
+          
+        }
+        .focused-link{
+            .link-content{
+                color: $main;
+                background: $font-white;
+                .arrow{
+                    transform: rotate(180deg);
+                }
+            }
+        }
+    }
+}
