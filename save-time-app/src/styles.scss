@@ -4,8 +4,8 @@ body, html{
    padding: 0;
    min-height: 100vh;
    font-family: 'Roboto', sans-serif;
-   background: $main;
    color: $black;
+   scroll-behavior: smooth;
 }
 #container, .wrapper{
    min-height: 100vh;
@@ -14,6 +14,10 @@ p{
     padding: 1em;
     margin: 0;
     color: $black;
+}
+.flex-between{
+    display: flex;
+    justify-content: space-between;
 }
 .flex-center{
     display: flex;
@@ -28,6 +32,11 @@ p{
     flex-flow: column;
     align-items: center;
 }
+.flex-col-h-center{
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+}
 .content{
     padding: 1.5em;
 }
@@ -39,12 +48,69 @@ ul{
 .clickable{
     cursor: pointer;
 }
-
-h1{
-  font-size: 1.2em;
-  margin: 0;
-  font-weight: 400;
-  letter-spacing: 1.05px;
-  padding-bottom: 1em;
-  color: $main;
+.cart{
+    box-shadow: $shadow;
+    padding: 1em;
+}
+.container-fluid{
+    width: 1080px;
+    margin: 0 auto;
+}
+button{
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    &:focus{
+        outline: none;
+    }
+}
+.logo{
+    font-size: 36px;
+    color: $main;
+}
+.main-btn{
+    color: $main;
+}
+.dots{
+    .active-dot{
+        background: $content-grey;
+    }
+    div{
+        cursor: pointer;
+        height: 17.5px;
+        width: 17.5px;
+        border-radius: 50%;
+        background: $main;
+        margin-right: 1em;
+    }
+}
+.label-btn{
+    background: transparent;
+    font-weight: bold;
+    font-size: 1em;
+}
+.label-btn-thin{
+    font-size: 1em;
+    background: transparent;
+}
+.main-btn-bg{
+    background: $main;
+    border-radius: 40px;
+    font-size: 1em;
+    color: $font-white;
+    padding: 20px;
+    min-width: 200px;
+    max-width: 300px;
+}
+.label{
+    display: flex;
+    flex-flow: column;
+    span:first-of-type{
+        font-size: 14px;
+        color: $content-grey;
+        margin-bottom: 5px;
+    }
+    span:last-of-type{
+        color: $font;
+    }
 }

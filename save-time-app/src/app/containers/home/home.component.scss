@@ -6,6 +6,7 @@
 .wrapper{
     grid-template-columns: 1fr 4fr 1fr;
     grid-template-rows: 1fr 5fr 1fr;
+    background: $main;
     .timer{
         grid-area: 3/1;
         align-self: flex-end;
@@ -25,6 +26,7 @@
             position: absolute;
             right: 0;
             bottom: 0;
+            width: 85%;
             .cloud{
                 fill: $main;
             }

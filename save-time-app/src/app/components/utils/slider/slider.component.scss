@@ -1,0 +1,65 @@
+@import '../../../../colors.scss';
+.slider{
+  position: relative;
+  .slider-content{
+    padding: 10px;
+    margin: 0 auto 25px auto;
+    overflow-x: hidden;
+    width: 90%;
+    scroll-behavior: smooth;
+  }
+  & > button{
+    position: absolute;
+    top: 0;
+    height: 25px;
+    margin: auto 0;
+    bottom: 0;
+    background: transparent;
+    cursor: pointer;
+    i {
+      font-size: 40px;
+    }
+  }
+  .left-arrow{
+    left: -10px;
+  }
+  .right-arrow{
+    right: -10px;
+  }
+  .items-table, .progress, .markers, .marker{
+    height: 10px;
+    border-radius: 40px;
+  }
+  .items-table{
+    background: $content-grey;
+    position: relative;
+    .progress{
+      background: $main;
+      width: 100px;
+      will-change: width;
+      text-align: right;
+      transition: .4s width;
+    }
+    .markers{
+      position: absolute;
+      z-index: 2;
+      width: 100%;
+      top: 0;
+      display: flex;
+      left: 0;
+      .marker{
+        .progress-detail{
+          margin-top: 25px;
+          font-weight: lighter;
+          transition: .4s;
+          color: $content-grey;
+        }
+        .progress-detail-focused{
+          color: $main;
+        }
+      }
+    }
+
+  }
+}
+

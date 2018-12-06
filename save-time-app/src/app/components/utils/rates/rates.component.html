@@ -1,0 +1,4 @@
+<div class="rates">
+  <i *ngFor="let rate of rates" 
+  class="material-icons" [ngClass]="{'colored-rate': rate.shouldBeColored}">stars</i>
+</div>

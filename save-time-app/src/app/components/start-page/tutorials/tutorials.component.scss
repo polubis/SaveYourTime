@@ -1,0 +1,75 @@
+@import '../../../../colors.scss';
+@keyframes animate-svg-elements-in{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+.animations-container{
+  .cls-5:not(#Rectangle_18){
+      opacity: 0;
+      animation: 2s animate-svg-elements-in ease-in-out forwards;
+      @for $i from 2 through 20 {
+          &:nth-child(#{$i}) {
+              animation-delay: $i * (1s / 18);
+          }
+      }
+  }
+}
+p{
+    padding: 0;
+    color: $font;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+h1{
+    margin: 0;
+    color: $font;
+    span{
+        color: $main;
+    }
+}
+.main-btn-bg{
+    margin: 40px auto 0 auto;
+}
+.flex-col-h-center{
+    padding: 0 50px;
+    p{
+        font-weight: bold;
+    }
+}
+.dots{
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+}
+.main-colored{
+    color: $main;
+}
+h1.main-colored{
+    margin-top: 20px;
+    margin-bottom: 25px;
+}
+p > span{
+    font-weight: lighter;
+    font-size: 20px;
+}
+.step-paragraph{
+    margin-bottom: 15px;
+}
+.article-title{
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+article{
+    margin-bottom: 15px;
+}
+p:last-of-type{
+    font-weight: lighter;
+}
+.thin-description{
+   margin-bottom: 40px;
+}

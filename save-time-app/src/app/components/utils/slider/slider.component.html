@@ -1,0 +1,28 @@
+<div class="slider">
+  <div [class]="'slider-content ' + classes" #slider>
+    <ng-content>
+    </ng-content>
+  </div>
+
+  <button *ngIf="selectedItemIndex !== 0" class="left-arrow" (click)="onClickLeftArrow()" [disabled]="isScrolling">
+    <i class="material-icons">chevron_left</i>
+  </button>
+  <button *ngIf="selectedItemIndex < numberOfItems-1" class="right-arrow" (click)="onClickRightArrow()" [disabled]="isScrolling">
+    <i class="material-icons">chevron_right</i>
+  </button>
+
+  <div class="items-table">
+    <div class="progress" [style.width]="progressWidth + '%'">
+    </div>
+
+    <div class="markers">
+      <div (click)="onClickProgressMarker(i)"
+      class="marker clickable" [style.width]="progresWidthJump + '%'" *ngFor="let item of widthArray; let i = index">
+        <div class="progress-detail" [ngClass]="{'progress-detail-focused': selectedItemIndex === i}">
+          {{values[i][progressLabelKey]}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

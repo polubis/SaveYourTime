@@ -1,0 +1,42 @@
+<div [class]="'cart cart-products flex-column ' + classes">
+  <p class="flex-between"><span class="cart-name">{{product.name}}</span> <i class="material-icons">store</i></p>
+
+  <div class="product-details">
+    <div class="label">
+      <span>company</span>
+      <span>{{product.company}}</span>
+    </div>
+
+    <div class="label">
+      <span>type</span>
+      <span>{{product.type}}</span>
+    </div>
+
+    <div class="label">
+      <span>users rate</span>
+      <span>{{product.rate}}</span>
+      <app-rates [rate]="product.rate">
+      </app-rates>
+    </div>
+
+    <div class="label">
+      <span>number of votes</span>
+      <span>{{product.numberOfVotes}}</span>
+    </div>
+
+    <div class="label">
+      <span>calories</span>
+      <span>{{product.calories}}</span>
+    </div>
+  </div>
+
+  <div class="cart-image">
+    <img src="assets/download.jpeg" />
+  </div>
+
+  <p class="operations flex-between">
+    <button class="label-btn-thin">CHECK DETAILS</button>
+    <span>3</span>
+    <i class="material-icons">comment</i>
+  </p>
+</div>

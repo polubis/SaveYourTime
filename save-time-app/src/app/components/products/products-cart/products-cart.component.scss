@@ -1,0 +1,55 @@
+@import '../../../../colors.scss';
+.marginated-cart{
+  margin-right: 20px;
+}
+.cart-products{
+    height: 350px;
+    width: 500px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 60% 1fr;
+    grid-gap: 20px;
+    grid-template-areas:
+        "title title"
+        "content image"
+        "footer footer";
+    p{
+        padding: 0;
+    }
+    .flex-between:first-of-type{
+        grid-area: title;
+        color: $font;
+        span{
+            font-size: 22px;
+            font-weight: bold;
+        }
+        i{
+            font-size: 30px;
+        }
+    }
+    .product-details{
+        display: flex;
+        flex-flow: wrap;
+        justify-content: space-between;
+        & > div{
+            width: 45%;
+        }
+    }
+    .cart-image{
+        grid-area: image;
+        img{
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+    }
+    .operations{
+        position: relative;
+        grid-area: footer;
+        span{
+            position: absolute;
+            right: 25px;
+            top: -15px;
+        }
+    }
+}

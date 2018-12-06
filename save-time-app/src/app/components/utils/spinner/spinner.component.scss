@@ -1,0 +1,69 @@
+@import '../../../../colors.scss';
+.loading-bg{
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  right: 0;
+  background: rgba(244, 244, 244, 0.83);
+  width: 100%;
+  height: 100%;
+}
+.container{
+  z-index: 3;
+  border-radius: 50%;
+}
+.hide-spinner{
+  animation: 1s hide-spinner ease forwards;
+  @keyframes hide-spinner{
+    0%{
+      transform: translateY(25px);
+    }
+    100%{
+      transform: translateY(-120px);
+    }
+  }
+}
+.spinner{
+  border-radius: 50%;
+  border-right-color: transparent;
+  animation: .5s animate-spinner ease-in infinite;
+  border: 2px solid $main;
+  border-top-color: transparent;
+  @keyframes animate-spinner {
+      0%{
+          transform: rotate(0);
+      }
+      100%{
+          transform: rotate(360deg);
+      }
+  }
+}
+.mobile-container{
+  background: $font-white;
+  box-shadow: $shadow;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+}
+.page-container{
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+  margin: 0 auto;
+}
+.spinner-big{
+  height: 45px;
+  width: 45px;
+}
+.spinner-small{
+  width: 40%;
+  height: 40%;
+}
+.spinner-form{
+  right: 15px;
+  position: absolute;
+  bottom: 15px;
+}

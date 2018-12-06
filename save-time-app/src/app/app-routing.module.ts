@@ -6,6 +6,8 @@ import { MealsComponent } from "src/app/components/home/meals/meals.component";
 import { DietsComponent } from "src/app/components/home/diets/diets.component";
 import { TrainingsComponent } from "src/app/components/home/trainings/trainings.component";
 import { StatisticsComponent } from "src/app/components/home/statistics/statistics.component";
+import { StartPageComponent } from "src/app/containers/start-page/start-page.component";
+import { TutorialsComponent } from "src/app/components/start-page/tutorials/tutorials.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent, children: [
@@ -14,8 +16,13 @@ const routes: Routes = [
       { path: 'diets', component: DietsComponent },
       { path: 'trainings', component: TrainingsComponent },
       { path: 'statistics', component: StatisticsComponent },
-    ] 
-  }
+    ]
+  },
+  { path: 'start', component: StartPageComponent, children: [
+      { path: '', component: TutorialsComponent },
+    ]
+  },
+
 ];
 
 @NgModule({

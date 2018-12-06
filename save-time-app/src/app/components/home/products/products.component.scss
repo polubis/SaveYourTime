@@ -1,29 +1,23 @@
 @import '../../../../colors.scss';
-.products{
-    height: 100%;
+.description{
     display: grid;
-    grid-template-rows: 79px 1fr;
-    .description{
-        display: grid;
-        grid-template-rows: auto 1fr;
-        grid-template-columns: 80px 1fr;
-        grid-gap: 1em;
-        p{
-            padding: 1em 0;
-            grid-column: 1/3;
-            color: $black;
-        }
-        .flex-col-center{
-            color: $content-grey;
-            & > i{
-                font-size: 48px;
-                margin-bottom: 1em;
-            }
-        }
-        article{
-            color: $content-grey;
-            line-height: 40px;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 80px 1fr;
+    grid-gap: 1em;
+    p{
+        padding: 1em 0;
+        grid-column: 1/3;
+        color: $black;
+    }
+    .flex-col-center{
+        color: $content-grey;
+        & > i{
+            font-size: 48px;
+            margin-bottom: 1em;
         }
     }
-    
+    article{
+        color: $content-grey;
+        line-height: 40px;
+    }
 }

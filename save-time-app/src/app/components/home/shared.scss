@@ -1,0 +1,20 @@
+@import '../../../colors.scss';
+.cart-grid{
+    display: grid;
+    position: relative;
+    grid-template-rows: 79px 1fr;
+    .category-icon{
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 32px;
+    }
+}
+h1{
+    font-size: 1.2em;
+    margin: 0;
+    font-weight: 400;
+    letter-spacing: 1.05px;
+    padding-bottom: 1em;
+    color: $main;
+}
