@@ -1,0 +1,68 @@
+@import '../../../../colors.scss';
+.form{
+  .input-wrapper{
+    position: relative;
+    padding: 10px 0;
+    label{
+      position: absolute;
+      font-size: 14px;
+      left: 0;
+      top: 16px;
+      transition: .4s;
+      pointer-events: none;
+    }
+    input, textarea{
+      background: $font-white;
+      border: none;
+      font-family: inherit;
+      transition: .4s;
+      border-bottom: 1px solid $main;
+      width: 100%;
+      padding: 10px 0;
+      &:focus{
+        outline: none;
+      }
+      &:focus ~ label, &:valid ~ label{
+        top: 0;
+        font-size: 12px;
+      }
+    }
+    .validation-message{
+      color: $validation-error;
+      padding: 5px 0 0 0;
+      height: 40px;
+      span{
+        font-size: 12px;
+      }
+    }
+  }
+  .section-error{
+    label{
+      color: $validation-error;
+    }
+    input{
+      border-bottom-color: $validation-error;
+    }
+  }
+  .input-wrapper:not(.section-error){
+    label{
+      color: $main;
+    }
+    input,textarea{
+      border-color: $main;
+    }
+  }
+
+  .form-footer{
+    margin-top: 50px;
+    text-align: center;
+    button:disabled{
+      color: $content-grey;
+    }
+  }
+}
+
+.login-form{
+  margin-top: 50px;
+  padding: 0 20px;
+}

@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./start-page.component.scss']
 })
 export class StartPageComponent implements OnInit {
-
+  loginModal = false;
+  registerModal = false;
   constructor() { }
 
   ngOnInit() {
+  }
+
+  togle(key: string) {
+    this[key] = !this[key];
   }
 
 }

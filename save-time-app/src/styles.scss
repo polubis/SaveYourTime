@@ -7,6 +7,25 @@ body, html{
    color: $black;
    scroll-behavior: smooth;
 }
+.thin-link{
+  font-weight: lighter;
+}
+.modal-header{
+  h2{
+    margin: 0;
+  }
+  p{
+    padding: 1em 0;
+    font-size: 16px;
+    font-weight: lighter;
+  }
+  .thin-link{
+    font-size: 14px;
+  }
+}
+h1, h2, h3, h4, h5, p{
+  color: $font;
+}
 #container, .wrapper{
    min-height: 100vh;
 }
@@ -113,4 +132,15 @@ button{
     span:last-of-type{
         color: $font;
     }
+}
+.main-colored{
+  color: $main;
+}
+.scale-base{
+  transform: scale(1);
+  transition: .4s;
+  position: relative;
+}
+.scaled-content{
+  transform: scale(.95);
 }

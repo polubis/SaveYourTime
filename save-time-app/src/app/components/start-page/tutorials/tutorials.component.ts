@@ -10,7 +10,7 @@ import { FetchProducts } from '../../../store/products/actions';
 })
 export class TutorialsComponent implements OnInit {
   blockNames: string[] = ['main', 'products', 'meals', 'recipes', 'trainings', 'statistics'];
-  currentOpenedBlock = 'products';
+  currentOpenedBlock = 'main';
   exampleProducts: Product[] = [];
 
   constructor(private store: Store<AppState>) { }

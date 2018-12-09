@@ -3,10 +3,8 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'app-spinner',
   template: `
-  <div *ngIf="showBackdrop" class="loading-bg"></div>
-  <div [class]="containerClasses + ' container'" [ngClass]="{'hide-spinner': !loading}">
-    <div [class]="classes + ' spinner'"></div>
-  </div>
+  <div *ngIf="backdrop" class="loading-bg"></div>
+  <div [class]="containerClasses + ' ' + classes + ' spinner'"></div>
   `,
   styleUrls: ['./spinner.component.scss']
 })

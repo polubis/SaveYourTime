@@ -7,20 +7,28 @@
             <button class="label-btn">Contact</button>
         </div>
         <div>
-            <button class="label-btn main-btn">Login</button>
-            <button class="label-btn">Register</button>
+            <button (click)="togle('loginModal')" class="label-btn main-btn">Login</button>
+            <button (click)="togle('registerModal')" class="label-btn">Register</button>
         </div>
     </div>
  </nav>
 
  <div class="start-page-content container-fluid">
     <router-outlet>
-                
+
     </router-outlet>
  </div>
- 
+
  <div class="paralax-bg" [ngStyle]="{'background-image':'url(assets/bg1.jpg)'}">
 
  </div>
 
 </div>
+
+<app-modal *ngIf="loginModal" [classes]="'m-w-center'" (closing)="togle('loginModal')">
+  <app-log-in></app-log-in>
+</app-modal>
+
+<app-modal *ngIf="registerModal" [classes]="'m-w-center'" (closing)="togle('registerModal')">
+  <app-register></app-register>
+</app-modal>

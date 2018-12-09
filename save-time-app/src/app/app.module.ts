@@ -27,6 +27,10 @@ import { EffectsModule } from "@ngrx/effects";
 
 import { reducers } from './app.reducers';
 import { ProductsEffects } from "src/app/store/products/effects";
+import { ModalComponent } from './components/utils/modal/modal.component';
+import { FormComponent } from './components/utils/form/form.component';
+import { LogInComponent } from './components/start-page/log-in/log-in.component';
+import { RegisterComponent } from './components/start-page/register/register.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +49,11 @@ import { ProductsEffects } from "src/app/store/products/effects";
     ProductsCartComponent,
     RatesComponent,
     SliderComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    ModalComponent,
+    FormComponent,
+    LogInComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
