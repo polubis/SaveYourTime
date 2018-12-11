@@ -23,10 +23,10 @@ export class ProductsEffects {
     switchMap((action: ProductsActions.FetchProducts) => {
       return this.requestsService.execute('products');
     }),
-    map((products: Product[]) => {
+    map((response: {products: Product[]}) => {
       return {
         type: ProductsActions.SET_PRODUCTS,
-        payload: products
+        payload: response.products
       };
     })
   );
