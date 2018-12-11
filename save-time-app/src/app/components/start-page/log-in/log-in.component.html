@@ -9,7 +9,7 @@
     <span class="main-colored thin-link">Click here to check tutorial</span>
   </header>
 
-  <app-form [isSubmiting]="isLoging" [classes]="'login-form'" [formSettings]="loginFormSettings" (submiting)="logIn($event)"></app-form>
+  <app-form [isSubmiting]="isLoging" [formSettings]="loginFormSettings" (submiting)="logIn($event)"></app-form>
 </div>
 
 <app-spinner *ngIf="isLoging" [backdrop]="true" [classes]="'spinner-big'" [containerClasses]="'spinner-centered'"></app-spinner>

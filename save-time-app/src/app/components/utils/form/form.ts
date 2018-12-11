@@ -34,7 +34,7 @@ export class Form extends ValidationService {
   formSettings: FormSettings;
   formStateKeys: string[];
 
-  currentFocusedInput = -1;
+  currentFocusedInput = '';
   isFormDirty = false;
   isErrorsInForm = false;
 
@@ -52,7 +52,7 @@ export class Form extends ValidationService {
     const formSettings: FormSettings = {};
 
     formStateKeys.forEach(name => {
-      const { initialValue } = settings;
+      const { initialValue } = settings[name];
       formState[name] = initialValue ? initialValue : '';
       formErrors[name] = '';
       formSettings[name] = {...settings[name]};
@@ -79,12 +79,12 @@ export class Form extends ValidationService {
     }
   }
 
-  focus(index: number) {
-    this.currentFocusedInput = index;
+  focus(key: string) {
+    this.currentFocusedInput = key;
   }
 
   blur() {
-    this.currentFocusedInput = -1;
+    this.currentFocusedInput = '';
   }
 
   submit(e) {

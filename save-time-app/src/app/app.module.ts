@@ -31,6 +31,11 @@ import { ModalComponent } from './components/utils/modal/modal.component';
 import { FormComponent } from './components/utils/form/form.component';
 import { LogInComponent } from './components/start-page/log-in/log-in.component';
 import { RegisterComponent } from './components/start-page/register/register.component';
+import { UsersEffects } from "src/app/store/users/effects";
+
+import { environment } from "src/environments/environment";
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
 
 @NgModule({
   declarations: [
@@ -60,7 +65,8 @@ import { RegisterComponent } from './components/start-page/register/register.com
     AppRoutingModule,
     HttpClientModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([ProductsEffects]),
+    EffectsModule.forRoot([ProductsEffects, UsersEffects]),
+    !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [],
   bootstrap: [AppComponent]

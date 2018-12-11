@@ -1,1 +1,18 @@
-<app-form [classes]="'register-form'" [formSettings]="registerFormSettings"></app-form>
+
+
+
+<div class="login-form scale-base" [ngClass]="{'scaled-content': isCreatingAccount}">
+    <header class="modal-header">
+      <h2>Register on our <span class="main-colored">website</span></h2>
+      <p>
+        Populate register form step by step. Fields marked with
+        <span class="main-colored">* character are required</span>. While typing you will see small validation
+        messages which will help your finish populating form in really fast
+        way.
+      </p>
+    </header>
+
+    <app-form [isSubmiting]="isCreatingAccount" [classes]="'register-form'" [formSettings]="registerFormSettings" (submiting)="register($event)"></app-form>
+
+  </div>
+  <app-spinner *ngIf="isCreatingAccount" [backdrop]="true" [classes]="'spinner-big'" [containerClasses]="'spinner-centered'"></app-spinner>

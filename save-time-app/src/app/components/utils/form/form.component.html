@@ -1,10 +1,10 @@
 <form [class]="'form ' + classes" #form (submit)="submit($event)">
 
-  <section [ngClass]="{'section-error': formErrors[key] !== ''}" class="input-wrapper" *ngFor="let key of formStateKeys">
-    <input
-    required="" (input)="input($event, key)" (focus)="focus(key)" (blur)="blur()" [value]="formState[key]"
+  <section [ngClass]="{'section-error': formErrors[key] !== ''}"
+  [class]="'input-wrapper ' + formSettings[key].classes" *ngFor="let key of formStateKeys">
+    <input (input)="input($event, key)" (focus)="focus(key)" (blur)="blur()" [value]="formState[key]"
     [type]="formSettings[key].type" />
-    <label required="" *ngIf="formSettings[key].label">{{formSettings[key].label}}</label>
+    <label *ngIf="formSettings[key].label" [ngClass]="{'label-up': (key === currentFocusedInput || formState[key] !== '')}">{{formSettings[key].label}}</label>
     <p class="validation-message">
       <span *ngIf="formErrors[key]">{{formErrors[key]}}</span>
     </p>
