@@ -30,7 +30,7 @@
       }
     }
     .validation-message{
-      color: $validation-error;
+      color: $error;
       padding: 5px 0 0 0;
       height: 40px;
       span{
@@ -40,10 +40,10 @@
   }
   .section-error{
     label{
-      color: $validation-error;
+      color: $error;
     }
     input{
-      border-bottom-color: $validation-error;
+      border-bottom-color: $error;
     }
   }
   .input-wrapper:not(.section-error){

@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StartPageComponent implements OnInit {
   loginModal = false;
-  registerModal = true;
+  registerModal = false;
   constructor() { }
 
   ngOnInit() {

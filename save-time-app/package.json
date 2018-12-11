@@ -23,6 +23,7 @@
     "@angular/router": "~7.0.0",
     "@ngrx/effects": "^6.1.2",
     "@ngrx/store": "^6.1.2",
+    "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
     "core-js": "^2.5.4",
     "express": "^4.16.4",

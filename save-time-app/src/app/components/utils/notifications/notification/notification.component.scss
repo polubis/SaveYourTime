@@ -1,0 +1,36 @@
+@import '../../../../../colors.scss';
+
+
+.notification{
+  min-width: 450px;
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  background: $font-white;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  div:first-of-type{
+    display: flex;
+    height: 60px;
+    width: 60px;
+    border-bottom-left-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    i {
+      color: $font-white;
+    }
+  }
+  .not-content{
+    color: $font;
+    padding: 0 15px;
+  }
+}
+.error {
+  background: $error;
+}
+.ok {
+  background: $ok;
+}
+.warning {
+  background: $warning;
+}

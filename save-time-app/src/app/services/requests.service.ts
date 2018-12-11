@@ -3,15 +3,17 @@ import { RequestSetting, Settings, RequestTypes } from "src/app/models/request";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { catchError } from "rxjs/operators";
 import { Observable, of } from "rxjs";
+import { AppState } from "src/app/app.reducers";
+import { Store } from "@ngrx/store";
 
 @Injectable({providedIn: 'root'})
 export class RequestsService {
   baseUrl = "http://localhost:3000/api/";
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private store: Store<AppState>) {
   }
   settings: Settings = {
     products: new RequestSetting('products'),
-    register: new RequestSetting('register', false, RequestTypes.Post)
+    register: new RequestSetting('users/register', false, RequestTypes.Post)
   }
 
   execute(settingKey: string, payload?: any, onErrorFunction?: any, params: string = ''): Observable<any> {

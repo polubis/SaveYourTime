@@ -35,6 +35,9 @@ import { UsersEffects } from "src/app/store/users/effects";
 
 import { environment } from "src/environments/environment";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { NotificationsComponent } from './components/utils/notifications/notifications.component';
+import { NotificationComponent } from './components/utils/notifications/notification/notification.component';
+import { NotificationsReducer } from "src/app/store/notifications/effects";
 
 
 @NgModule({
@@ -58,14 +61,16 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     ModalComponent,
     FormComponent,
     LogInComponent,
-    RegisterComponent
+    RegisterComponent,
+    NotificationsComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([ProductsEffects, UsersEffects]),
+    EffectsModule.forRoot([ProductsEffects, UsersEffects, NotificationsReducer]),
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [],

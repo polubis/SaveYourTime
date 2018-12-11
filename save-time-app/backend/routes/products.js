@@ -12,9 +12,6 @@ router.get('', (req, res, next) => {
   });
 });
 
-router.post('', (req, res, next) => {
-});
-
 // router.post("", (req, res, next) => {
 //   const post = new Post({
 //     title: req.body.title,

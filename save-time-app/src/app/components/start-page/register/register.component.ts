@@ -11,21 +11,18 @@ import { Subscription } from "rxjs";
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   registerFormSettings: FormSettings = {
-    username: new Setting('username', { isNotEmptyString: true, minLength: 3, maxLength: 50 }, 'text', '', 'piotr'),
-    email: new Setting('email', { isNotEmptyString: true, minLength: 3, maxLength: 50 }, 'email', '', 'piotr@wp.pl'),
-    password: new Setting('password', { isNotEmptyString: true, minLength: 3, maxLength: 50 }, 'password', '', 'piotr'),
-    repeatedPassword: new Setting('repeated password', { isNotEmptyString: true, minLength: 3, maxLength: 50 }, 'password', '', 'piotr'),
+    username: new Setting('username', { isNotEmptyString: true, minLength: 3, maxLength: 50 }),
+    email: new Setting('email', { isNotEmptyString: true, minLength: 3, maxLength: 50 }, 'email'),
+    password: new Setting('password', { isNotEmptyString: true, minLength: 3, maxLength: 50 }, 'password'),
+    repeatedPassword: new Setting('repeated password', { isNotEmptyString: true, minLength: 3, maxLength: 50 }, 'password'),
   };
   isCreatingAccount;
   subscription: Subscription;
   constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
-    this.subscription = this.store.select(state => state.users).subscribe(state => {
-      this.isCreatingAccount = state.isCreatingAccount;
-      if (state.createAccountStatus) {
-        alert("Pomyslnie zalogowano");
-      }
+    this.subscription = this.store.select(state => state.users.isCreatingAccount).subscribe(isCreatingAccount => {
+      this.isCreatingAccount = isCreatingAccount;
     });
   }
   ngOnDestroy(){
@@ -34,6 +31,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   register(formData: any) {
-    this.store.dispatch(new StartRegister(formData));
+    const { username, email, password } = formData;
+    this.store.dispatch(new StartRegister({username, email, password}));
   }
 }
