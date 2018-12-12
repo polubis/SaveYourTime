@@ -6,15 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from "src/app/containers/home/home.component";
-import { ProductsComponent } from "src/app/components/home/products/products.component";
-import { MealsComponent } from './components/home/meals/meals.component';
-import { DietsComponent } from './components/home/diets/diets.component';
-import { TrainingsComponent } from './components/home/trainings/trainings.component';
-import { StatisticsComponent } from './components/home/statistics/statistics.component';
 import { TimerComponent } from './components/utils/timer/timer.component';
 import { StartPageComponent } from './containers/start-page/start-page.component';
-import { NavigationComponent } from "src/app/components/home/navigation/navigation.component";
-import { ProductsCartComponent } from './components/products/products-cart/products-cart.component';
 import { RatesComponent } from './components/utils/rates/rates.component';
 import { SliderComponent } from './components/utils/slider/slider.component';
 import { SpinnerComponent } from './components/utils/spinner/spinner.component';
@@ -37,6 +30,11 @@ import { environment } from "src/environments/environment";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NotificationsComponent } from './components/utils/notifications/notifications.component';
 import { NotificationComponent } from './components/utils/notifications/notification/notification.component';
+import { ProductsInstructionComponent } from './components/home/products/products-instruction/products-instruction.component';
+import { MainComponent } from './containers/main/main.component';
+import { ProductsCartComponent } from "src/app/components/common/products-cart/products-cart.component";
+import { NavigationComponent } from "src/app/components/utils/navigation/navigation.component";
+import { ProductFormComponent } from "src/app/components/common/product-form/product-form.component";
 
 
 @NgModule({
@@ -44,11 +42,6 @@ import { NotificationComponent } from './components/utils/notifications/notifica
     AppComponent,
     HomeComponent,
     NavigationComponent,
-    ProductsComponent,
-    MealsComponent,
-    DietsComponent,
-    TrainingsComponent,
-    StatisticsComponent,
     TimerComponent,
     StartPageComponent,
     TutorialsComponent,
@@ -62,7 +55,10 @@ import { NotificationComponent } from './components/utils/notifications/notifica
     LogInComponent,
     RegisterComponent,
     NotificationsComponent,
-    NotificationComponent
+    NotificationComponent,
+    ProductFormComponent,
+    ProductsInstructionComponent,
+    MainComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,5 @@
 <nav>
-    
+
   <div class="flex-col-center">
     <img src="https://images.pexels.com/photos/736716/pexels-photo-736716.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" />
     <p>
@@ -11,15 +11,15 @@
     <li *ngFor="let link of navigationLinks; let i = index"
     [ngClass]="{'focused-link': currentOpenedNavigationBar === i}">
         <div (click)="changeOpenedNavigationBar(i)" class="link-content flex-center clickable">
-          <i class="material-icons">{{link.icon}}</i><span>{{link.name}}</span> 
+          <i class="material-icons">{{link.icon}}</i><span>{{link.name}}</span>
           <i *ngIf="link.childs" class="material-icons arrow">expand_more</i>
         </div>
-        
+
         <ul *ngIf="link.childs && currentOpenedNavigationBar === i">
-          <li *ngFor="let child of link.childs" class="child-link clickable" >
-            {{child}}
+          <li *ngFor="let child of link.childs" class="child-link clickable" (click)="child.func()">
+            {{child.label}}
           </li>
-        </ul> 
+        </ul>
     </li>
   </ul>
 

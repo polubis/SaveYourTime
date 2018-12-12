@@ -12,6 +12,23 @@ router.get('', (req, res, next) => {
   });
 });
 
+router.post('', (req, res, next) => {
+  const { name, company, type, picturePath, rate, calories, numberOfVotes } = req.body;
+  const product = new Product({
+    name, company, type, picturePath, rate, calories, numberOfVotes
+  });
+
+  product.save().then(createdProduct => {
+    res.status(201).json({
+      _id: createdProduct._id
+    });
+  }).catch(error => {
+    res.status(400).json({
+      error: 'Product with that name already exist'
+    });
+  });
+});
+
 // router.post("", (req, res, next) => {
 //   const post = new Post({
 //     title: req.body.title,

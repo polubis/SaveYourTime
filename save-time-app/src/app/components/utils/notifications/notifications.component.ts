@@ -30,6 +30,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
   removeNotificationOnClick(index: number) {
+    console.log(index);
     this.store.dispatch(new RemoveNotification(index));
   }
 }

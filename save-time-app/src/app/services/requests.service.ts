@@ -16,11 +16,13 @@ export class RequestsService {
   }
 
   succesfullMessages = {
-    register: 'Your account has been succesfully created'
+    register: 'Your account has been succesfully created',
+    addProduct: 'Product has been succesfully added'
   }
 
   settings: Settings = {
     products: new RequestSetting('products'),
+    addProduct: new RequestSetting('products', false, RequestTypes.Post),
     register: new RequestSetting('users/register', false, RequestTypes.Post)
   }
 
@@ -44,7 +46,7 @@ export class RequestsService {
         return of(error);
       }),
       filter((response: any) => {
-        return response.status ? false : true;
+        return (response.status === null || response.status === undefined);
       })
     );
   }

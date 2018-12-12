@@ -11,6 +11,15 @@
         grid-area: 3/1;
         align-self: flex-end;
     }
+    .svg{
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 85%;
+      .cloud{
+          fill: $main;
+      }
+    }
 
     .box{
         box-shadow: $shadow;
@@ -22,19 +31,25 @@
         & > div{
             z-index: 1;
         }
-        .svg{
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            width: 85%;
-            .cloud{
-                fill: $main;
-            }
+        .cart-grid{
+          display: grid;
+          position: relative;
+          grid-template-rows: 79px 1fr;
+          .category-icon{
+              position: absolute;
+              top: 0;
+              right: 0;
+              font-size: 32px;
+          }
         }
-        .content{
-            color: $black;
+        h1{
+          font-size: 1.2em;
+          margin: 0;
+          font-weight: 400;
+          letter-spacing: 1.05px;
+          padding-bottom: 1em;
+          color: $main;
         }
     }
-    
 }
 
