@@ -1,18 +1,31 @@
 @import '../../../../../colors.scss';
-
-
 .notification{
   min-width: 450px;
-  position: fixed;
-  top: 25px;
-  right: 25px;
-  background: $font-white;
   border-top-right-radius: 8px;
+  margin-bottom: 15px;
+  cursor: pointer;
   border-bottom-left-radius: 8px;
+  @keyframes animate-in-box {
+    0% {
+      opacity: 0; transform: translateX(-25px);
+    }
+    100% {
+      opacity: 1; transform: translateX(0);
+    }
+  }
+  @keyframes animate-in-content {
+    from {
+      transform: translateX(40vw);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
   div:first-of-type{
     display: flex;
     height: 60px;
     width: 60px;
+    animation: .4s animate-in-box ease-in-out forwards;
     border-bottom-left-radius: 8px;
     align-items: center;
     justify-content: center;
@@ -22,7 +35,13 @@
   }
   .not-content{
     color: $font;
+    height: 60px;
     padding: 0 15px;
+    width: 390px;
+    box-sizing: border-box;
+    background: $font-white;
+    animation-delay: .5s;
+    animation: .5s animate-in-content ease-in-out forwards;
   }
 }
 .error {

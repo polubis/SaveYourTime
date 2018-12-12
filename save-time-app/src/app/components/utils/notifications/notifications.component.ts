@@ -1,28 +1,35 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Notification } from '../../../models/notification';
+import { AppState } from "src/app/app.reducers";
+import { Store } from "@ngrx/store";
+import { Subscription } from "rxjs";
+import { getNotifications } from '../../../store/index';
+import { RemoveNotification } from '../../../store/notifications/actions';
 @Component({
   selector: 'app-notifications',
   template: `
-    <div class="notifications">
-      <app-notification *ngFor="let notification of notifications" [type]="notification.type" [content]="notification.content">
+    <div class="notifications" *ngIf="notifications">
+      <app-notification (removing)="removeNotificationOnClick(i)"
+      *ngFor="let notification of notifications; let i = index" [type]="notification.type" [content]="notification.content">
       </app-notification>
     </div>
 
   `,
   styleUrls: ['./notifications.component.scss']
 })
-export class NotificationsComponent implements OnInit {
-  notifications: any[] = [
-    {id: 0, content: 'Your new account has been succesfully created !', icon: 'check', type: 'ok'},
-    // {id: 1, content: 'Your new account has been succesfully edited !'},
-    // {id: 2, content: 'Your new account has been succesfully edited !'},
-    // {id: 3, content: 'Your new account has been succesfully edited !'},
-    // {id: 4, content: 'Your new account has been succesfully edited !'},
-  ];
-  constructor() { }
-
+export class NotificationsComponent implements OnInit, OnDestroy {
+  notifications: Notification[];
+  constructor(private store: Store<AppState>) { }
+  subscription: Subscription;
   ngOnInit() {
+    this.subscription = this.store.select(getNotifications).subscribe((notifications: Notification[]) => {
+      this.notifications = notifications;
+    });
   }
-
-
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+  removeNotificationOnClick(index: number) {
+    this.store.dispatch(new RemoveNotification(index));
+  }
 }

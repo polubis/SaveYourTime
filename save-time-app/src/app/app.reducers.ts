@@ -5,11 +5,11 @@ import * as fromNotifications from './store/notifications/reducers';
 export interface AppState {
   products: fromProducts.State;
   users: fromUsers.State;
-  notificationsReducer: fromNotifications.State
+  notifications: fromNotifications.State
 };
 
 export const reducers: ActionReducerMap<AppState> = {
   products: fromProducts.productsReducer,
   users: fromUsers.usersReducer,
-  notificationsReducer: fromNotifications.notificationsReducer
+  notifications: fromNotifications.notificationsReducer
 };

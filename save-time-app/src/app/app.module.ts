@@ -37,7 +37,6 @@ import { environment } from "src/environments/environment";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NotificationsComponent } from './components/utils/notifications/notifications.component';
 import { NotificationComponent } from './components/utils/notifications/notification/notification.component';
-import { NotificationsReducer } from "src/app/store/notifications/effects";
 
 
 @NgModule({
@@ -70,7 +69,7 @@ import { NotificationsReducer } from "src/app/store/notifications/effects";
     AppRoutingModule,
     HttpClientModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([ProductsEffects, UsersEffects, NotificationsReducer]),
+    EffectsModule.forRoot([ProductsEffects, UsersEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [],

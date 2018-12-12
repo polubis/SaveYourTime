@@ -1,33 +1,85 @@
 import { Injectable } from "@angular/core";
 import { RequestSetting, Settings, RequestTypes } from "src/app/models/request";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { catchError } from "rxjs/operators";
-import { Observable, of } from "rxjs";
+import { catchError, take, tap, map, mergeMap, filter } from "rxjs/operators";
+import { Observable, of, throwError } from "rxjs";
 import { AppState } from "src/app/app.reducers";
 import { Store } from "@ngrx/store";
+import { Notification } from '../models/notification';
+import { PushNotification, RemoveNotification } from '../store/notifications/actions';
+import { getNotifications } from '../store/index';
 
 @Injectable({providedIn: 'root'})
 export class RequestsService {
   baseUrl = "http://localhost:3000/api/";
   constructor(private http: HttpClient, private store: Store<AppState>) {
   }
+
+  succesfullMessages = {
+    register: 'Your account has been succesfully created'
+  }
+
   settings: Settings = {
     products: new RequestSetting('products'),
     register: new RequestSetting('users/register', false, RequestTypes.Post)
   }
 
-  execute(settingKey: string, payload?: any, onErrorFunction?: any, params: string = ''): Observable<any> {
+  execute(settingKey: string, payload?: any, callback?: any, params: string = ''): Observable<any> {
     const { url, authorize, type } = this.settings[settingKey];
     const requestPath: string = this.baseUrl + url + params;
 
     const request: Observable<any> = this.prepareRequestParams(requestPath, type, payload);
 
     return request.pipe(
+      mergeMap((response: any) => {
+        if (this.succesfullMessages[settingKey]) {
+          this.pushNotifications(settingKey, this.succesfullMessages[settingKey], 'ok');
+        }
+        return of(response);
+      }),
       catchError((error: HttpErrorResponse) => {
-        onErrorFunction();
-        return of();
+        this.pushNotifications(settingKey, this.handleError(error), 'error');
+        if(callback) callback();
+
+        return of(error);
+      }),
+      filter((response: any) => {
+        return response.status ? false : true;
       })
     );
+  }
+
+  handleError(error: HttpErrorResponse): string {
+
+    if (error.status === 0) {
+      return 'There is a network problem. Check internet connection and try again';
+    }
+    if(error.error.error) {
+      return error.error.error;
+    }
+
+    if (error.status === 400) {
+      return 'Request parameters not found. Probably wrong request path';
+    }
+
+    if (error.status === 401) {
+      return 'You access here is not allowed. Try get permisions first';
+    }
+
+    return 'Ups something goes wrong...'
+  }
+
+  pushNotifications(settingKey: string, message: string, notificationType: string) {
+    this.store.select(getNotifications).pipe(take(1))
+      .subscribe((notifications: Notification[]) => {
+        const index = notifications.findIndex(notif => notif.id === settingKey);
+        if (index !== -1) {
+          this.store.dispatch(new RemoveNotification(index));
+        }
+
+        const notification = new Notification(message, notificationType, settingKey);
+        this.store.dispatch(new PushNotification(notification));
+      });
   }
 
   prepareRequestParams(requestPath: string, type: string, payload?: any): Observable<any> {

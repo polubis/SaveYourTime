@@ -23,7 +23,6 @@ export class UsersEffects {
       );
     }),
     map((response: any) => {
-      console.log(response)
       return {
         type: UsersActions.SET_REGISTER_STATE,
         payload: true

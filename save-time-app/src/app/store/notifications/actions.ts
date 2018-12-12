@@ -12,12 +12,12 @@ export class PushNotification implements Action{
 
 export class RemoveNotification implements Action {
     readonly type = REMOVE_NOTIFICATION;
+    constructor(public payload: number) { }
 }
 
 export class SetNotifications {
    readonly type = SET_NOTIFICATIONS;
    constructor(public payload: Notification[]){}
-
 }
 
 export type NotificationsActions = PushNotification | RemoveNotification | SetNotifications;
