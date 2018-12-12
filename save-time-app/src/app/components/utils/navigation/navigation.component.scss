@@ -1,71 +1,106 @@
 @import '../../../../colors.scss';
-nav{
-    background: $side;
-    padding: 1.5em 0;
-    color: $font;
-    box-sizing: border-box;
-    height: 100%;
-    display: grid;
-    grid-template-rows: 22.5% 1fr;
-    img{
-        width: 75px;
-        height: 75px;
-        border: 2px solid $border;
-        object-fit: cover;
-        border-radius: 50%;
-    }
-    ul{
-        overflow-y: auto;
-        & > li{
-            transition: .4s;
-            display: flex;
-            flex-flow: column;
-            .link-content{
-                padding: 1em;
-                span{
-                    margin-left: .66em;
-                }
-                .arrow{
-                    transition: .4s;
-                    transform: rotate(0);
-                    margin-left: auto;
-                }
-                &:hover{
-                    color: $main;
-                }
-            }
-            ul {
-                .child-link{
-                    opacity: 0;
-                    padding: .66em 1em;
-                    animation: .4s animate-link forwards;
-                    @for $i from 2 through 20 {
-                        &:nth-child(#{$i}) {
-                            animation-delay: $i * (1s / 18);
-                        }
-                    }
-                }
-                @keyframes animate-link {
-                    from {
-                        opacity: 0;
-                        transform: translateY(-7.5px);
-                    }
-                    to{
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-            }
+@keyframes animate-link {
+  from {
+      opacity: 0;
+      transform: translateY(-7.5px);
+  }
+  to{
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+.avatar{
+  border: 2px solid $border;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
-        }
-        .focused-link{
-            .link-content{
-                color: $main;
-                background: $font-white;
-                .arrow{
-                    transform: rotate(180deg);
-                }
-            }
+nav{
+  color: $font;
+  background: $side;
+  height: 100%;
+  transition: .4s;
+  display: grid;
+  box-sizing: border-box;
+  padding: 1em 0;
+  .side-arrow{
+    cursor: pointer;
+    transition: .4s;
+    font-size: 32px;
+    margin: auto;
+    transition: .4s;
+  }
+}
+
+.nav-open {
+  width: 200px;
+  grid-template-rows: auto 1fr 50px;
+  .avatar img, .avatar p, & > *:not(.material-icons) {
+    animation: .4s animate-link forwards;
+    opacity: 0;
+    @for $i from 2 through 20 {
+        &:nth-child(#{$i}) {
+            animation-delay: $i * (1s / 18);
         }
     }
+  }
+  & > ul {
+    padding-top: 1em;
+  }
+  .child-link{
+    padding: 1em;
+    animation: .4s animate-link forwards;
+    opacity: 0;
+    @for $i from 2 through 20 {
+        &:nth-child(#{$i}) {
+            animation-delay: $i * (1s / 18);
+        }
+    }
+  }
+  .link-content{
+    padding: 1em;
+    span{
+        margin-left: .66em;
+    }
+    .arrow{
+        transition: .4s;
+        transform: rotate(0);
+        margin-left: auto;
+    }
+    &:hover{
+        color: $main;
+    }
+  }
+  .focused-link{
+    .link-content{
+        color: $main;
+        background: $font-white;
+        .arrow{
+            transform: rotate(180deg);
+        }
+    }
+  }
+  .side-arrow{
+    transform: rotate(0);
+  }
+}
+.nav-closed{
+  width: 60px;
+  grid-template-rows: 1fr 50px;
+  i:not(.side-arrow) {
+     font-size: 24px;
+  }
+  ul li {
+    display: flex;
+    margin-bottom: 25px;
+    cursor: pointer;
+    height: 60px;
+    justify-content: center;
+    align-items: center;
+  }
+  .side-arrow{
+    transform: rotate(180deg);
+  }
 }

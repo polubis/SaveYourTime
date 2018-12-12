@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { StartPageComponent } from "src/app/containers/start-page/start-page.component";
 import { TutorialsComponent } from "src/app/components/start-page/tutorials/tutorials.component";
 import { MainComponent } from "src/app/containers/main/main.component";
@@ -9,11 +9,10 @@ const routes: Routes = [
       { path: '', component: TutorialsComponent },
     ]
   },
-  { path: 'main', component: MainComponent },
+  { path: 'main', loadChildren: "./containers/main/main.module#MainModule" },
 ];
-
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

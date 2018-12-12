@@ -31,17 +31,16 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NotificationsComponent } from './components/utils/notifications/notifications.component';
 import { NotificationComponent } from './components/utils/notifications/notification/notification.component';
 import { ProductsInstructionComponent } from './components/home/products/products-instruction/products-instruction.component';
-import { MainComponent } from './containers/main/main.component';
 import { ProductsCartComponent } from "src/app/components/common/products-cart/products-cart.component";
 import { NavigationComponent } from "src/app/components/utils/navigation/navigation.component";
 import { ProductFormComponent } from "src/app/components/common/product-form/product-form.component";
+import { UtilsModule } from "src/app/components/utils/utils.module";
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    NavigationComponent,
     TimerComponent,
     StartPageComponent,
     TutorialsComponent,
@@ -58,12 +57,12 @@ import { ProductFormComponent } from "src/app/components/common/product-form/pro
     NotificationComponent,
     ProductFormComponent,
     ProductsInstructionComponent,
-    MainComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    UtilsModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([ProductsEffects, UsersEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : []

@@ -1,13 +1,20 @@
-<nav>
-
-  <div class="flex-col-center">
-    <img src="https://images.pexels.com/photos/736716/pexels-photo-736716.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" />
+<nav [ngClass]="{'nav-closed': !navOpen, 'nav-open': navOpen}">
+  <div *ngIf="navOpen" class="avatar-description flex-col-center">
+    <img class="avatar" src="https://images.pexels.com/photos/736716/pexels-photo-736716.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" />
     <p>
       Joseph Domuro
     </p>
   </div>
 
-  <ul>
+  <ul *ngIf="!navOpen">
+    <li *ngFor="let link of navigationLinks; let i = index"
+    [ngClass]="{'focused-link': currentOpenedNavigationBar === i}">
+      <i class="material-icons">{{link.icon}}</i>
+    </li>
+
+  </ul>
+
+  <ul *ngIf="navOpen">
     <li *ngFor="let link of navigationLinks; let i = index"
     [ngClass]="{'focused-link': currentOpenedNavigationBar === i}">
         <div (click)="changeOpenedNavigationBar(i)" class="link-content flex-center clickable">
@@ -23,4 +30,5 @@
     </li>
   </ul>
 
+  <i (click)="togle('navOpen')" class="material-icons side-arrow">chevron_left</i>
 </nav>
