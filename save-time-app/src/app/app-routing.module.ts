@@ -5,11 +5,14 @@ import { TutorialsComponent } from "src/app/components/start-page/tutorials/tuto
 import { MainComponent } from "src/app/containers/main/main.component";
 
 const routes: Routes = [
-  { path: '', component: StartPageComponent, children: [
-      { path: '', component: TutorialsComponent },
-    ]
+  // , component: StartPageComponent, children: [
+  //   { path: '', component: TutorialsComponent },
+  // ]
+  { path: '',  redirectTo: 'main', pathMatch: 'full'
   },
   { path: 'main', loadChildren: "./containers/main/main.module#MainModule" },
+  { path: '**', redirectTo: '' },
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})],

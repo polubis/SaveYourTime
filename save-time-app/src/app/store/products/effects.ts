@@ -11,11 +11,13 @@ import { catchError } from "rxjs/internal/operators/catchError";
 import { RequestsService } from "src/app/services/requests.service";
 import * as ProductsActions from '../../store/products/actions';
 import { Product } from "src/app/models/product";
+import { AppState } from "src/app/app.reducers";
 @Injectable()
 export class ProductsEffects {
   constructor(
     private actions$: Actions,
-    private requestsService: RequestsService
+    private requestsService: RequestsService,
+    private store: Store<AppState>
   ) {}
 
   @Effect()
@@ -28,6 +30,21 @@ export class ProductsEffects {
         type: ProductsActions.SET_PRODUCTS,
         payload: response.products
       };
+    })
+  );
+
+  @Effect()
+  productEditing = this.actions$.ofType(ProductsActions.START_CHANGING_PRODUCTS).pipe(
+    switchMap((action: ProductsActions.StartChangingProducts) => {
+      return this.requestsService.execute('addProduct', action.payload,
+        () => this.store.dispatch(new ProductsActions.SetChangeProductsState(false)));
+    }),
+    map((response: {product: Product}) => {
+      this.store.dispatch(new ProductsActions.SetChangeProductsState(false));
+      return {
+        type: ProductsActions.PUSH_PRODUCT,
+        payload: response.product
+      }
     })
   );
 }

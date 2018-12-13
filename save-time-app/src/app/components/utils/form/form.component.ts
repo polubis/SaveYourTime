@@ -9,6 +9,7 @@ import { Form, Setting, FormSettings } from "src/app/components/utils/form/form"
 export class FormComponent extends Form implements OnInit {
   @Input() classes = '';
   @Input() formSettings: FormSettings;
+  @Input() btnTitle = 'SIGN UP';
   constructor() {
     super();
   }

@@ -99,6 +99,13 @@ nav{
     height: 60px;
     justify-content: center;
     align-items: center;
+    animation: .4s animate-link forwards;
+    opacity: 0;
+    @for $i from 2 through 20 {
+        &:nth-child(#{$i}) {
+            animation-delay: $i * (1s / 18);
+        }
+    }
   }
   .side-arrow{
     transform: rotate(180deg);

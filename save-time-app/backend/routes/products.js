@@ -17,14 +17,14 @@ router.post('', (req, res, next) => {
   const product = new Product({
     name, company, type, picturePath, rate, calories, numberOfVotes
   });
-
   product.save().then(createdProduct => {
     res.status(201).json({
-      _id: createdProduct._id
+      product: createdProduct
     });
   }).catch(error => {
+    console.log(error);
     res.status(400).json({
-      error: 'Product with that name already exist'
+      error: 'Product with that data cannot be created. Try again later'
     });
   });
 });

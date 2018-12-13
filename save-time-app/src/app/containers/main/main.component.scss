@@ -4,7 +4,10 @@
   min-height: 100vh;
   grid-template-rows: 1fr;
   grid-template-columns: auto 1fr;
-  grid-gap: 0 1em;
   grid-template-areas:
     "side content";
+  .main-content{
+    grid-area: content;
+    padding: 1em;
+  }
 }

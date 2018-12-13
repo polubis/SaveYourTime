@@ -1,7 +1,15 @@
 <div class="main">
-  <app-navigation></app-navigation>
+  <app-navigation (onClickLink)="togle($event)"></app-navigation>
 
-  <router-outlet>
+  <div class="main-content">
+    <router-outlet>
 
-  </router-outlet>
+    </router-outlet>
+  </div>
+
 </div>
+
+
+<app-modal *ngIf="openAddProduct" [classes]="'m-w-center product-modal'" (closing)="togle('openAddProduct')">
+  <app-product-form></app-product-form>
+</app-modal>

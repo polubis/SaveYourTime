@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Form, FormSettings, Setting } from "src/app/components/utils/form/form";
-
+import { Form, FormSettings, Setting, FormState } from "src/app/components/utils/form/form";
+import { AppState } from "src/app/app.reducers";
+import { Store } from "@ngrx/store";
+import { StartChangingProducts } from '../../../store/products/actions';
+import { getAddingOrEditingState } from '../../../store/index';
 @Component({
   selector: 'app-product-form',
   templateUrl: './product-form.component.html',
@@ -14,25 +17,19 @@ export class ProductFormComponent extends Form implements OnInit {
     calories: new Setting('calories', { isNotEmptyString: true, minLength: 3, maxLength: 50 })
   };
   isSubmiting = false;
-  constructor() {
+  constructor(private store: Store<AppState>) {
     super();
   }
   togle (key: string) {
     this[key] = !this[key];
   }
   ngOnInit() {
+    this.store.select(getAddingOrEditingState).subscribe((isAddingOrEditing: boolean) => {
+      this.isSubmiting = isAddingOrEditing;
+    })
   }
 
-  handleSubmit(formData: any) {
-    this.isSubmiting = true;
+  handleSubmit(formData: FormState) {
+    this.store.dispatch(new StartChangingProducts(formData));
   }
 }
-
-
-// name: { type: String, required: true, unique: true },
-// company: { type: String, required: true },
-// type: { type: String, required: true },
-// picturePath: { type: String },
-// rate: { type: Number },
-// calories: { type: Number },
-// numberOfVotes: { type: Number }

@@ -52,7 +52,6 @@ export class RequestsService {
   }
 
   handleError(error: HttpErrorResponse): string {
-
     if (error.status === 0) {
       return 'There is a network problem. Check internet connection and try again';
     }

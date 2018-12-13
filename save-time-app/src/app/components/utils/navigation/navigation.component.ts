@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/app/app.reducers";
@@ -9,10 +9,11 @@ import { AppState } from "src/app/app.reducers";
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit {
+  @Output() onClickLink = new EventEmitter<string>();
   @Input() initial = 'full-nav';
   navigationLinks: any[] = [
     {icon: "store", name: "Products", childs: [
-      {label: "add new", func: () => this.startAddProduct()}, {label: "browse added"}, {label: "templates"}
+        {label: "add new", func: () => this.onClickLink.emit('openAddProduct')}, {label: "browse added"}, {label: "templates"}
       ]
     },
     {icon: "local_dining", name: "Meals", childs: [
@@ -32,7 +33,6 @@ export class NavigationComponent implements OnInit {
 
   togle(key: string) {
     this[key] = !this[key];
-    console.log(this.navOpen);
   }
 
   constructor(private router: Router, private store: Store<AppState>) { }
@@ -42,9 +42,5 @@ export class NavigationComponent implements OnInit {
   changeOpenedNavigationBar(index: number) {
     this.currentOpenedNavigationBar = this.currentOpenedNavigationBar === index ? -1 : index;
     this.router.navigate(['main', this.navigationLinks[index].name.toLowerCase()]);
-  }
-
-  startAddProduct() {
-    this.router.navigate(['main', 'products', 'add']);
   }
 }

@@ -10,7 +10,6 @@ import { TimerComponent } from './components/utils/timer/timer.component';
 import { StartPageComponent } from './containers/start-page/start-page.component';
 import { RatesComponent } from './components/utils/rates/rates.component';
 import { SliderComponent } from './components/utils/slider/slider.component';
-import { SpinnerComponent } from './components/utils/spinner/spinner.component';
 import { TutorialsComponent } from "src/app/components/start-page/tutorials/tutorials.component";
 import { TutorialComponent } from "src/app/components/start-page/tutorials/tutorial/tutorial.component";
 
@@ -20,8 +19,6 @@ import { EffectsModule } from "@ngrx/effects";
 
 import { reducers } from './app.reducers';
 import { ProductsEffects } from "src/app/store/products/effects";
-import { ModalComponent } from './components/utils/modal/modal.component';
-import { FormComponent } from './components/utils/form/form.component';
 import { LogInComponent } from './components/start-page/log-in/log-in.component';
 import { RegisterComponent } from './components/start-page/register/register.component';
 import { UsersEffects } from "src/app/store/users/effects";
@@ -33,7 +30,6 @@ import { NotificationComponent } from './components/utils/notifications/notifica
 import { ProductsInstructionComponent } from './components/home/products/products-instruction/products-instruction.component';
 import { ProductsCartComponent } from "src/app/components/common/products-cart/products-cart.component";
 import { NavigationComponent } from "src/app/components/utils/navigation/navigation.component";
-import { ProductFormComponent } from "src/app/components/common/product-form/product-form.component";
 import { UtilsModule } from "src/app/components/utils/utils.module";
 
 
@@ -48,14 +44,10 @@ import { UtilsModule } from "src/app/components/utils/utils.module";
     ProductsCartComponent,
     RatesComponent,
     SliderComponent,
-    SpinnerComponent,
-    ModalComponent,
-    FormComponent,
     LogInComponent,
     RegisterComponent,
     NotificationsComponent,
     NotificationComponent,
-    ProductFormComponent,
     ProductsInstructionComponent,
   ],
   imports: [

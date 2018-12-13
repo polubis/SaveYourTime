@@ -6,10 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-
+  openAddProduct = false;
   constructor() { }
 
   ngOnInit() {
   }
 
+  togle(key: string) {
+    this[key] = !this[key];
+  }
 }
