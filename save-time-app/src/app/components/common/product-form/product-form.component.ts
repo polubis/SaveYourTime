@@ -19,9 +19,9 @@ export class ProductFormComponent extends FormBase implements OnInit {
   ngOnInit() {
     const formSettings = {
       name: new Setting('product name', { isNotEmptyString: true, minLength: 3, maxLength: 50 }),
-      company: new Setting('company', { isNotEmptyString: true, minLength: 3, maxLength: 50 }),
-      type: new Setting('type', { isNotEmptyString: true, minLength: 3, maxLength: 50 }),
-      calories: new Setting('calories', { isNotEmptyString: true, minLength: 3, maxLength: 50 })
+      company: new Setting('calories', { isNotEmptyString: true, minLength: 3, maxLength: 50 }),
+      type: new Setting('company', { isNotEmptyString: true, minLength: 3, maxLength: 50 }),
+      calories: new Setting('type', { isNotEmptyString: true, minLength: 3, maxLength: 50 })
     }
 
     this.productFormSettings = this.elementToEdit ?

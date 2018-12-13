@@ -8,7 +8,8 @@
 
   <ul *ngIf="!navOpen">
     <li *ngFor="let link of navigationLinks; let i = index"
-    [ngClass]="{'focused-link': currentOpenedNavigationBar === i}">
+    (click)="changeOpenedNavigationBar(i)"
+    [ngClass]="{'focused-icon': currentOpenedNavigationBar === i}">
       <i class="material-icons">{{link.icon}}</i>
     </li>
 

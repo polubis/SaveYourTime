@@ -12,6 +12,7 @@ import { StartVoting } from '../../../store/products/actions';
 export class ProductsCartComponent implements OnInit {
   @Input() product: Product;
   @Input() classes: string = '';
+  @Input() allowOperations = true;
   @Output() editing = new EventEmitter<void>();
   @Output() deleting = new EventEmitter<void>();
 
@@ -21,6 +22,10 @@ export class ProductsCartComponent implements OnInit {
   }
 
   vote(rate: number) {
-    this.store.dispatch(new StartVoting({rate, product: this.product}));
+    if (this.allowOperations) {
+      this.store.dispatch(new StartVoting({rate, product: this.product}));
+    } else {
+      alert("Create your account first :)");
+    }
   }
 }

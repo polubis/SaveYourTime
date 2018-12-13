@@ -12,7 +12,7 @@ export class NavigationComponent implements OnInit {
   @Output() onClickLink = new EventEmitter<string>();
   @Input() initial = 'full-nav';
   navigationLinks: any[] = [
-    {icon: "store", name: "Products", childs: [
+    {path: '/main/products', icon: "store", name: "Products", childs: [
         {label: "add new", func: () => this.onClickLink.emit('openAddProduct')}, {label: "browse shared"}, {label: "templates"}
       ]
     },
@@ -27,7 +27,7 @@ export class NavigationComponent implements OnInit {
     {icon: "store", name: "Trainings"},
     {icon: "store", name: "Statistics"}
   ];
-  currentOpenedNavigationBar = -1;
+  currentOpenedNavigationBar: number;
 
   navOpen = true;
 
@@ -35,12 +35,26 @@ export class NavigationComponent implements OnInit {
     this[key] = !this[key];
   }
 
-  constructor(private router: Router, private store: Store<AppState>) { }
+  constructor(private router: Router, private store: Store<AppState>) {
+    this.currentOpenedNavigationBar = this.findStartNavigationBarIndex();
+  }
+
+  findStartNavigationBarIndex() {
+    const path = document.location.pathname;
+    const length = this.navigationLinks.length;
+    for(let i = 0; i < length; i++) {
+      if(this.navigationLinks[i].path === path) {
+        return i;
+      }
+    }
+    return -1;
+  }
 
   ngOnInit() {
+
   }
   changeOpenedNavigationBar(index: number) {
-    this.currentOpenedNavigationBar = this.currentOpenedNavigationBar === index ? -1 : index;
+    this.currentOpenedNavigationBar = index;
     this.router.navigate(['main', this.navigationLinks[index].name.toLowerCase()]);
   }
 }

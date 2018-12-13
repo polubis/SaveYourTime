@@ -1,7 +1,7 @@
 <div [class]="'cart cart-products flex-column ' + classes">
   <p class="flex-between">
     <span class="cart-name">{{product.name}}</span>
-    <span>
+    <span *ngIf="allowOperations">
       <i (click)="editing.emit()" class="material-icons main-colored animated-icon">edit</i>
       <i (click)="deleting.emit()" class="material-icons main-colored animated-icon danger-color">delete</i>
     </span>

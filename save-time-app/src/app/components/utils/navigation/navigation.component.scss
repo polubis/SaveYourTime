@@ -24,7 +24,6 @@ nav{
   transition: .4s;
   display: grid;
   box-sizing: border-box;
-  padding: 1em 0;
   .side-arrow{
     cursor: pointer;
     transition: .4s;
@@ -37,6 +36,7 @@ nav{
 .nav-open {
   width: 200px;
   grid-template-rows: 115px 1fr 50px;
+  padding: 1em 0;
   .avatar img, .avatar p, & > *:not(.material-icons) {
     animation: .4s animate-link forwards;
     opacity: 0;
@@ -106,5 +106,9 @@ nav{
   }
   .side-arrow{
     transform: rotate(180deg);
+  }
+  .focused-icon{
+    background: $main;
+    color: $font-white;
   }
 }

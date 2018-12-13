@@ -11,10 +11,10 @@ import { Subscription } from "rxjs";
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   registerFormSettings: FormSettings = {
-    username: new Setting('username', { isNotEmptyString: true, minLength: 3, maxLength: 50 }, 'text', '', 'adrian'),
-    email: new Setting('email', { isNotEmptyString: true, minLength: 3, maxLength: 50 }, 'email', '', 'adrian@wp.pl'),
-    password: new Setting('password', { isNotEmptyString: true, minLength: 3, maxLength: 50 }, 'password', '', 'adrian'),
-    repeatedPassword: new Setting('repeated password', { isNotEmptyString: true, minLength: 3, maxLength: 50 }, 'password', '', 'adrian'),
+    username: new Setting('username', { isNotEmptyString: true, minLength: 3, maxLength: 50 }, 'text'),
+    email: new Setting('email', { isNotEmptyString: true, minLength: 3, maxLength: 50 }, 'email'),
+    password: new Setting('password', { isNotEmptyString: true, minLength: 3, maxLength: 50 }, 'password'),
+    repeatedPassword: new Setting('repeated password', { isNotEmptyString: true, minLength: 3, maxLength: 50 }, 'password'),
   };
   isCreatingAccount;
   subscription: Subscription;
