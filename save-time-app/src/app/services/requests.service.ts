@@ -27,11 +27,13 @@ export class RequestsService {
     addProduct: new RequestSetting('products', false, RequestTypes.Post),
     editProduct: new RequestSetting('products/', false, RequestTypes.Patch),
     deleteProduct: new RequestSetting('products/', false, RequestTypes.Delete),
-    register: new RequestSetting('users/register', false, RequestTypes.Post)
+    voteProduct: new RequestSetting('products/', false, RequestTypes.Patch, false),
+
+    register: new RequestSetting('users/register', false, RequestTypes.Post),
   }
 
   execute(settingKey: string, payload?: any, callback?: any, params: string = ''): Observable<any> {
-    const { url, authorize, type } = this.settings[settingKey];
+    const { url, authorize, type, shouldShowError } = this.settings[settingKey];
     const requestPath: string = this.baseUrl + url + params;
 
     const request: Observable<any> = this.prepareRequestParams(requestPath, type, payload);
@@ -44,7 +46,9 @@ export class RequestsService {
         return of(response);
       }),
       catchError((error: HttpErrorResponse) => {
-        this.pushNotifications(settingKey, this.handleError(error), 'error');
+        if (shouldShowError) {
+          this.pushNotifications(settingKey, this.handleError(error), 'error');
+        }
         if(callback) callback();
 
         return of(error);

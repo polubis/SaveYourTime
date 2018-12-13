@@ -5,14 +5,14 @@
   width: 500px;
 }
 .small-cart-products{
-  width: 300px;
+  width: 400px;
   margin: 0 15px 15px 0;
 }
 .cart-products{
     display: grid;
     grid-template-rows: auto 1fr auto;
     grid-template-columns: 60% 1fr;
-    grid-gap: 20px;
+    grid-gap: 20px 10px;
     grid-template-areas:
         "title title"
         "content image"
@@ -20,7 +20,7 @@
     p{
         padding: 0;
     }
-    .flex-between:first-of-type{
+    & > .flex-between:first-of-type{
         grid-area: title;
         color: $font;
         span{
@@ -41,9 +41,9 @@
         justify-content: space-between;
         .label{
           width: 45%;
+          margin: 5px 0;
           span:last-of-type{
             word-break: break-all;
-            margin-bottom: 5px;
           }
         }
     }
@@ -56,13 +56,7 @@
         }
     }
     .operations{
-        position: relative;
         grid-area: footer;
-        span{
-            position: absolute;
-            right: 25px;
-            top: -15px;
-        }
         .label-btn-thin{
           padding: 0;
           font-size: 14px;

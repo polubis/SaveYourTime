@@ -5,7 +5,7 @@ import { Injectable } from "@angular/core";
 import { Effect, Actions } from "@ngrx/effects";
 import { HttpClient } from "@angular/common/http";
 import { Store } from "@ngrx/store";
-import { switchMap, map, tap } from "rxjs/operators";
+import { switchMap, map, tap, take } from "rxjs/operators";
 import { of } from "rxjs";
 import { catchError } from "rxjs/internal/operators/catchError";
 import { RequestsService } from "src/app/services/requests.service";
@@ -75,6 +75,20 @@ export class ProductsEffects {
       return {
         type: ProductsActions.REMOVE_PRODUCT,
         payload: response._id
+      }
+    })
+  )
+
+  @Effect()
+  voting = this.actions$.ofType(ProductsActions.START_VOTING).pipe(
+    map((action: ProductsActions.StartVoting) => {
+      const { rate, product } = action.payload;
+      const newProduct = {...product};
+      newProduct.rate = rate;
+      this.requestsService.execute('voteProduct', newProduct, null, action.payload.product._id).pipe(take(1)).subscribe();
+      return {
+         type: ProductsActions.PUT_PRODUCT,
+         payload: { product: newProduct, productId: newProduct._id }
       }
     })
   )

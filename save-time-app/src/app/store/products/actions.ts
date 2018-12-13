@@ -14,6 +14,8 @@ export const START_EDIT_PRODUCT = "[Products] START_EDIT_PRODUCT";
 export const SET_CHANGING_PRODUCTS_STATE = "[Products] SET_CHANGING_PRODUCTS_STATE";
 export const START_REMOVING_PRODUCT = "[Products] START_REMOVING_PRODUCT";
 
+export const START_VOTING = "[Products] START_VOTING";
+
 export class SetProducts implements Action{
     readonly type = SET_PRODUCTS;
     constructor(public payload: Product[]){}
@@ -63,5 +65,11 @@ export class SetChangeProductsState implements Action {
     readonly type = SET_CHANGING_PRODUCTS_STATE;
     constructor(public payload: boolean) {}
 }
+
+export class StartVoting implements Action {
+  readonly type = START_VOTING;
+  constructor(public payload: {rate: number, product: Product}) {}
+}
+
 export type ProductsActions = SetProducts | FetchProducts | PushProduct | StartAddingProduct | StartEditProduct |
-  SetChangeProductsState | PutProduct | RemoveProduct | StartRemovingProduct | SetRemovingProductState;
+  SetChangeProductsState | PutProduct | RemoveProduct | StartRemovingProduct | SetRemovingProductState | StartVoting;

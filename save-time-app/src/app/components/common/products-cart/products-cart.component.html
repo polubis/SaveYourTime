@@ -1,7 +1,6 @@
 <div [class]="'cart cart-products flex-column ' + classes">
   <p class="flex-between">
     <span class="cart-name">{{product.name}}</span>
-
     <span>
       <i (click)="editing.emit()" class="material-icons main-colored animated-icon">edit</i>
       <i (click)="deleting.emit()" class="material-icons main-colored animated-icon danger-color">delete</i>
@@ -20,13 +19,11 @@
     </div>
 
     <div *ngIf="product.rate" class="label">
-      <span>users rate</span>
+      <span>rate</span>
       <span>{{product.rate}}</span>
-      <app-rates [rate]="product.rate">
-      </app-rates>
     </div>
 
-    <div *ngIf="product.rate" class="label">
+    <div *ngIf="product.numberOfVotes" class="label">
       <span>number of votes</span>
       <span>{{product.numberOfVotes}}</span>
     </div>
@@ -38,12 +35,15 @@
   </div>
 
   <div class="cart-image">
-    <img src="assets/download.jpeg" />
+    <div class="image">
+      <img src="assets/download.jpeg" />
+    </div>
+    <app-rates [rate]="product.rate" (voting)="vote($event)">
+    </app-rates>
   </div>
 
   <p class="operations flex-between">
     <button class="label-btn-thin">CHECK DETAILS</button>
-    <span>3</span>
-    <i class="material-icons">comment</i>
+
   </p>
 </div>

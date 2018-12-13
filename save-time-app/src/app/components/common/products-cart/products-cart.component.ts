@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Input, EventEmitter, Output } from "@angular/core";
 import { Product } from "src/app/models/product";
-
+import { AppState } from "src/app/app.reducers";
+import { Store } from "@ngrx/store";
+import { StartVoting } from '../../../store/products/actions';
 @Component({
   selector: 'app-products-cart',
   templateUrl: './products-cart.component.html',
@@ -13,10 +15,12 @@ export class ProductsCartComponent implements OnInit {
   @Output() editing = new EventEmitter<void>();
   @Output() deleting = new EventEmitter<void>();
 
-  isDeleteConfirmOpen = false;
-  constructor() { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
   }
 
+  vote(rate: number) {
+    this.store.dispatch(new StartVoting({rate, product: this.product}));
+  }
 }

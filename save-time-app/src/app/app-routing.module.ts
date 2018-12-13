@@ -5,10 +5,9 @@ import { TutorialsComponent } from "src/app/components/start-page/tutorials/tuto
 import { MainComponent } from "src/app/containers/main/main.component";
 
 const routes: Routes = [
-  // , component: StartPageComponent, children: [
-  //   { path: '', component: TutorialsComponent },
-  // ]
-  { path: '',  redirectTo: 'main', pathMatch: 'full'
+  {path: '', component: StartPageComponent, children: [
+      { path: '', component: TutorialsComponent },
+    ]
   },
   { path: 'main', loadChildren: "./containers/main/main.module#MainModule" },
   { path: '**', redirectTo: '' },

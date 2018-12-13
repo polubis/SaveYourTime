@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Input } from "@angular/core";
+import { Input, EventEmitter, Output } from "@angular/core";
+import { AppState } from "src/app/app.reducers";
+import { Store } from "@ngrx/store";
 
 @Component({
   selector: 'app-rates',
@@ -8,8 +10,10 @@ import { Input } from "@angular/core";
 })
 export class RatesComponent implements OnInit {
   rates: number[] = [];
+  ratesToSelect: number[] = [1,2,3,4,5];
   @Input() rate: number;
-  constructor() { }
+  @Output() voting = new EventEmitter<number>();
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
     if (this.rate) {
@@ -22,5 +26,4 @@ export class RatesComponent implements OnInit {
       this.rates = rates;
     }
   }
-
 }

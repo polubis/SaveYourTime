@@ -1,4 +1,12 @@
 <div class="rates">
-  <i *ngFor="let rate of rates" 
-  class="material-icons" [ngClass]="{'colored-rate': rate.shouldBeColored}">stars</i>
+  <ng-container *ngIf="rate">
+    <i *ngFor="let rate of rates"
+    class="material-icons main-colored" [ngClass]="{'colored-rate': rate.shouldBeColored}">stars</i>
+  </ng-container>
+
+  <ng-container *ngIf="!rate">
+    <i (click)="voting.emit(rate)"
+    *ngFor="let rate of ratesToSelect"
+    class="material-icons">stars</i>
+  </ng-container>
 </div>

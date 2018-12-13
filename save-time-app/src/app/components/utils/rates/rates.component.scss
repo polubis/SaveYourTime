@@ -1,8 +1,20 @@
 @import '../../../../colors.scss';
 .rates{
-    i{
-        font-size: 18px;
-        margin: 5px 5px 0 0;
-        color: $main;
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+  i{
+      font-size: 18px;
+      margin-right: 5px;
+  }
+  i:last-of-type{
+    margin: 0;
+  }
+  i:not(.main-colored) {
+    cursor: pointer;
+    color: $content-grey;
+    &:hover{
+      color: $main;
     }
+  }
 }

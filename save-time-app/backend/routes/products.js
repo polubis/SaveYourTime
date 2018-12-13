@@ -40,7 +40,6 @@ router.patch('/:id', (req, res, next) => {
       product: product
     });
   }).catch(error => {
-    console.log(error);
     res.status(400).json({
       error: 'Cannot edit product. Make sure all data is in correct format'
     })
@@ -49,7 +48,6 @@ router.patch('/:id', (req, res, next) => {
 
 router.delete('/:id', (req, res, next) => {
   Product.deleteOne( {_id: req.params.id } ).then(deletedProduct => {
-    console.log(deletedProduct);
     res.status(200).json({
       _id: req.params.id
     });
