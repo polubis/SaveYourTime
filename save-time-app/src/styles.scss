@@ -51,6 +51,11 @@ p{
     flex-flow: column;
     align-items: center;
 }
+.perf-flex{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .flex-col-h-center{
     display: flex;
     justify-content: center;
@@ -143,4 +148,21 @@ button{
 }
 .scaled-content{
   transform: scale(.95);
+}
+.grid-wrap{
+  display: grid;
+  grid-template-rows: 115px 1fr;
+}
+.animated-icon{
+  transform: rotate(0);
+  transition: .4s;
+  &:hover{
+    transform: rotate(30deg);
+  }
+}
+.danger-color{
+  color: $error;
+}
+.danger-bg{
+  background: $error;
 }

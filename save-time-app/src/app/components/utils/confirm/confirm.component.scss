@@ -1,0 +1,48 @@
+@import '../../../../colors.scss';
+.confirm{
+  display: grid;
+  grid-template-columns: 60% 1fr;
+  grid-template-rows: 1fr 2fr 1fr;
+  align-items: center;
+  justify-content: space-between;
+  grid-template-areas:
+    "header image"
+    "paragraph image"
+    "buttons image";
+  .label-btn{
+    font-weight: normal;
+  }
+  h3{
+    margin: 0;
+    grid-area: header;
+  }
+  p {
+    grid-area: paragraph;
+    padding: 1em 0;
+    align-self: flex-start;
+    color: $content-grey;
+  }
+  div{
+    grid-area: buttons;
+    margin-top: auto;
+    button{
+      padding: 0;
+    }
+    button:last-of-type{
+      color: $content-grey;
+      margin-left: 2em;
+    }
+  }
+  .icon-holder{
+    grid-area: image;
+    width: 100px;
+    height: 100px;
+    margin: auto 1em auto auto;
+    transform: rotate(45deg);
+    i{
+      font-size: 42px;
+      color: $font-white;
+      transform: rotate(-45deg);
+    }
+  }
+}

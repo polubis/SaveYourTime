@@ -34,8 +34,8 @@ export class ProductsEffects {
   );
 
   @Effect()
-  productEditing = this.actions$.ofType(ProductsActions.START_CHANGING_PRODUCTS).pipe(
-    switchMap((action: ProductsActions.StartChangingProducts) => {
+  productAdding = this.actions$.ofType(ProductsActions.START_ADDING_PRODUCT).pipe(
+    switchMap((action: ProductsActions.StartAddingProduct) => {
       return this.requestsService.execute('addProduct', action.payload,
         () => this.store.dispatch(new ProductsActions.SetChangeProductsState(false)));
     }),
@@ -47,4 +47,35 @@ export class ProductsEffects {
       }
     })
   );
+
+  @Effect()
+  productEditing = this.actions$.ofType(ProductsActions.START_EDIT_PRODUCT).pipe(
+    switchMap((action: ProductsActions.StartEditProduct) => {
+      return this.requestsService.execute('editProduct', action.payload.formState,
+        () => this.store.dispatch(new ProductsActions.SetChangeProductsState(false)),
+        action.payload.productId);
+    }),
+    map((response: {product: Product}) => {
+      this.store.dispatch(new ProductsActions.SetChangeProductsState(false));
+      return {
+        type: ProductsActions.PUT_PRODUCT,
+        payload: { product: response.product, productId: response.product._id }
+      }
+    })
+  )
+
+  @Effect()
+  productDeleting = this.actions$.ofType(ProductsActions.START_REMOVING_PRODUCT).pipe(
+    switchMap((action: ProductsActions.StartRemovingProduct) => {
+      return this.requestsService.execute('deleteProduct', {},
+        () => this.store.dispatch(new ProductsActions.SetRemovingProductState(false)),
+        action.payload.toString())
+    }),
+    map((response: {_id: any}) => {
+      return {
+        type: ProductsActions.REMOVE_PRODUCT,
+        payload: response._id
+      }
+    })
+  )
 }

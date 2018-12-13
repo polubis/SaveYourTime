@@ -8,7 +8,8 @@ const userSchema = mongoose.Schema({
   firstName: { type: String, trim: true },
   lastName: { type: Number, trim: true },
   birthDate: { type: Date, trim: true },
-  picturePath: { type: String, trim: true }
+  picturePath: { type: String, trim: true },
+  versionKey: false
 });
 
 userSchema.pre('save', function (next) {

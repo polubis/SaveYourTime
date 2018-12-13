@@ -13,7 +13,7 @@ export class NavigationComponent implements OnInit {
   @Input() initial = 'full-nav';
   navigationLinks: any[] = [
     {icon: "store", name: "Products", childs: [
-        {label: "add new", func: () => this.onClickLink.emit('openAddProduct')}, {label: "browse added"}, {label: "templates"}
+        {label: "add new", func: () => this.onClickLink.emit('openAddProduct')}, {label: "browse shared"}, {label: "templates"}
       ]
     },
     {icon: "local_dining", name: "Meals", childs: [

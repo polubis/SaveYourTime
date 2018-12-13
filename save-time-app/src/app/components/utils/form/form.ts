@@ -28,6 +28,7 @@ export class Setting {
 
 export class Form extends ValidationService {
   @Input() isSubmiting;
+  @Input() elementToEdit?: any;
   @Output() submiting = new EventEmitter<FormState>()
   formState: FormState;
   formErrors: FormErrors;

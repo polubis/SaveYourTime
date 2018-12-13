@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Input } from "@angular/core";
+import { Input, EventEmitter, Output } from "@angular/core";
 import { Product } from "src/app/models/product";
 
 @Component({
@@ -10,6 +10,10 @@ import { Product } from "src/app/models/product";
 export class ProductsCartComponent implements OnInit {
   @Input() product: Product;
   @Input() classes: string = '';
+  @Output() editing = new EventEmitter<void>();
+  @Output() deleting = new EventEmitter<void>();
+
+  isDeleteConfirmOpen = false;
   constructor() { }
 
   ngOnInit() {

@@ -1,0 +1,22 @@
+<app-modal [classes]="'m-w-center confirm-modal'" (closing)="closing.emit()">
+  <div class="confirm">
+    <h3>{{header}}</h3>
+    <p *ngIf="subHeader">{{subHeader}}</p>
+    <div>
+      <button [class]="'label-btn ' + motives[motive].icon" (click)="confirming.emit()">
+        CONFIRM
+      </button>
+
+      <button class="label-btn" (click)="closing.emit()">
+        DENY
+      </button>
+    </div>
+
+    <div [class]="'icon-holder perf-flex ' + motives[motive].graphic">
+      <i class="material-icons">{{icon}}</i>
+    </div>
+  </div>
+  <ng-content>
+
+  </ng-content>
+</app-modal>

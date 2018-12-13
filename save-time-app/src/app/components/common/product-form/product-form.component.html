@@ -1,4 +1,4 @@
-<app-form [isSubmiting]="isSubmiting" [btnTitle]="'ADD PRODUCT'"
+<app-form [isSubmiting]="isSubmiting" [btnTitle]="elementToEdit ? 'EDIT PRODUCT' : 'ADD PRODUCT'"
 [classes]="'register-form'" [formSettings]="productFormSettings" (submiting)="handleSubmit($event)"></app-form>
 
 <app-spinner *ngIf="isSubmiting" [backdrop]="true" [classes]="'spinner-big'" [containerClasses]="'spinner-centered'"></app-spinner>

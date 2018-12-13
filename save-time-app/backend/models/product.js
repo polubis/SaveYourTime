@@ -7,7 +7,8 @@ const productSchema = mongoose.Schema({
   picturePath: { type: String },
   rate: { type: Number },
   calories: { type: Number },
-  numberOfVotes: { type: Number }
+  numberOfVotes: { type: Number },
+  versionKey: false
 });
 
 module.exports = mongoose.model('Product', productSchema);

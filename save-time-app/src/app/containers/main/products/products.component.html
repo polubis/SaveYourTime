@@ -1,3 +1,24 @@
-<p>
-  products works!
-</p>
+<div class="grid-wrap">
+  <div class="cart-header">
+    <h2 class="main-colored">Your products</h2>
+
+  </div>
+
+  <div class="products-list">
+    <app-products-cart (deleting)="togleDeleteModal(product)"
+    (editing)="togleEditModal(product)"
+    *ngFor="let product of products" [classes]="'small-cart-products'"
+    [product]="product">
+
+    </app-products-cart>
+  </div>
+</div>
+
+<app-modal *ngIf="productToEdit" [classes]="'m-w-center product-modal'" (closing)="togleEditModal(null)">
+  <app-product-form [elementToEdit]="productToEdit"></app-product-form>
+</app-modal>
+
+<app-confirm *ngIf="productToDelete" [header]="'Are you sure you want delete selected product ?'" [subHeader]="'This procedure is permanent and cannot be denied after confirm'"
+ (closing)="togleDeleteModal(null)" (confirming)="deleteProduct()">
+ <app-spinner *ngIf="isDeletingProduct" [backdrop]="true" [classes]="'spinner-big'" [containerClasses]="'spinner-centered'"></app-spinner>
+</app-confirm>

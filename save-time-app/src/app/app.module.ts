@@ -8,8 +8,6 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from "src/app/containers/home/home.component";
 import { TimerComponent } from './components/utils/timer/timer.component';
 import { StartPageComponent } from './containers/start-page/start-page.component';
-import { RatesComponent } from './components/utils/rates/rates.component';
-import { SliderComponent } from './components/utils/slider/slider.component';
 import { TutorialsComponent } from "src/app/components/start-page/tutorials/tutorials.component";
 import { TutorialComponent } from "src/app/components/start-page/tutorials/tutorial/tutorial.component";
 
@@ -28,7 +26,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NotificationsComponent } from './components/utils/notifications/notifications.component';
 import { NotificationComponent } from './components/utils/notifications/notification/notification.component';
 import { ProductsInstructionComponent } from './components/home/products/products-instruction/products-instruction.component';
-import { ProductsCartComponent } from "src/app/components/common/products-cart/products-cart.component";
 import { NavigationComponent } from "src/app/components/utils/navigation/navigation.component";
 import { UtilsModule } from "src/app/components/utils/utils.module";
 
@@ -41,9 +38,6 @@ import { UtilsModule } from "src/app/components/utils/utils.module";
     StartPageComponent,
     TutorialsComponent,
     TutorialComponent,
-    ProductsCartComponent,
-    RatesComponent,
-    SliderComponent,
     LogInComponent,
     RegisterComponent,
     NotificationsComponent,

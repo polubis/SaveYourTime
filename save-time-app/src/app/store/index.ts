@@ -17,3 +17,7 @@ export const getNotifications = createSelector(
 export const getAddingOrEditingState = createSelector(
   selectProductsEntity, fromProducts.isAddingOrEditing
 );
+
+export const getProducts = createSelector(
+  selectProductsEntity, fromProducts.products
+);

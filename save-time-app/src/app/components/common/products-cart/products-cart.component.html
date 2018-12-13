@@ -1,5 +1,12 @@
 <div [class]="'cart cart-products flex-column ' + classes">
-  <p class="flex-between"><span class="cart-name">{{product.name}}</span> <i class="material-icons">store</i></p>
+  <p class="flex-between">
+    <span class="cart-name">{{product.name}}</span>
+
+    <span>
+      <i (click)="editing.emit()" class="material-icons main-colored animated-icon">edit</i>
+      <i (click)="deleting.emit()" class="material-icons main-colored animated-icon danger-color">delete</i>
+    </span>
+  </p>
 
   <div class="product-details">
     <div class="label">
@@ -12,14 +19,14 @@
       <span>{{product.type}}</span>
     </div>
 
-    <div class="label">
+    <div *ngIf="product.rate" class="label">
       <span>users rate</span>
       <span>{{product.rate}}</span>
       <app-rates [rate]="product.rate">
       </app-rates>
     </div>
 
-    <div class="label">
+    <div *ngIf="product.rate" class="label">
       <span>number of votes</span>
       <span>{{product.numberOfVotes}}</span>
     </div>

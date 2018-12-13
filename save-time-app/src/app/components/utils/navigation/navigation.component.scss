@@ -36,7 +36,7 @@ nav{
 
 .nav-open {
   width: 200px;
-  grid-template-rows: auto 1fr 50px;
+  grid-template-rows: 115px 1fr 50px;
   .avatar img, .avatar p, & > *:not(.material-icons) {
     animation: .4s animate-link forwards;
     opacity: 0;
@@ -45,9 +45,6 @@ nav{
             animation-delay: $i * (1s / 18);
         }
     }
-  }
-  & > ul {
-    padding-top: 1em;
   }
   .child-link{
     padding: 1em;

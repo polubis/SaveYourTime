@@ -17,12 +17,16 @@ export class RequestsService {
 
   succesfullMessages = {
     register: 'Your account has been succesfully created',
-    addProduct: 'Product has been succesfully added'
+    addProduct: 'Product has been succesfully added',
+    editProduct: 'Product has been succesfully edited',
+    deleteProduct: "Product has been succesfully deleted"
   }
 
   settings: Settings = {
     products: new RequestSetting('products'),
     addProduct: new RequestSetting('products', false, RequestTypes.Post),
+    editProduct: new RequestSetting('products/', false, RequestTypes.Patch),
+    deleteProduct: new RequestSetting('products/', false, RequestTypes.Delete),
     register: new RequestSetting('users/register', false, RequestTypes.Post)
   }
 
@@ -46,6 +50,9 @@ export class RequestsService {
         return of(error);
       }),
       filter((response: any) => {
+        if (response === null) {
+          return true;
+        }
         return (response.status === null || response.status === undefined);
       })
     );

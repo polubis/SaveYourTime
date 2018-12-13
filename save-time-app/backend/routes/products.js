@@ -22,11 +22,42 @@ router.post('', (req, res, next) => {
       product: createdProduct
     });
   }).catch(error => {
-    console.log(error);
     res.status(400).json({
       error: 'Product with that data cannot be created. Try again later'
     });
   });
+});
+
+router.patch('/:id', (req, res, next) => {
+  const { name, company, type, picturePath, rate, calories, numberOfVotes } = req.body;
+
+  const product = new Product({
+    _id: req.params.id, name, company, type, picturePath, rate, calories, numberOfVotes
+  });
+
+  Product.updateOne( {_id: req.params.id }, product ).then(editedProduct => {
+    res.status(202).json({
+      product: product
+    });
+  }).catch(error => {
+    console.log(error);
+    res.status(400).json({
+      error: 'Cannot edit product. Make sure all data is in correct format'
+    })
+  });
+})
+
+router.delete('/:id', (req, res, next) => {
+  Product.deleteOne( {_id: req.params.id } ).then(deletedProduct => {
+    console.log(deletedProduct);
+    res.status(200).json({
+      _id: req.params.id
+    });
+  }).catch(error => {
+    res.status(400).json({
+      error: "Cannot delete selected product. Probably wrong idnetifier"
+    })
+  })
 });
 
 // router.post("", (req, res, next) => {
