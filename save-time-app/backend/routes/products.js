@@ -34,7 +34,7 @@ router.get('', (req, res, next) => {
   });
 });
 
-router.post('', multer({ storage: storage }).single("productPicture"), (req, res, next) => {
+router.post('', multer({ storage: storage }).single("picturePath"), (req, res, next) => {
   const { name, company, type, calories } = req.body;
   const product = new Product({
     name, company, type, calories
@@ -55,12 +55,18 @@ router.post('', multer({ storage: storage }).single("productPicture"), (req, res
   });
 });
 
-router.patch('/:id', (req, res, next) => {
-  const { name, company, type, picturePath, rate, calories, numberOfVotes } = req.body;
+router.patch('/:id', multer({ storage: storage }).single("picturePath"), (req, res, next) => {
+  const { name, company, type, rate, calories, numberOfVotes } = req.body;
 
   const product = new Product({
-    _id: req.params.id, name, company, type, picturePath, rate, calories, numberOfVotes
+    _id: req.params.id, name, company, type, rate, calories, numberOfVotes
   });
+  console.log(req.file);
+  if (req.file) {
+    const picturePath = req.protocol + '://' + req.get('host') + '/images/products/';
+    product.picturePath = picturePath + req.file.filename;
+  } else {
+  }
 
   Product.updateOne( {_id: req.params.id }, product ).then(editedProduct => {
     res.status(202).json({

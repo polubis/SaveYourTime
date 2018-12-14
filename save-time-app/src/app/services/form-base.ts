@@ -6,16 +6,13 @@ export class FormBase {
 
   }
   putModelIntoFormOnEdit(model: any, formSettings: FormSettings): FormSettings {
-    const newFormSettings: FormSettings = {};
-    const keys = Object.keys(model);
-    const formSettingsKeys = Object.keys(formSettings);
-    for (let i = 0; i < keys.length; i++) {
-      const keyToAdd = formSettingsKeys.find(x => x === keys[i]);
-
-      if (keyToAdd) {
-        newFormSettings[keyToAdd] = formSettings[keyToAdd];
-        newFormSettings[keyToAdd].initialValue = model[keyToAdd];
-      }
+    const formSettingsKeys: string[] = Object.keys(formSettings);
+    const modelKeys: string[] = Object.keys(model);
+    const newFormSettings: FormSettings = {...formSettings};
+    const length = formSettingsKeys.length;
+    for (let i = 0; i < length; i++) {
+      const key = formSettingsKeys[i];
+      newFormSettings[key].initialValue = model[key] ? model[key] : '';
     }
     return newFormSettings;
   }

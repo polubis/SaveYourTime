@@ -27,7 +27,7 @@ export class Setting {
 }
 
 export class Form extends ValidationService {
-  @ViewChild('preview') preview: ElementRef;
+  preview: any = "";
   @Input() isSubmiting;
   @Input() elementToEdit?: any;
   @Output() submiting = new EventEmitter<FormState>()
@@ -59,6 +59,10 @@ export class Form extends ValidationService {
       formState[name] = initialValue ? initialValue : '';
       formErrors[name] = '';
       formSettings[name] = {...settings[name]};
+
+      if (formSettings[name].mode === 'file' && initialValue) {
+        this.preview = initialValue;
+      }
     });
 
     this.formSettings = formSettings;
@@ -97,7 +101,7 @@ export class Form extends ValidationService {
     const formState = {...this.formState};
     formState[name] = '';
     this.formState = formState;
-    this.preview.nativeElement.src = "";
+    this.preview = "";
     this.putError('', name);
   }
 
@@ -109,7 +113,8 @@ export class Form extends ValidationService {
       this.putValue(file, name);
       this.putError(file, name);
       if (!this.formErrors[name]) {
-        this.preview.nativeElement.src = reader.result;
+        this.preview = reader.result;
+        console.log(reader.result, this.preview );
       }
       this.isLoadingDataForForm = false;
     };

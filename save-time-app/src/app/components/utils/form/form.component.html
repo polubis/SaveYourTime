@@ -11,8 +11,8 @@
       <i class="material-icons animated-icon">add_a_photo</i>
       <input type="file" #file [style.display]="'none'" (focus)="focus(key)" (blur)="blur()"
       (input)="onFilePicked($event, key)" />
-      <div class="image-preview">
-        <img src="" #preview />
+      <div *ngIf="preview" class="image-preview">
+        <img [src]="preview" />
       </div>
     </div>
 

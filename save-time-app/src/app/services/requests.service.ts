@@ -25,7 +25,7 @@ export class RequestsService {
   settings: Settings = {
     products: new RequestSetting('products'),
     addProduct: new RequestSetting('products', false, RequestTypes.Post, true, true),
-    editProduct: new RequestSetting('products/', false, RequestTypes.Patch),
+    editProduct: new RequestSetting('products/', false, RequestTypes.Patch, true, true),
     deleteProduct: new RequestSetting('products/', false, RequestTypes.Delete),
     voteProduct: new RequestSetting('products/', false, RequestTypes.Patch, false),
 
