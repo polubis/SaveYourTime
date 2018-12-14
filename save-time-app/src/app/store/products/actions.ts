@@ -58,7 +58,7 @@ export class StartAddingProduct implements Action {
 
 export class StartEditProduct implements Action {
   readonly type = START_EDIT_PRODUCT;
-  constructor(public payload: {formState: FormState, productId: any}) {}
+  constructor(public payload: {formState: FormState, product: Product}) {}
 }
 
 export class SetChangeProductsState implements Action {
