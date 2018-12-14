@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ValidationService } from "src/app/components/utils/form/validation.service";
-import { Input, EventEmitter, Output } from "@angular/core";
+import { Input, EventEmitter, Output, ViewChild, ElementRef } from "@angular/core";
 
 export interface Validator {
   [name: string] : {
@@ -27,6 +27,7 @@ export class Setting {
 }
 
 export class Form extends ValidationService {
+  @ViewChild('preview') preview: ElementRef;
   @Input() isSubmiting;
   @Input() elementToEdit?: any;
   @Output() submiting = new EventEmitter<FormState>()
@@ -38,6 +39,7 @@ export class Form extends ValidationService {
   currentFocusedInput = '';
   isFormDirty = false;
   isErrorsInForm = false;
+  isLoadingDataForForm = false;
 
   constructor(private settings: FormSettings = null) {
     super();
@@ -65,19 +67,52 @@ export class Form extends ValidationService {
     this.formErrors = formErrors;
   }
 
-  input(e: any, name: string) {
-    const { value } = e.target;
+  putValueInState(value: any, name: string) {
     const setting = this.formSettings[name];
-    const formState = {...this.formState};
     const formErrors = {...this.formErrors};
+    const formState = {...this.formState};
     formState[name] = value;
-    formErrors[name] = super.isInputValid(value, setting);
+    formErrors[name] = super.runInputValidation(value, setting);
+
     this.formErrors = formErrors;
     this.formState = formState;
 
     if (this.isFormDirty) {
       this.isErrorsInForm = super.checkIsFormContainsErrors(this.formErrors, this.formStateKeys);
     }
+  }
+
+  input(e: any, name: string) {
+    const { value } = e.target;
+    this.putValueInState(value, name);
+  }
+
+  clearInputState(name: string) {
+    const formState = {...this.formState};
+    formState[name] = '';
+    this.formState = formState;
+    this.preview.nativeElement.src = "";
+
+  }
+
+  onFilePicked(e: Event, name: string) {
+    this.isLoadingDataForForm = true;
+    const file = (event.target as HTMLInputElement).files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.putValueInState(file, name);
+      this.preview.nativeElement.src = reader.result;
+      this.isLoadingDataForForm = false;
+    };
+    reader.readAsDataURL(file);
+    // const file = (event.target as HTMLInputElement).files[0];
+    // this.form.patchValue({ image: file });
+    // this.form.get("image").updateValueAndValidity();
+    // const reader = new FileReader();
+    // reader.onload = () => {
+    //   this.imagePreview = reader.result;
+    // };
+    // reader.readAsDataURL(file);
   }
 
   focus(key: string) {

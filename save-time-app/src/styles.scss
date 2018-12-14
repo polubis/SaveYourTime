@@ -10,7 +10,7 @@ body, html{
 .thin-link{
   font-weight: lighter;
 }
-.modal-header{
+.modal-header-blank{
   h2{
     margin: 0;
   }
@@ -165,4 +165,17 @@ button{
 }
 .danger-bg{
   background: $error;
+}
+.modal-header{
+  background: $side;
+  color: $font;
+  i {
+    margin-right: .5em;
+    font-size: 32px;
+  }
+  span{
+    font-size: 20px;
+  }
+  height: 80px;
+  padding: 0 25px;
 }

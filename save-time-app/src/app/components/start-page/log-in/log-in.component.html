@@ -1,5 +1,5 @@
 <div class="login-form scale-base" [ngClass]="{'scaled-content': isLoging}">
-  <header class="modal-header">
+  <header class="modal-header-blank">
     <h2>Populate <span class="main-colored">Sign In</span> form</h2>
     <p>
       If you visiting us first time you can check our tutorial.
@@ -9,7 +9,7 @@
     <span class="main-colored thin-link">Click here to check tutorial</span>
   </header>
 
-  <app-form [isSubmiting]="isLoging" [formSettings]="loginFormSettings" (submiting)="logIn($event)"></app-form>
+  <app-form [classes]="'login-form'" [isSubmiting]="isLoging" [formSettings]="loginFormSettings" (submiting)="logIn($event)"></app-form>
 </div>
 
 <app-spinner *ngIf="isLoging" [backdrop]="true" [classes]="'spinner-big'" [containerClasses]="'spinner-centered'"></app-spinner>

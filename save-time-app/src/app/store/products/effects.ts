@@ -55,13 +55,11 @@ export class ProductsEffects {
       const newProduct  = new Product(product._id, formState.name, formState.company, formState.type, product.picturePath,
         product.rate, formState.calories, product.numberOfVotes);
 
-      console.log(newProduct);
       return this.requestsService.execute('editProduct', newProduct, () => this.store.dispatch(new ProductsActions.SetChangeProductsState(false)),
       newProduct._id);
     }),
     map((response: {product: Product}) => {
       this.store.dispatch(new ProductsActions.SetChangeProductsState(false));
-      console.log(response.product);
       return {
         type: ProductsActions.PUT_PRODUCT,
         payload: { product: response.product, productId: response.product._id }

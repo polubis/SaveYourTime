@@ -1,7 +1,7 @@
 @import '../../../../colors.scss';
 .form{
   margin-top: 50px;
-  padding: 0 20px;
+  padding: 0 25px;
   display: grid;
   grid-gap: 15px 30px;
   .input-wrapper{
@@ -19,7 +19,7 @@
       top: 0;
       font-size: 12px;
     }
-    input, textarea{
+    .normal-input, textarea{
       background: $font-white;
       border: none;
       font-family: inherit;
@@ -40,12 +40,57 @@
         font-size: 12px;
       }
     }
+    .file-picker{
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: $main;
+      cursor: pointer;
+      margin: auto;
+      border-top-right-radius: 15px;
+      border-bottom-left-radius: 15px;
+      i {
+        color: $font-white;
+        font-size: 32px;
+      }
+      .image-preview{
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        z-index: 1;
+        img {
+          border-top-right-radius: 15px;
+          border-bottom-left-radius: 15px;
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+    .transparent-bg{
+      position: absolute;
+      top: 5px;
+      color: $font-white;
+      border-top-right-radius: 15px;
+      border-bottom-left-radius: 15px;
+      z-index: 3;
+      padding: 10px;
+      background: rgba(0,0,0,.6);
+      right: 5px;
+      i{
+        font-size: 16px;
+        cursor: pointer;
+      }
+    }
   }
   .section-error{
     label{
       color: $error;
     }
-    input{
+    .normal-input{
       border-bottom-color: $error;
     }
   }
@@ -53,7 +98,7 @@
     label{
       color: $main;
     }
-    input,textarea{
+    .normal-input,textarea{
       border-color: $main;
     }
   }
@@ -61,11 +106,15 @@
   .form-footer{
     margin-top: 50px;
     text-align: center;
+    grid-area: button;
+    align-self: flex-end;
     button:disabled{
       color: $content-grey;
     }
   }
 }
+
+
 
 .register-form{
   grid-template-rows: 1fr 1fr 1fr;
@@ -86,8 +135,49 @@
   .input-wrapper:nth-of-type(4){
     grid-area: rpass;
   }
-  .form-footer{
+}
+
+.login-form{
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas:
+  "username"
+  "password"
+  "button";
+  .input-wrapper:nth-of-type(1){
+    grid-area: username;
+  }
+  .input-wrapper:nth-of-type(2){
+    grid-area: password;
+  }
+  .input-wrapper:nth-of-type(3){
     grid-area: button;
-    align-self: flex-end;
+  }
+}
+
+.product-form {
+  grid-template-rows: 1fr 125px 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "name company"
+    "type picture"
+    "calories other"
+    "button button";
+  .name {
+    grid-area: name;
+  }
+  .company {
+    grid-area: company;
+  }
+  .type {
+    grid-area: type;
+  }
+  .calories {
+    grid-area: calories;
+  }
+  .file-picker{
+    width: 125px;
+  }
+  .productPicture {
+    grid-area: picture;
   }
 }

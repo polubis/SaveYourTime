@@ -30,7 +30,7 @@ export class ValidationService {
   private isLengthEqualTo(length: any, limit: number) {
     return length === limit;
   }
-  protected isInputValid(value: any, setting: Setting) {
+  protected runInputValidation(value: any, setting: Setting) {
     const { label, validators } = setting;
     const validatorsKeys = Object.keys(validators);
     const lengthOfKeys = validatorsKeys.length;
@@ -59,7 +59,7 @@ export class ValidationService {
     const errors: FormErrors = {};
     let isErrorsInForm = false;
     formStateKeys.forEach(key => {
-      errors[key] = this.isInputValid(formState[key], formSettings[key]);
+      errors[key] = this.runInputValidation(formState[key], formSettings[key]);
       if (errors[key] !== '') {
         isErrorsInForm = true;
       }

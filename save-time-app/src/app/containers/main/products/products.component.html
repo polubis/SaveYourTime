@@ -15,6 +15,10 @@
 </div>
 
 <app-modal *ngIf="productToEdit" [classes]="'m-w-center product-modal'" (closing)="togleEditModal(null)">
+  <header class="modal-header flex-center">
+    <i class="material-icons">store</i>
+    <span>Edit selected product</span>
+  </header>
   <app-product-form [elementToEdit]="productToEdit"></app-product-form>
 </app-modal>
 

@@ -11,5 +11,9 @@
 
 
 <app-modal *ngIf="openAddProduct" [classes]="'m-w-center product-modal'" (closing)="togle('openAddProduct')">
+  <header class="modal-header flex-center">
+    <i class="material-icons">store</i>
+    <span>Create new product</span>
+  </header>
   <app-product-form></app-product-form>
 </app-modal>

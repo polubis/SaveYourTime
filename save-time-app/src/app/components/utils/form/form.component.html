@@ -1,17 +1,35 @@
 <form [class]="'form ' + classes" #form (submit)="submit($event)">
 
   <section [ngClass]="{'section-error': formErrors[key] !== ''}"
-  [class]="'input-wrapper ' + formSettings[key].classes" *ngFor="let key of formStateKeys">
-    <input (input)="input($event, key)" (focus)="focus(key)" (blur)="blur()" [value]="formState[key]"
+  [class]="'input-wrapper ' + key" *ngFor="let key of formStateKeys">
+    <input class="normal-input" *ngIf="formSettings[key].mode === 'input'"
+    (input)="input($event, key)" (focus)="focus(key)" (blur)="blur()" [value]="formState[key]"
     [type]="formSettings[key].type" />
-    <label *ngIf="formSettings[key].label" [ngClass]="{'label-up': (key === currentFocusedInput || formState[key] !== '')}">{{formSettings[key].label}}</label>
-    <p class="validation-message">
+
+    <div *ngIf="formSettings[key].mode === 'file'" class="file-picker" (click)="file.click($event)">
+      <i *ngIf="formState[key] === ''" class="material-icons animated-icon">add_a_photo</i>
+      <input type="file" #file [style.display]="'none'" (focus)="focus(key)" (blur)="blur()"
+      (input)="onFilePicked($event, key)" />
+      <div class="image-preview">
+        <img src="" #preview />
+      </div>
+    </div>
+
+    <div (click)="clearInputState(key)" class="transparent-bg" *ngIf="formState[key] && formSettings[key].mode === 'file'">
+      <i class="material-icons remove-input-icon animated-icon">delete</i>
+    </div>
+
+
+
+    <label *ngIf="formSettings[key].label && formSettings[key].mode === 'input'" [ngClass]="{'label-up': (key === currentFocusedInput || formState[key] !== '')}">{{formSettings[key].label}}</label>
+    <p class="validation-message" *ngIf="formSettings[key].validators">
       <span *ngIf="formErrors[key]">{{formErrors[key]}}</span>
     </p>
   </section>
 
   <div class="form-footer">
-    <button [disabled]="isErrorsInForm || isSubmiting" class="label-btn main-colored" type="submit">{{btnTitle}}</button>
+    <button [disabled]="isErrorsInForm || isSubmiting || isLoadingDataForForm" class="label-btn main-colored" type="submit">{{btnTitle}}</button>
   </div>
 
 </form>
+
