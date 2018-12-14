@@ -24,7 +24,7 @@ export class RequestsService {
 
   settings: Settings = {
     products: new RequestSetting('products'),
-    addProduct: new RequestSetting('products', false, RequestTypes.Post),
+    addProduct: new RequestSetting('products', false, RequestTypes.Post, true, true),
     editProduct: new RequestSetting('products/', false, RequestTypes.Patch),
     deleteProduct: new RequestSetting('products/', false, RequestTypes.Delete),
     voteProduct: new RequestSetting('products/', false, RequestTypes.Patch, false),
@@ -32,11 +32,20 @@ export class RequestsService {
     register: new RequestSetting('users/register', false, RequestTypes.Post),
   }
 
+  mapPayloadIntoFormData(payload: any) {
+    const keys = Object.keys(payload);
+    const formData = new FormData();
+    keys.forEach(element => {
+      formData.set(element, payload[element]);
+    });
+    return formData;
+  }
+
   execute(settingKey: string, payload?: any, callback?: any, params: string = ''): Observable<any> {
-    const { url, authorize, type, shouldShowError } = this.settings[settingKey];
+    const { url, authorize, type, shouldShowError, formData } = this.settings[settingKey];
     const requestPath: string = this.baseUrl + url + params;
 
-    const request: Observable<any> = this.prepareRequestParams(requestPath, type, payload);
+    const request: Observable<any> = this.prepareRequestParams(requestPath, type, formData ? this.mapPayloadIntoFormData(payload) : payload);
 
     return request.pipe(
       mergeMap((response: any) => {

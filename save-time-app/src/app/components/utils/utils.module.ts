@@ -10,14 +10,15 @@ import { ProductsCartComponent } from "src/app/components/common/products-cart/p
 import { RatesComponent } from "src/app/components/utils/rates/rates.component";
 import { SliderComponent } from "src/app/components/utils/slider/slider.component";
 import { ConfirmComponent } from './confirm/confirm.component';
+import { ImageDirective } from "src/app/components/utils/image-directive";
 
 @NgModule({
   declarations: [ NavigationComponent, ProductFormComponent, FormComponent, ModalComponent, SpinnerComponent,
-    ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent
+    ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent, ImageDirective
   ],
   imports: [ CommonModule ],
   exports: [ NavigationComponent, ProductFormComponent, FormComponent, ModalComponent, SpinnerComponent,
-    ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent ]
+    ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent, ImageDirective ]
 })
 export class UtilsModule{
 

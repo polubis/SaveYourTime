@@ -35,8 +35,8 @@
   </div>
 
   <div class="cart-image">
-    <div class="image">
-      <img src="assets/download.jpeg" />
+    <div class="image" >
+      <img *ngIf="product.picturePath" [src]="product.picturePath" image />
     </div>
     <app-rates [rate]="product.rate" (voting)="vote($event)">
     </app-rates>
@@ -44,6 +44,5 @@
 
   <p class="operations flex-between">
     <button class="label-btn-thin">CHECK DETAILS</button>
-
   </p>
 </div>

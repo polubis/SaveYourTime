@@ -1,8 +1,30 @@
 const express = require("express");
 
 const Product = require("../models/product");
-
+const multer = require("multer");
 const router = express.Router();
+
+const ALLOWED_MIME_TYPES = {
+  'image/png': 'png',
+  'image/jpg': 'jpg',
+  'image/jpeg': 'jpg',
+};
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const isValid = ALLOWED_MIME_TYPES[file.mimetype];
+    const error = isValid ? null : 'Invalid mime type';
+    cb(error, "backend/images/products");
+  },
+  filename: (req, file, cb) => {
+    const name = file.originalname
+      .toLowerCase()
+      .split(" ")
+      .join("-");
+    const ext = ALLOWED_MIME_TYPES[file.mimetype];
+    cb(null, name + "-" + Date.now() + "." + ext);
+  }
+});
 
 router.get('', (req, res, next) => {
   Product.find().then(documents => {
@@ -12,11 +34,16 @@ router.get('', (req, res, next) => {
   });
 });
 
-router.post('', (req, res, next) => {
-  const { name, company, type, picturePath, rate, calories, numberOfVotes } = req.body;
+router.post('', multer({ storage: storage }).single("productPicture"), (req, res, next) => {
+  const { name, company, type, calories } = req.body;
   const product = new Product({
-    name, company, type, picturePath, rate, calories, numberOfVotes
+    name, company, type, calories
   });
+  if (req.file) {
+    const picturePath = req.protocol + '://' + req.get('host') + '/images/products/';
+    product.picturePath = picturePath + req.file.filename;
+  }
+
   product.save().then(createdProduct => {
     res.status(201).json({
       product: createdProduct

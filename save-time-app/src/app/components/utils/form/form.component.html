@@ -6,8 +6,9 @@
     (input)="input($event, key)" (focus)="focus(key)" (blur)="blur()" [value]="formState[key]"
     [type]="formSettings[key].type" />
 
-    <div *ngIf="formSettings[key].mode === 'file'" class="file-picker" (click)="file.click($event)">
-      <i *ngIf="formState[key] === ''" class="material-icons animated-icon">add_a_photo</i>
+    <div *ngIf="formSettings[key].mode === 'file'" class="file-picker" (click)="file.click($event)"
+      [ngClass]="{'danger-bg': formErrors[key] !== '', 'main-bg': formErrors[key] === ''}">
+      <i class="material-icons animated-icon">add_a_photo</i>
       <input type="file" #file [style.display]="'none'" (focus)="focus(key)" (blur)="blur()"
       (input)="onFilePicked($event, key)" />
       <div class="image-preview">

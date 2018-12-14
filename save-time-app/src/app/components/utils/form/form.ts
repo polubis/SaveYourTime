@@ -67,24 +67,30 @@ export class Form extends ValidationService {
     this.formErrors = formErrors;
   }
 
-  putValueInState(value: any, name: string) {
-    const setting = this.formSettings[name];
-    const formErrors = {...this.formErrors};
-    const formState = {...this.formState};
-    formState[name] = value;
-    formErrors[name] = super.runInputValidation(value, setting);
-
+  putError(value: any, name: string) {
+    const formErrors: FormErrors = { ...this.formErrors };
+    formErrors[name] = super.runInputValidation(value, this.formSettings[name]);
     this.formErrors = formErrors;
-    this.formState = formState;
 
     if (this.isFormDirty) {
       this.isErrorsInForm = super.checkIsFormContainsErrors(this.formErrors, this.formStateKeys);
     }
   }
 
+  putValue(value: any, name: string) {
+    const formState: FormState = { ...this.formState };
+    formState[name] = value;
+    this.formState = formState;
+  }
+
+  putValuesAndErrors(value: any, name: string) {
+    this.putValue(value, name);
+    this.putError(value, name);
+  }
+
   input(e: any, name: string) {
     const { value } = e.target;
-    this.putValueInState(value, name);
+    this.putValuesAndErrors(value, name);
   }
 
   clearInputState(name: string) {
@@ -92,7 +98,7 @@ export class Form extends ValidationService {
     formState[name] = '';
     this.formState = formState;
     this.preview.nativeElement.src = "";
-
+    this.putError('', name);
   }
 
   onFilePicked(e: Event, name: string) {
@@ -100,19 +106,14 @@ export class Form extends ValidationService {
     const file = (event.target as HTMLInputElement).files[0];
     const reader = new FileReader();
     reader.onload = () => {
-      this.putValueInState(file, name);
-      this.preview.nativeElement.src = reader.result;
+      this.putValue(file, name);
+      this.putError(file, name);
+      if (!this.formErrors[name]) {
+        this.preview.nativeElement.src = reader.result;
+      }
       this.isLoadingDataForForm = false;
     };
     reader.readAsDataURL(file);
-    // const file = (event.target as HTMLInputElement).files[0];
-    // this.form.patchValue({ image: file });
-    // this.form.get("image").updateValueAndValidity();
-    // const reader = new FileReader();
-    // reader.onload = () => {
-    //   this.imagePreview = reader.result;
-    // };
-    // reader.readAsDataURL(file);
   }
 
   focus(key: string) {

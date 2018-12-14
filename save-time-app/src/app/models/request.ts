@@ -8,5 +8,6 @@ export enum RequestTypes {
   Delete = 'delete'
 }
 export class RequestSetting {
-  constructor(public url: string, public authorize?: boolean, public type: RequestTypes = RequestTypes.Get, public shouldShowError: boolean = true) {}
+  constructor(public url: string, public authorize?: boolean, public type: RequestTypes = RequestTypes.Get, public shouldShowError: boolean = true,
+    public formData: boolean = false) {}
 }

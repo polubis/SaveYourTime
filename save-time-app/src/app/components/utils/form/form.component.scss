@@ -45,7 +45,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: $main;
       cursor: pointer;
       margin: auto;
       border-top-right-radius: 15px;
@@ -157,6 +156,7 @@
 .product-form {
   grid-template-rows: 1fr 125px 1fr 1fr;
   grid-template-columns: 1fr 1fr;
+  padding: 0 35px;
   grid-template-areas:
     "name company"
     "type picture"
