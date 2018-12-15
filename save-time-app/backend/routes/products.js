@@ -65,6 +65,8 @@ router.patch('/:id', multer({ storage: storage }).single("picturePath"), (req, r
   if (req.file) {
     const picturePath = req.protocol + '://' + req.get('host') + '/images/products/';
     product.picturePath = picturePath + req.file.filename;
+  } else {
+    product.picturePath = req.body.picturePath;
   }
 
   Product.updateOne( {_id: req.params.id }, product ).then(editedProduct => {

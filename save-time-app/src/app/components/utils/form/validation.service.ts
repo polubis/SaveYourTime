@@ -32,11 +32,11 @@ export class ValidationService {
   }
 
   private isPicture(file: File) {
-    return file ? this.allowedPicturesFormats.findIndex(format => format === file.type) !== -1 : true;
+    return file.size ? this.allowedPicturesFormats.findIndex(format => format === file.type) !== -1 : true;
   }
 
   private isFileWithCorrectSize(file: File, allowedSize: number) {
-    return file ? file.size < allowedSize : true;
+    return file.size ? file.size < allowedSize : true;
   }
 
   private isLengthEqualTo(length: any, limit: number) {
