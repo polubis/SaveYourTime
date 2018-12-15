@@ -2,6 +2,7 @@ const express = require("express");
 
 const Product = require("../models/product");
 const multer = require("multer");
+const fs = require('fs');
 const router = express.Router();
 
 const ALLOWED_MIME_TYPES = {
@@ -61,11 +62,9 @@ router.patch('/:id', multer({ storage: storage }).single("picturePath"), (req, r
   const product = new Product({
     _id: req.params.id, name, company, type, rate, calories, numberOfVotes
   });
-  console.log(req.file);
   if (req.file) {
     const picturePath = req.protocol + '://' + req.get('host') + '/images/products/';
     product.picturePath = picturePath + req.file.filename;
-  } else {
   }
 
   Product.updateOne( {_id: req.params.id }, product ).then(editedProduct => {
@@ -80,17 +79,45 @@ router.patch('/:id', multer({ storage: storage }).single("picturePath"), (req, r
 })
 
 router.delete('/:id', (req, res, next) => {
-  Product.deleteOne( {_id: req.params.id } ).then(deletedProduct => {
-    res.status(200).json({
-      _id: req.params.id
-    });
+
+  Product.findOne( {_id: req.params.id} ).then(product => {
+
+    if (product.picturePath) {
+      const indexOfLastSlash = product.picturePath.lastIndexOf("/");
+      const picName = product.picturePath.slice(indexOfLastSlash + 1, product.picturePath.length);
+      const initPath = process.cwd() + "/backend/images/products/" + picName;
+      fs.stat(initPath, function(err, stats) {
+        console.log(stats);
+        fs.unlink(initPath, function(err){
+            Product.deleteOne( {_id: req.params.id } ).then(deletedProduct => {
+              res.status(200).json({
+                _id: req.params.id
+              });
+            }).catch(error => {
+              res.status(400).json({
+                error: "Cannot delete selected product entity"
+              })
+            });
+        });
+      })
+    } else {
+      Product.deleteOne( {_id: req.params.id } ).then(deletedProduct => {
+        res.status(200).json({
+          _id: req.params.id
+        });
+      }).catch(error => {
+        res.status(400).json({
+          error: "Cannot delete selected product. Probably wrong idnetifier"
+        })
+      });
+    }
+
   }).catch(error => {
     res.status(400).json({
-      error: "Cannot delete selected product. Probably wrong idnetifier"
-    })
+      error: "Product with given id doesn't exists"
+    });
   })
 });
-
 // router.post("", (req, res, next) => {
 //   const post = new Post({
 //     title: req.body.title,

@@ -53,35 +53,27 @@
         color: $font-white;
         font-size: 32px;
       }
-      .image-preview{
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        margin: auto;
-        z-index: 1;
-        img {
-          border-top-right-radius: 15px;
-          border-bottom-left-radius: 15px;
-          width: 100%;
-          height: auto;
-        }
+    }
+    .image-preview{
+      cursor: pointer;
+      img {
+        border-top-right-radius: 15px;
+        border-bottom-left-radius: 15px;
+        width: 100%;
+        height: auto;
       }
     }
     .transparent-bg{
       position: absolute;
-      top: 5px;
+      bottom: 5px;
       color: $font-white;
-      border-top-right-radius: 15px;
-      border-bottom-left-radius: 15px;
+      border-radius: 50%;
       z-index: 3;
       padding: 10px;
       background: rgba(0,0,0,.6);
       right: 5px;
       i{
         font-size: 16px;
-        cursor: pointer;
       }
     }
   }

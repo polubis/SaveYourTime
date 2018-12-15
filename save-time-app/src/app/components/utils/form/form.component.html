@@ -6,20 +6,24 @@
     (input)="input($event, key)" (focus)="focus(key)" (blur)="blur()" [value]="formState[key]"
     [type]="formSettings[key].type" />
 
-    <div *ngIf="formSettings[key].mode === 'file'" class="file-picker" (click)="file.click($event)"
+
+    <ng-container *ngIf="formSettings[key].mode === 'file'">
+      <div class="file-picker" (click)="file.click($event)" *ngIf="!preview"
       [ngClass]="{'danger-bg': formErrors[key] !== '', 'main-bg': formErrors[key] === ''}">
-      <i class="material-icons animated-icon">add_a_photo</i>
+        <i class="material-icons animated-icon">add_a_photo</i>
+      </div>
+
+      <div *ngIf="preview" class="image-preview" (click)="file.click($event)">
+        <img [src]="preview" />
+        <div (click)="clearInputState(key)" class="transparent-bg" *ngIf="formState[key]">
+          <i class="material-icons remove-input-icon animated-icon">delete</i>
+        </div>
+      </div>
+
       <input type="file" #file [style.display]="'none'" (focus)="focus(key)" (blur)="blur()"
       (input)="onFilePicked($event, key)" />
-      <div *ngIf="preview" class="image-preview">
-        <img [src]="preview" />
-      </div>
-    </div>
 
-    <div (click)="clearInputState(key)" class="transparent-bg" *ngIf="formState[key] && formSettings[key].mode === 'file'">
-      <i class="material-icons remove-input-icon animated-icon">delete</i>
-    </div>
-
+    </ng-container>
 
 
     <label *ngIf="formSettings[key].label && formSettings[key].mode === 'input'" [ngClass]="{'label-up': (key === currentFocusedInput || formState[key] !== '')}">{{formSettings[key].label}}</label>
