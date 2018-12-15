@@ -114,7 +114,6 @@ export class Form extends ValidationService {
       this.putError(file, name);
       if (!this.formErrors[name]) {
         this.preview = reader.result;
-        console.log(reader.result, this.preview );
       }
       this.isLoadingDataForForm = false;
     };
