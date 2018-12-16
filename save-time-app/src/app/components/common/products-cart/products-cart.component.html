@@ -35,9 +35,8 @@
   </div>
 
   <div class="cart-image">
-    <div class="image" >
-      <img *ngIf="product.picturePath" [src]="product.picturePath" image />
-    </div>
+    <app-file-picker [path]="product.picturePath" (changing)="changePicture($event)">
+    </app-file-picker>
     <app-rates [rate]="product.rate" (voting)="vote($event)">
     </app-rates>
   </div>

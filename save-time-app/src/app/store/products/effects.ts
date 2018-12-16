@@ -51,12 +51,9 @@ export class ProductsEffects {
   @Effect()
   productEditing = this.actions$.ofType(ProductsActions.START_EDIT_PRODUCT).pipe(
     switchMap((action: ProductsActions.StartEditProduct) => {
-      const { product, formState } = action.payload;
-      const newProduct  = new Product(product._id, formState.name, formState.company, formState.type, formState.picturePath,
-        product.rate, formState.calories, formState.price);
 
-      return this.requestsService.execute('editProduct', newProduct, () => this.store.dispatch(new ProductsActions.SetChangeProductsState(false)),
-      newProduct._id);
+      return this.requestsService.execute('editProduct', action.payload, () => this.store.dispatch(new ProductsActions.SetChangeProductsState(false)),
+      action.payload._id);
     }),
     map((response: {product: Product}) => {
       this.store.dispatch(new ProductsActions.SetChangeProductsState(false));

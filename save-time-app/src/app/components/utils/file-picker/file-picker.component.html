@@ -1,0 +1,16 @@
+<div class="image-preview" *ngIf="path">
+  <img [src]="path" image (click)="filePicking.click($event)"/>
+  <div (click)="changing.emit('')" class="transparent-bg perf-flex">
+    <i class="material-icons remove-input-icon animated-icon">delete</i>
+  </div>
+</div>
+<div *ngIf="!path" [class]="'file-picker ' + classes" (click)="filePicking.click($event)"
+[ngClass]="{'danger-bg': error !== '', 'main-bg': error === ''}">
+  <i class="material-icons animated-icon">{{icon}}</i>
+</div>
+<input type="file" #filePicking [style.display]="'none'" (change)="onFilePicked($event)" />
+
+<p class="abs-validation-message flex-between abs-validation" *ngIf="error">
+  <span>{{error}}</span>
+  <button (click)="clearError()" class="label-btn" type="button">OK</button>
+</p>

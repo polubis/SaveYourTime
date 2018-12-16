@@ -3,7 +3,7 @@ import { Input, EventEmitter, Output } from "@angular/core";
 import { Product } from "src/app/models/product";
 import { AppState } from "src/app/app.reducers";
 import { Store } from "@ngrx/store";
-import { StartVoting } from '../../../store/products/actions';
+import { StartVoting, StartEditProduct } from '../../../store/products/actions';
 @Component({
   selector: 'app-products-cart',
   templateUrl: './products-cart.component.html',
@@ -27,5 +27,11 @@ export class ProductsCartComponent implements OnInit {
     } else {
       alert("Create your account first :)");
     }
+  }
+
+  changePicture(file: File) {
+    const product = {...this.product};
+    product.picturePath = file;
+    this.store.dispatch(new StartEditProduct(product));
   }
 }

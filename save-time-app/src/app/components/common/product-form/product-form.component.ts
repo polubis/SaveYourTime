@@ -5,6 +5,7 @@ import { Store } from "@ngrx/store";
 import { StartAddingProduct, StartEditProduct } from '../../../store/products/actions';
 import { getAddingOrEditingState } from '../../../store/index';
 import { FormBase } from "src/app/services/form-base";
+import { Product } from "src/app/models/product";
 @Component({
   selector: 'app-product-form',
   templateUrl: './product-form.component.html',
@@ -37,7 +38,9 @@ export class ProductFormComponent extends FormBase implements OnInit {
 
   handleSubmit(formState: FormState) {
     if (this.elementToEdit) {
-      this.store.dispatch(new StartEditProduct({formState, product: this.elementToEdit }));
+      const newProduct  = new Product(this.elementToEdit._id, formState.name, formState.company, formState.type, formState.picturePath,
+        this.elementToEdit.rate, formState.calories, formState.price);
+      this.store.dispatch(new StartEditProduct(newProduct));
     } else {
       this.store.dispatch(new StartAddingProduct(formState));
     }
