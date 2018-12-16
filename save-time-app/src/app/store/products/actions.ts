@@ -68,7 +68,7 @@ export class SetChangeProductsState implements Action {
 
 export class StartVoting implements Action {
   readonly type = START_VOTING;
-  constructor(public payload: {rate: number, product: Product}) {}
+  constructor(public payload: { rate: number, product: Product }) {}
 }
 
 export type ProductsActions = SetProducts | FetchProducts | PushProduct | StartAddingProduct | StartEditProduct |

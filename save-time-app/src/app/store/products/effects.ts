@@ -88,7 +88,7 @@ export class ProductsEffects {
       const { rate, product } = action.payload;
       const newProduct = {...product};
       newProduct.rate = rate;
-      this.requestsService.execute('voteProduct', newProduct, null, action.payload.product._id).pipe(take(1)).subscribe();
+      this.requestsService.execute('rateProduct', { rate: rate }, null, action.payload.product._id).pipe(take(1)).subscribe();
       return {
          type: ProductsActions.PUT_PRODUCT,
          payload: { product: newProduct, productId: newProduct._id }

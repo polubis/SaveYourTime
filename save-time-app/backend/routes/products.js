@@ -35,6 +35,20 @@ router.get('', (req, res, next) => {
   });
 });
 
+function deleteImage (picPath, cb, delPath = '/backend/images/products/') {
+  const indexOfLastSlash = picPath.lastIndexOf("/");
+  const picName = picPath.slice(indexOfLastSlash + 1, picPath.length);
+  const initPath = process.cwd() + delPath + picName;
+
+  fs.stat(initPath, function(err, stats) {
+    if(!err) {
+      fs.unlink(initPath, function(err){
+        cb(err);
+      });
+    }
+  })
+}
+
 router.post('', multer({ storage: storage }).single("picturePath"), (req, res, next) => {
   const { name, company, type, calories } = req.body;
   const product = new Product({
@@ -56,52 +70,50 @@ router.post('', multer({ storage: storage }).single("picturePath"), (req, res, n
   });
 });
 
-router.patch('/:id', multer({ storage: storage }).single("picturePath"), (req, res, next) => {
-  const { name, company, type, rate, calories, numberOfVotes } = req.body;
 
-  const product = new Product({
-    _id: req.params.id, name, company, type, rate, calories, numberOfVotes
-  });
-  if (req.file) {
-    const picturePath = req.protocol + '://' + req.get('host') + '/images/products/';
-    product.picturePath = picturePath + req.file.filename;
-  } else {
-    product.picturePath = req.body.picturePath;
-  }
 
-  Product.updateOne( {_id: req.params.id }, product ).then(editedProduct => {
-    res.status(202).json({
-      product: product
+
+router.patch('/rate/:id', (req, res, next) => {
+  const productId = req.params.id;
+  Product.findOne( { _id: productId } ).then(product => {
+    const { rate } = req.body;
+
+    const newProduct = new Product({
+      ...product, rate, _id: req.params.id
+    });
+
+    Product.updateOne( { _id: productId }, newProduct ).then(addedProduct => {
+      res.status(202).json({
+      });
+    }).catch(error => {
+      res.status(400).json({
+        error: 'Rate value is incorrect'
+      });
     });
   }).catch(error => {
     res.status(400).json({
-      error: 'Cannot edit product. Make sure all data is in correct format'
+      error: "Product with given id doesn't exist"
     })
-  });
-})
+  })
+});
 
 router.delete('/:id', (req, res, next) => {
 
   Product.findOne( {_id: req.params.id} ).then(product => {
-
     if (product.picturePath) {
-      const indexOfLastSlash = product.picturePath.lastIndexOf("/");
-      const picName = product.picturePath.slice(indexOfLastSlash + 1, product.picturePath.length);
-      const initPath = process.cwd() + "/backend/images/products/" + picName;
-      fs.stat(initPath, function(err, stats) {
-        console.log(stats);
-        fs.unlink(initPath, function(err){
-            Product.deleteOne( {_id: req.params.id } ).then(deletedProduct => {
-              res.status(200).json({
-                _id: req.params.id
-              });
-            }).catch(error => {
-              res.status(400).json({
-                error: "Cannot delete selected product entity"
-              })
-            });
+
+      deleteImage(product.picturePath, function(err) {
+        Product.deleteOne( {_id: req.params.id } ).then(deletedProduct => {
+          res.status(200).json({
+            _id: req.params.id
+          });
+        }).catch(error => {
+          res.status(400).json({
+            error: "Cannot delete selected product entity"
+          })
         });
-      })
+      });
+
     } else {
       Product.deleteOne( {_id: req.params.id } ).then(deletedProduct => {
         res.status(200).json({
@@ -120,54 +132,52 @@ router.delete('/:id', (req, res, next) => {
     });
   })
 });
-// router.post("", (req, res, next) => {
-//   const post = new Post({
-//     title: req.body.title,
-//     content: req.body.content
-//   });
-//   post.save().then(createdPost => {
-//     res.status(201).json({
-//       message: "Post added successfully",
-//       postId: createdPost._id
-//     });
-//   });
-// });
 
-// router.put("/:id", (req, res, next) => {
-//   const post = new Post({
-//     _id: req.body.id,
-//     title: req.body.title,
-//     content: req.body.content
-//   });
-//   Post.updateOne({ _id: req.params.id }, post).then(result => {
-//     res.status(200).json({ message: "Update successful!" });
-//   });
-// });
+function update(product, id, res) {
+  Product.updateOne( {_id: id }, product ).then(editedProduct => {
+    res.status(202).json({
+      product: product
+    });
+  }).catch(error => {
+    res.status(400).json({
+      error: 'Cannot edit product. Make sure all data is in correct format'
+    })
+  });
+}
 
-// router.get("", (req, res, next) => {
-//   Post.find().then(documents => {
-//     res.status(200).json({
-//       message: "Posts fetched successfully!",
-//       posts: documents
-//     });
-//   });
-// });
+router.patch('/:id', multer({ storage: storage }).single("picturePath"), (req, res, next) => {
+    Product.findOne( { _id: req.params.id } ).then(product => {
 
-// router.get("/:id", (req, res, next) => {
-//   Post.findById(req.params.id).then(post => {
-//     if (post) {
-//       res.status(200).json(post);
-//     } else {
-//       res.status(404).json({ message: "Post not found!" });
-//     }
-//   });
-// });
+      const newProduct = new Product({
+        ...req.body, _id: req.params.id, picturePath: product.picturePath
+      });
 
-// router.delete("/:id", (req, res, next) => {
-//   Post.deleteOne({ _id: req.params.id }).then(result => {
-//     console.log(result);
-//     res.status(200).json({ message: "Post deleted!" });
-//   });
-// });
+      const isImageAlreadyAdded = product.picturePath;
+      const isFileInReq = req.file ? req.file.size > 0 ? true : false : false;
+
+      if (isFileInReq) {
+          const savePath = req.protocol + '://' + req.get('host') + '/images/products/';
+          newProduct.picturePath = savePath + req.file.filename;
+      }
+
+      if (isImageAlreadyAdded && isFileInReq) {
+        deleteImage(product.picturePath, function() {
+          update(newProduct, req.params.id, res);
+        });
+      }
+      else if(req.body.picturePath === '') {
+        deleteImage(product.picturePath, function() {
+          newProduct.picturePath = '';
+          update(newProduct, req.params.id, res);
+        });
+      }
+      else {
+        update(newProduct, req.params.id, res);
+      }
+
+
+    }).catch(error => res.status(400).json({error: "Product with given id doesn't exists"}));
+
+});
 
 module.exports = router;

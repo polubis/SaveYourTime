@@ -4,6 +4,7 @@ export interface Settings {
 export enum RequestTypes {
   Get = 'get',
   Post = 'post',
+  Put = 'put',
   Patch = 'patch',
   Delete = 'delete'
 }
