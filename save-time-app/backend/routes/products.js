@@ -165,7 +165,7 @@ router.patch('/:id', multer({ storage: storage }).single("picturePath"), (req, r
           update(newProduct, req.params.id, res);
         });
       }
-      else if(req.body.picturePath === '') {
+      else if(req.body.picturePath === '' && isImageAlreadyAdded) {
         deleteImage(product.picturePath, function() {
           newProduct.picturePath = '';
           update(newProduct, req.params.id, res);
@@ -176,7 +176,9 @@ router.patch('/:id', multer({ storage: storage }).single("picturePath"), (req, r
       }
 
 
-    }).catch(error => res.status(400).json({error: "Product with given id doesn't exists"}));
+    }).catch(error => {
+      res.status(400).json({error: "Product with given id doesn't exists"})
+    });
 
 });
 
