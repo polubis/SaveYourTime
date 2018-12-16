@@ -7,6 +7,7 @@ const productSchema = mongoose.Schema({
   picturePath: { type: String },
   rate: { type: Number },
   calories: { type: Number },
+  price: { type: Number },
   versionKey: false
 });
 

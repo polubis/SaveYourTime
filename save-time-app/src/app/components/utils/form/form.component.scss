@@ -44,6 +44,7 @@
       height: 100%;
       display: flex;
       align-items: center;
+      width: 125px;
       justify-content: center;
       cursor: pointer;
       margin: auto;
@@ -60,7 +61,8 @@
         border-top-right-radius: 15px;
         border-bottom-left-radius: 15px;
         width: 100%;
-        height: auto;
+        height: 125px;
+        object-fit: contain;
       }
     }
     .transparent-bg{
@@ -146,13 +148,13 @@
 }
 
 .product-form {
-  grid-template-rows: 1fr 125px 1fr 1fr;
+  grid-template-rows: 1fr 125px auto 1fr;
   grid-template-columns: 1fr 1fr;
   padding: 0 35px;
   grid-template-areas:
     "name company"
     "type picture"
-    "calories other"
+    "calories price"
     "button button";
   .name {
     grid-area: name;
@@ -163,11 +165,11 @@
   .type {
     grid-area: type;
   }
+  .price{
+    grid-area: price;
+  }
   .calories {
     grid-area: calories;
-  }
-  .file-picker{
-    width: 125px;
   }
   .productPicture {
     grid-area: picture;
