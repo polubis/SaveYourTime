@@ -53,7 +53,7 @@ export class ProductsEffects {
     switchMap((action: ProductsActions.StartEditProduct) => {
       const { product, formState } = action.payload;
       const newProduct  = new Product(product._id, formState.name, formState.company, formState.type, formState.picturePath,
-        product.rate, formState.calories, product.numberOfVotes);
+        product.rate, formState.calories);
 
       return this.requestsService.execute('editProduct', newProduct, () => this.store.dispatch(new ProductsActions.SetChangeProductsState(false)),
       newProduct._id);
