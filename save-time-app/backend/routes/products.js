@@ -50,9 +50,8 @@ function deleteImage (picPath, cb, delPath = '/backend/images/products/') {
 }
 
 router.post('', multer({ storage: storage }).single("picturePath"), (req, res, next) => {
-  const { name, company, type, calories } = req.body;
   const product = new Product({
-    name, company, type, calories
+    ...req.body
   });
   if (req.file) {
     const picturePath = req.protocol + '://' + req.get('host') + '/images/products/';

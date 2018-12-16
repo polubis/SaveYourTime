@@ -23,9 +23,14 @@
       <span>{{product.rate}}</span>
     </div>
 
-    <div class="label">
+    <div *ngIf="product.calories" class="label">
       <span>calories</span>
       <span>{{product.calories}}</span>
+    </div>
+
+    <div *ngIf="product.price" class="label">
+      <span>price</span>
+      <span>{{product.price}} zł</span>
     </div>
   </div>
 

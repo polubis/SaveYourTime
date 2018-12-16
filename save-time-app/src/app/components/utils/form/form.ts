@@ -27,6 +27,7 @@ export class Setting {
 }
 
 export class Form extends ValidationService {
+  initialSnapshot: FormState;
   preview: any = "";
   @Input() isSubmiting;
   @Input() elementToEdit?: any;
@@ -64,11 +65,11 @@ export class Form extends ValidationService {
         this.preview = initialValue;
       }
     });
-
     this.formSettings = formSettings;
     this.formStateKeys = formStateKeys;
     this.formState = formState;
     this.formErrors = formErrors;
+    this.initialSnapshot = {...formState};
   }
 
   putError(value: any, name: string) {
@@ -103,6 +104,16 @@ export class Form extends ValidationService {
     this.formState = formState;
     this.preview = "";
     this.putError('', name);
+  }
+
+  removeErrors(name: string) {
+    const formErrors = {...this.formErrors};
+    const formState = {...this.formState};
+    formErrors[name] = '';
+    formState[name] = this.initialSnapshot[name];
+    this.isErrorsInForm = false;
+    this.formErrors = formErrors;
+    this.formState = formState;
   }
 
   onFilePicked(e: Event, name: string) {

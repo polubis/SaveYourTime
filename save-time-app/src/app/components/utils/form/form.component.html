@@ -1,5 +1,42 @@
 <form [class]="'form ' + classes" #form (submit)="submit($event)">
 
+  <section *ngFor="let key of formStateKeys" [class]="'input-whole-wrapper ' + key">
+
+    <div *ngIf="formSettings[key].mode !== 'file'" class="input-wrapper" [ngClass]="{'section-error': formErrors[key] !== ''}">
+
+      <input class="normal-input" *ngIf="formSettings[key].mode === 'input'"
+      (input)="input($event, key)" (focus)="focus(key)" (blur)="blur()" [value]="formState[key]"
+      [type]="formSettings[key].type" />
+
+      <label *ngIf="formSettings[key].label" [ngClass]="{'label-up': (key === currentFocusedInput || formState[key] !== '')}">{{formSettings[key].label}}</label>
+
+    </div>
+
+    <ng-container *ngIf="formSettings[key].mode === 'file'">
+      <div class="file-picker" (click)="file.click($event)" *ngIf="!preview"
+      [ngClass]="{'danger-bg': formErrors[key] !== '', 'main-bg': formErrors[key] === ''}">
+        <i class="material-icons animated-icon">add_a_photo</i>
+      </div>
+
+      <div *ngIf="preview" class="image-preview" (click)="file.click($event)">
+        <img [src]="preview" />
+        <div (click)="clearInputState(key)" class="transparent-bg perf-flex" *ngIf="formState[key]">
+          <i class="material-icons remove-input-icon animated-icon">delete</i>
+        </div>
+      </div>
+
+      <input type="file" #file [style.display]="'none'" (focus)="focus(key)" (blur)="blur()"
+      (input)="onFilePicked($event, key)" />
+
+    </ng-container>
+
+    <p [ngClass]="{'abs-validation-message flex-between': formSettings[key].mode === 'file' && formErrors[key],
+    'validation-message': formSettings[key].mode !== 'file'}"  *ngIf="formSettings[key].validators">
+      <span *ngIf="formErrors[key]">{{formErrors[key]}}</span>
+      <button (click)="removeErrors(key)" *ngIf="formErrors[key] && formSettings[key].mode === 'file'" class="label-btn" type="button">OK</button>
+    </p>
+  </section>
+<!--
   <section [ngClass]="{'section-error': formErrors[key] !== ''}"
   [class]="'input-wrapper ' + key" *ngFor="let key of formStateKeys">
     <input class="normal-input" *ngIf="formSettings[key].mode === 'input'"
@@ -26,11 +63,7 @@
     </ng-container>
 
 
-    <label *ngIf="formSettings[key].label && formSettings[key].mode === 'input'" [ngClass]="{'label-up': (key === currentFocusedInput || formState[key] !== '')}">{{formSettings[key].label}}</label>
-    <p class="validation-message" *ngIf="formSettings[key].validators">
-      <span *ngIf="formErrors[key]">{{formErrors[key]}}</span>
-    </p>
-  </section>
+  </section> -->
 
   <div class="form-footer">
     <button [disabled]="isErrorsInForm || isSubmiting || isLoadingDataForForm" class="label-btn main-colored" type="submit">{{btnTitle}}</button>
