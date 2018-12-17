@@ -5,7 +5,15 @@
   </div>
 
   <div class="products-list">
-    <app-products-cart (deleting)="togleDeleteModal(product)"
+    <div *ngIf="products.length === 0; else productsList">
+      <app-empty-list (clicking)="togleAddProductModal()" [header]="'Products'">
+        Looks like your product list is empty. <br> If you want add
+        new one click button bellow
+      </app-empty-list>
+    </div>
+
+    <app-products-cart #productsList
+    (deleting)="togleDeleteModal(product)"
     (editing)="togleEditModal(product)"
     *ngFor="let product of products" [classes]="'small-cart-products'"
     [product]="product">
@@ -14,12 +22,15 @@
   </div>
 </div>
 
-<app-modal *ngIf="productToEdit" [classes]="'m-w-center product-modal'" (closing)="togleEditModal(null)">
+<app-modal *ngIf="productToEdit || addProductModal" [classes]="'m-w-center product-modal'"
+(closing)="togleEditModal(null)">
   <header class="modal-header flex-center">
     <i class="material-icons">store</i>
     <span>Edit selected product</span>
   </header>
-  <app-product-form [elementToEdit]="productToEdit"></app-product-form>
+
+  <app-product-form *ngIf="productToEdit" [elementToEdit]="productToEdit"></app-product-form>
+  <app-product-form *ngIf="addProductModal"></app-product-form>
 </app-modal>
 
 <app-confirm *ngIf="productToDelete" [header]="'Are you sure you want delete selected product ?'" [subHeader]="'This procedure is permanent and cannot be denied after confirm'"

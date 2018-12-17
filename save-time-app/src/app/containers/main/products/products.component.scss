@@ -1,6 +1,9 @@
 .products-list{
   display: flex;
   flex-flow: wrap;
+  & > div {
+    margin: auto;
+  }
 }
 .cart-header{
   padding-bottom: 1em;

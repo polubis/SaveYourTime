@@ -12,15 +12,16 @@ import { SliderComponent } from "src/app/components/utils/slider/slider.componen
 import { ConfirmComponent } from './confirm/confirm.component';
 import { ImageDirective } from "src/app/components/utils/image-directive";
 import { FilePickerComponent } from './file-picker/file-picker.component';
+import { EmptyListComponent } from './empty-list/empty-list.component';
 
 @NgModule({
   declarations: [ NavigationComponent, ProductFormComponent, FormComponent, ModalComponent, SpinnerComponent,
-    ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent, ImageDirective, FilePickerComponent
+    ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent, ImageDirective, FilePickerComponent, EmptyListComponent
   ],
   imports: [ CommonModule ],
   exports: [ NavigationComponent, ProductFormComponent, FormComponent, ModalComponent, SpinnerComponent,
     ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent, ImageDirective,
-    FilePickerComponent ]
+    FilePickerComponent, EmptyListComponent ]
 })
 export class UtilsModule{
 

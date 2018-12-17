@@ -151,6 +151,7 @@ button{
 }
 .grid-wrap{
   display: grid;
+  height: 100%;
   grid-template-rows: 115px 1fr;
 }
 .animated-icon{

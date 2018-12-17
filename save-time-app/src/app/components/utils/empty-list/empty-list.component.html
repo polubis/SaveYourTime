@@ -1,0 +1,10 @@
+<div class="empty-list">
+  <h2>{{header}}</h2>
+  <p>
+    <ng-content></ng-content>
+  </p>
+
+  <button class="circle-btn perf-flex" (click)="clicking.emit()">
+    <i class="material-icons">add_circle_outline</i>
+  </button>
+</div>
