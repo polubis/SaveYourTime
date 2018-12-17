@@ -25,7 +25,7 @@ export class ProductFormComponent extends FormBase implements OnInit {
       calories: new Setting('calories', { isNotEmptyString: true, minLength: 3, maxLength: 50 }),
       price: new Setting('price', { isNotEmptyString: true, minLength: 3, maxLength: 50 }),
       picturePath: new Setting('product picture', { isPicture: true, isFileWithCorrectSize: 300000 }, '', 'file')
-    }
+    };
 
     this.productFormSettings = this.elementToEdit ?
       super.putModelIntoFormOnEdit(this.elementToEdit, formSettings) :

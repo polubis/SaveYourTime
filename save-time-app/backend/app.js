@@ -4,7 +4,8 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 const productsRoutes = require("./routes/products");
-const usersRoutes = require("./routes/users")
+const usersRoutes = require("./routes/users");
+const shoppingRoutes = require("./routes/shopping");
 const app = express();
 mongoose
 .connect(
@@ -35,6 +36,6 @@ app.use((req, res, next) => {
 
 app.use("/api/products", productsRoutes);
 app.use("/api/users", usersRoutes);
-
+app.use("/api/shopping", shoppingRoutes);
 
 module.exports = app;
