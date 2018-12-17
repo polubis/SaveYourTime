@@ -1,0 +1,81 @@
+<div class="table-wrapper">
+  <div class="filter-wrapper">
+    <div *ngIf="settings" class="filtering-settings flex-center">
+      <span>3 records per page</span>
+      <div class="progress">
+        <div class="progress-val">
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="filters" class="filter-form-wrapper">
+      <app-form [btnTitle]="'add'" [btnType]="'circle'"
+      [classes]="'filter-form'" [formSettings]="filterFormSettings" ></app-form>
+    </div>
+
+    <div *ngIf="filters" class="filters flex-center">
+
+      <div class="filter flex-column">
+        <span class="main-colored">Product name</span>
+        <span>Płatki</span>
+      </div>
+      <div class="filter flex-column">
+        <span class="main-colored">Product name</span>
+        <span>Płatki</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <header>
+    <span class="main-colored">Products</span>
+    <span>select products for shopping</span>
+
+    <button (click)="togle('filters')" class="label-btn-thin flex-center">
+      <i class="material-icons">filter_list</i>
+      {{filters ? 'SHOW' : 'HIDE'}} FILTERS
+    </button>
+
+    <button (click)="togle('settings')" class="label-btn-thin flex-center">
+      <i class="material-icons">settings</i>
+      {{settings ? 'SHOW' : 'HIDE'}} SETTINGS
+    </button>
+  </header>
+  <table>
+    <thead>
+      <tr>
+        <th>Product name</th>
+        <th>Company</th>
+        <th>Type</th>
+        <th>Rate</th>
+        <th>Calories</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let item of items; let i = index">
+        <td>
+          {{item.name}}
+        </td>
+        <td>
+          {{item.company}}
+        </td>
+        <td>
+          {{item.type}}
+        </td>
+        <td>
+          {{item.rate}}
+        </td>
+        <td>
+          {{item.calories}}
+        </td>
+        <td>
+          {{item.price}}
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+  </div>

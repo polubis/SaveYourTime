@@ -138,6 +138,7 @@ button{
     }
     span:last-of-type{
         color: $font;
+        word-break: break-all;
     }
     i {
       font-size: 20px;

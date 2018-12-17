@@ -13,15 +13,16 @@ import { ConfirmComponent } from './confirm/confirm.component';
 import { ImageDirective } from "src/app/components/utils/image-directive";
 import { FilePickerComponent } from './file-picker/file-picker.component';
 import { EmptyListComponent } from './empty-list/empty-list.component';
+import { TableComponent } from './table/table.component';
 
 @NgModule({
   declarations: [ NavigationComponent, ProductFormComponent, FormComponent, ModalComponent, SpinnerComponent,
-    ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent, ImageDirective, FilePickerComponent, EmptyListComponent
+    ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent, ImageDirective, FilePickerComponent, EmptyListComponent, TableComponent
   ],
   imports: [ CommonModule ],
   exports: [ NavigationComponent, ProductFormComponent, FormComponent, ModalComponent, SpinnerComponent,
     ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent, ImageDirective,
-    FilePickerComponent, EmptyListComponent ]
+    FilePickerComponent, EmptyListComponent, TableComponent ]
 })
 export class UtilsModule{
 

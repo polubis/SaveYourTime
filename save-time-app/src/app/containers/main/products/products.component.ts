@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppState } from "src/app/app.reducers";
 import { Store } from "@ngrx/store";
 import { FetchProducts, StartRemovingProduct, SetRemovingProductState } from '../../../store/products/actions';
-import { getProducts } from '../../../store/index';
 import { Product } from "src/app/models/product";
 import { Subscription } from "rxjs";
 import { State } from '../../../store/products/reducers';

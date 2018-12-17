@@ -1,185 +1,21 @@
 @import '../../../../colors.scss';
 .shopping {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 0 35px;
   height: 100%;
-  img {
-    margin: auto;
-    width: 100%;
-    height: auto;
-  }
-  .cart {
-    padding: 10px;
-  }
-  .products-to-add, .added-products {
-    display: grid;
-    .label-btn {
-      font-size: 12px;
-      padding: 0;
-      margin-top: 10px;
+  grid-gap: 10px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "header header"
+    "products added";
+  .cart-header {
+    grid-area: header;
+    h2 {
+      margin: 0;
     }
-  }
-  h2 {
-    margin: 0;
-    margin-bottom: 1em;
   }
   .products-to-add {
-    grid-template-rows: auto auto auto 60% auto;
-    grid-template-areas:
-      "header"
-      "form"
-      "filter"
-      "products"
-      "recent";
-    h2 {
-      grid-area: header;
-    }
-    .form-container{
-      grid-area: form;
-      p {
-        padding: 1em 0;
-        font-size: 20px;
-        color: $content-grey;
-      }
-    }
-    .filters-section {
-      grid-area: filter;
-      .label-btn {
-        grid-area: filter-btn;
-        color: $content-grey;
-        font-weight: 500;
-        i {
-          margin-right: 5px;
-        }
-      }
-      .filters {
-        margin-bottom: 1em;
-        grid-area: filter-list;
-        display: flex;
-        li:first-of-type {
-          color: $content-grey;
-        }
-        .filter {
-          display: flex;
-          flex-flow: column;
-          margin: 10px;
-        }
-      }
-    }
-
-    .list-products-to-add{
-      grid-area: products;
-      height: 100%;
-      overflow-y: auto;
-      li {
-        margin: 0 1em 1em 1em;
-        box-sizing: border-box;
-        display: grid;
-        float: left;
-        max-width: 320px;
-        grid-template-rows: 1fr 1fr auto;
-        grid-template-columns: 60% auto;
-        grid-template-areas:
-          "big-label picture"
-          "details picture"
-          "footer footer";
-        .label-big {
-          grid-area: big-label;
-        }
-        .details {
-          grid-area: details;
-          .label {
-            margin: 0 1em 1em 0;
-          }
-        }
-        img {
-          grid-area: picture;
-        }
-        .footer {
-          grid-area: footer;
-          button {
-            float: right;
-          }
-        }
-      }
-    }
-
-    .recently-added {
-      grid-area: recent;
-      p {
-        padding: 0;
-      }
-      li {
-        height: 75px;
-        width: 75px;
-        margin: 0 1em 1em 0;
-      }
-    }
-
-  }
-  .added-products {
-    grid-gap: 15px 0;
-    grid-template-rows: auto 70% auto auto;
-    grid-template-areas:
-      "header"
-      "add-list"
-      "result"
-      "submit-btn";
-
-    .shopping-details {
-      grid-area: header;
-      .label {
-        float: left;
-        margin: 0 1.5em 1em 0;
-      }
-      span:last-of-type {
-        color: $main;
-        font-size: 18px;
-      }
-    }
-
-    .result {
-      grid-area: result;
-      span.sum {
-        font-size: 28px;
-      }
-    }
-    .sbm-btn-container{
-      grid-area: submit-btn;
-      .submit-btn {
-        border-radius: 39px;
-        color: $font-white;
-        background: $main;
-        padding: 10px 25px;
-        margin: 0 auto;
-      }
-    }
-    .added-product-list {
-      grid-area: add-list;
-      height: 100%;
-      padding: 12.5px 0;
-      li {
-        max-width: 100px;
-        float: left;
-        margin: 0 1em 1em 0;
-        p {
-          padding: 0;
-          b {
-            font-size: 14px;
-          }
-          span {
-            font-size: 12px;
-            margin-left: 5px;
-          }
-        }
-        div {
-          img {
-            max-width: 80%;
-          }
-        }
-      }
-    }
+    grid-area: products;
   }
 }
 
