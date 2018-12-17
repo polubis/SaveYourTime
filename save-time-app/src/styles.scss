@@ -112,10 +112,12 @@ button{
     background: transparent;
     font-weight: bold;
     font-size: 1em;
+    padding: 0;
 }
 .label-btn-thin{
-    font-size: 1em;
+    font-size: .9em;
     background: transparent;
+    padding: 0;
 }
 .main-btn-bg{
     background: $main;
@@ -136,6 +138,10 @@ button{
     }
     span:last-of-type{
         color: $font;
+    }
+    i {
+      font-size: 20px;
+      cursor: pointer;
     }
 }
 .main-colored{
@@ -189,6 +195,14 @@ button{
   height: 80px;
   padding: 0 25px;
 }
+.circle-btn {
+  border-radius: 50%;
+  background: $main;
+  i {
+    color: $font-white;
+    font-size: 20px;
+  }
+}
 .label-big {
   span:first-of-type {
     color: $font;
@@ -201,26 +215,5 @@ button{
 .label-small {
   span:first-of-type {
     font-size: 12px;
-  }
-}
-
-.label {
-  span:first-of-type {
-    color: $content-grey;
-    margin-bottom: 5px;
-    i {
-      cursor: pointer;
-      font-size: 16px;
-      color: $font;
-      margin-left: 5px;
-    }
-  }
-}
-.circle-btn {
-  border-radius: 50%;
-  background: $main;
-  i {
-    color: $font-white;
-    font-size: 20px;
   }
 }

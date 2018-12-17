@@ -17,7 +17,7 @@ export class NavigationComponent implements OnInit {
       ]
     },
     {icon: "local_dining", name: "Shopping", childs: [
-      {label: "add new"}
+      {label: "add new", func: () =>  this.router.navigate(['main', 'shopping', 'add'])}
      ]
     },
     {icon: "accessibility", name: "Diets", childs: [
