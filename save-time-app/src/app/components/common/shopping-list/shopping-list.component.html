@@ -1,0 +1,11 @@
+<div class="grid-wrap">
+  <div class="cart-header">
+      <h2 class="main-colored">Your shoppings list</h2>
+
+  </div>
+  <div [style.margin]="'auto'">
+    <app-empty-list *ngIf="shopping.length === 0" [header]="'Shopping list'">
+      Your shopping list is already empty. <br>Click button bellow to add new one
+    </app-empty-list>
+  </div>
+</div>

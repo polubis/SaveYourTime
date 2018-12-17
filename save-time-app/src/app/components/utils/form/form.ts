@@ -90,7 +90,9 @@ export class Form extends ValidationService {
 
   putValuesAndErrors(value: any, name: string) {
     this.putValue(value, name);
-    this.putError(value, name);
+    if (this.formSettings[name].validators) {
+      this.putError(value, name);
+    }
   }
 
   input(e: any, name: string) {

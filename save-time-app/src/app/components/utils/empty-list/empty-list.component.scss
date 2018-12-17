@@ -20,16 +20,10 @@
   p {
     grid-area: content;
   }
-  .circle-btn {
+  .circle-btn{
     margin: auto;
     grid-area: btn;
-    width: 40px;
-    border-radius: 50%;
     height: 40px;
-    background: $main;
-    i {
-      color: $font-white;
-      font-size: 20px;
-    }
+    width: 40px;
   }
 }

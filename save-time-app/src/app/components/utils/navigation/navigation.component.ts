@@ -16,8 +16,8 @@ export class NavigationComponent implements OnInit {
         {label: "add new", func: () => this.onClickLink.emit('openAddProduct')}, {label: "browse shared"}, {label: "templates"}
       ]
     },
-    {icon: "local_dining", name: "Meals", childs: [
-      {label: "add new"}, {label: "browse added"}
+    {icon: "local_dining", name: "Shopping", childs: [
+      {label: "add new"}
      ]
     },
     {icon: "accessibility", name: "Diets", childs: [

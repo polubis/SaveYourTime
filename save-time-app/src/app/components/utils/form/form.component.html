@@ -37,9 +37,15 @@
     </p>
   </section>
 
-  <div class="form-footer">
+  <div *ngIf="btnType === 'normal'" class="form-footer">
     <button [disabled]="isErrorsInForm || isSubmiting || isLoadingDataForForm" class="label-btn main-colored" type="submit">{{btnTitle}}</button>
   </div>
+
+  <button *ngIf="btnType === 'circle'"
+  [disabled]="isErrorsInForm || isSubmiting || isLoadingDataForForm"
+  class="circle-btn main-colored perf-flex" type="submit">
+    <i class="material-icons">{{btnTitle}}</i>
+  </button>
 
 </form>
 

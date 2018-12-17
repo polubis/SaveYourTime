@@ -43,17 +43,20 @@ export class ValidationService {
     return length === limit;
   }
   protected runInputValidation(value: any, setting: Setting) {
-    const { label, validators } = setting;
-    const validatorsKeys = Object.keys(validators);
-    const lengthOfKeys = validatorsKeys.length;
-    let isValid = true;
-    for (let i = 0; i < lengthOfKeys; i++) {
-      const key: string = validatorsKeys[i];
-      const result: boolean = this.validationStagger[key](value, validators[key]);
-      if (!result) {
-        return this.errorsStagger[key](label, validators[key]);
+    if (setting.validators) {
+      const { label, validators } = setting;
+      const validatorsKeys = Object.keys(validators);
+      const lengthOfKeys = validatorsKeys.length;
+      let isValid = true;
+      for (let i = 0; i < lengthOfKeys; i++) {
+        const key: string = validatorsKeys[i];
+        const result: boolean = this.validationStagger[key](value, validators[key]);
+        if (!result) {
+          return this.errorsStagger[key](label, validators[key]);
+        }
       }
     }
+
     return '';
   }
 

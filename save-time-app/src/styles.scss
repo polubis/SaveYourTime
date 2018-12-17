@@ -153,6 +153,12 @@ button{
   display: grid;
   height: 100%;
   grid-template-rows: 115px 1fr;
+  .cart-header{
+    padding-bottom: 1em;
+    h2{
+      margin: 0;
+    }
+  }
 }
 .animated-icon{
   transform: rotate(0);
@@ -182,4 +188,39 @@ button{
   }
   height: 80px;
   padding: 0 25px;
+}
+.label-big {
+  span:first-of-type {
+    color: $font;
+    font-size: 18px;
+  }
+  span:last-of-type {
+    font-size: 14px;
+  }
+}
+.label-small {
+  span:first-of-type {
+    font-size: 12px;
+  }
+}
+
+.label {
+  span:first-of-type {
+    color: $content-grey;
+    margin-bottom: 5px;
+    i {
+      cursor: pointer;
+      font-size: 16px;
+      color: $font;
+      margin-left: 5px;
+    }
+  }
+}
+.circle-btn {
+  border-radius: 50%;
+  background: $main;
+  i {
+    color: $font-white;
+    font-size: 20px;
+  }
 }

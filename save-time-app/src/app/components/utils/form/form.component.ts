@@ -10,6 +10,7 @@ export class FormComponent extends Form implements OnInit {
   @Input() classes = '';
   @Input() formSettings: FormSettings;
   @Input() btnTitle = 'SIGN UP';
+  @Input() btnType = 'normal';
   constructor() {
     super();
   }

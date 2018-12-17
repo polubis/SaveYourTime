@@ -28,6 +28,8 @@ import { NotificationComponent } from './components/utils/notifications/notifica
 import { ProductsInstructionComponent } from './components/home/products/products-instruction/products-instruction.component';
 import { NavigationComponent } from "src/app/components/utils/navigation/navigation.component";
 import { UtilsModule } from "src/app/components/utils/utils.module";
+import { ShoppingFormComponent } from './components/common/shopping-form/shopping-form.component';
+import { ShoppingListComponent } from './components/common/shopping-list/shopping-list.component';
 
 
 @NgModule({
@@ -42,7 +44,7 @@ import { UtilsModule } from "src/app/components/utils/utils.module";
     RegisterComponent,
     NotificationsComponent,
     NotificationComponent,
-    ProductsInstructionComponent,
+    ProductsInstructionComponent
   ],
   imports: [
     BrowserModule,

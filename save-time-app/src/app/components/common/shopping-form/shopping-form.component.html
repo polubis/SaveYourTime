@@ -1,0 +1,207 @@
+<div class="shopping">
+  <div class="products-to-add">
+    <h2 class="main-colored">Select products to add</h2>
+
+    <div class="form-container">
+      <p>Filters</p>
+      <app-form [btnTitle]="'add'" [btnType]="'circle'"
+      [classes]="'filter-form'" [formSettings]="filterFormSettings" ></app-form>
+    </div>
+
+
+    <div class="filters-section">
+      <ul class="filters">
+        <li class="filter label label-small">
+          <span>company
+            <i class="material-icons">close</i>
+          </span>
+          <span>Biedronka</span>
+        </li>
+        <li class="filter label label-small">
+          <span>type
+            <i class="material-icons">close</i>
+          </span>
+          <span>wegetables</span>
+        </li>
+        <li class="filter label label-small">
+          <span>price
+            <i class="material-icons">close</i>
+          </span>
+          <span>3.43</span>
+        </li>
+      </ul>
+    </div>
+
+    <ul class="list-products-to-add">
+        <li class="cart">
+            <div class="label-big label">
+              <span>Carrots</span>
+              <span>3.43 zł</span>
+            </div>
+
+            <img src="assets/download.jpeg" />
+
+            <div class="details flex-center">
+              <div class="label small-label">
+                <span>company</span>
+                <span>Morowit</span>
+              </div>
+              <div class="label small-label">
+                <span>store</span>
+                <span>Biedronka</span>
+              </div>
+            </div>
+
+            <div class="footer">
+              <button class="label-btn main-colored">ADD</button>
+            </div>
+          </li>
+      <li class="cart">
+        <div class="label-big label">
+          <span>Carrots</span>
+          <span>3.43 zł</span>
+        </div>
+
+        <img src="assets/download.jpeg" />
+
+        <div class="details flex-center">
+          <div class="label small-label">
+            <span>company</span>
+            <span>Morowit</span>
+          </div>
+          <div class="label small-label">
+            <span>store</span>
+            <span>Biedronka</span>
+          </div>
+        </div>
+
+        <div class="footer">
+          <button class="label-btn main-colored">ADD</button>
+        </div>
+      </li>
+      <li class="cart">
+          <div class="label-big label">
+            <span>Carrots</span>
+            <span>3.43 zł</span>
+          </div>
+
+          <img src="assets/download.jpeg" />
+
+          <div class="details flex-center">
+            <div class="label small-label">
+              <span>company</span>
+              <span>Morowit</span>
+            </div>
+            <div class="label small-label">
+              <span>store</span>
+              <span>Biedronka</span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <button class="label-btn main-colored">ADD</button>
+          </div>
+        </li>
+        <li class="cart">
+            <div class="label-big label">
+              <span>Carrots</span>
+              <span>3.43 zł</span>
+            </div>
+
+            <img src="assets/download.jpeg" />
+
+            <div class="details flex-center">
+              <div class="label small-label">
+                <span>company</span>
+                <span>Morowit</span>
+              </div>
+              <div class="label small-label">
+                <span>store</span>
+                <span>Biedronka</span>
+              </div>
+            </div>
+
+            <div class="footer">
+              <button class="label-btn main-colored">ADD</button>
+            </div>
+          </li>
+
+    </ul>
+
+
+    <div class="recently-added">
+      <p>recently added products</p>
+      <ul class="flex-center">
+        <li>
+          <img src="assets/download.jpeg" />
+        </li>
+        <li>
+          <img src="assets/download.jpeg" />
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+  <div class="added-products">
+    <div class="shopping-details">
+      <h2 class="main-colored">Shopping details</h2>
+      <div class="label">
+        <span>Shopping date</span>
+        <span>19-12-2017 | 16:45</span>
+      </div>
+      <div class="label">
+        <span>Shopping name</span>
+        <span>Zakupy w biedronce</span>
+      </div>
+      <div class="label">
+        <span>Pay way</span>
+        <span>Platność kartą</span>
+      </div>
+    </div>
+
+
+  <ul class="added-product-list">
+    <li class="flex-column cart">
+      <p><b>Carrots</b> <span>3.43 zł</span></p>
+      <div class="flex-center">
+        <span>2x</span>
+        <img src="assets/download.jpeg" />
+      </div>
+      <button class="label-btn danger-color">REMOVE</button>
+    </li>
+    <li class="flex-column cart">
+        <p><b>Carrots</b> <span>3.43 zł</span></p>
+        <div class="flex-center">
+          <img src="assets/download.jpeg" />
+        </div>
+        <button class="label-btn danger-color">REMOVE</button>
+      </li>
+      <li class="flex-column cart">
+          <p><b>Carrots</b> <span>3.43 zł</span></p>
+          <div class="flex-center">
+            <img src="assets/download.jpeg" />
+          </div>
+          <button class="label-btn danger-color">REMOVE</button>
+        </li>
+  </ul>
+
+  <div class="result label small-label">
+    <span>SUM</span>
+    <span class="sum">13.43 zł</span>
+  </div>
+
+  <div class="sbm-btn-container">
+    <button class="submit-btn flex-center">
+      CREATE SHOPPING
+    </button>
+  </div>
+
+</div>
