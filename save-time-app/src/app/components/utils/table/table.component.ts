@@ -7,8 +7,11 @@ import * as tableKeys from './table-keys';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit {
+  @Input() tableClass = 'table-add';
   @Input() title = 'Products';
   @Input() subTitle = 'click row for select';
+  @Input() emptyTitle = 'This table is already empty. Start selecting products';
+
   @Input() keysTitle: string;
 
   @Input() detailsOnHover = false;

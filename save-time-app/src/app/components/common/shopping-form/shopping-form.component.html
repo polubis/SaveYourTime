@@ -11,7 +11,8 @@
   </div>
 
   <div class="selected-products">
-    <app-table [keysTitle]="'selectedProducts'" (rowClick)="removeProductFromSelected($event)"
+    <app-table [tableClass]="'table-remove'"
+    [keysTitle]="'selectedProducts'" (rowClick)="removeProductFromSelected($event)"
     [enableChangingPageSize]="false" [enableFilters]="false" [enablePagination]="false"
     [title]="'Selected products'" [subTitle]="'click at row for remove product'"
     [items]="selectedProducts">

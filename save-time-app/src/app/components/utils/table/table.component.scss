@@ -49,7 +49,33 @@
       }
     }
   }
-
+  .empty-table {
+    color: $content-grey;
+    text-align: center;
+    padding: 1em;
+  }
+  .table-add {
+    tbody {
+      tr {
+        &:hover:not(.selected-row) {
+          td:last-of-type{
+            border-right-color: $main;
+          }
+        }
+      }
+    }
+  }
+  .table-remove {
+    tbody {
+      tr {
+        &:hover:not(.selected-row) {
+          td:last-of-type{
+            border-right-color: $error;
+          }
+        }
+      }
+    }
+  }
   table {
     width: 100%;
     table-layout: fixed;
@@ -72,9 +98,6 @@
         &:hover:not(.selected-row) {
           background: $table-row;
           color: $main;
-          td:last-of-type{
-            border-right-color: $main;
-          }
         }
       }
       .selected-row {
