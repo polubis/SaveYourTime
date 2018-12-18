@@ -2,29 +2,11 @@
 
 .table-wrapper{
   box-shadow: $shadow;
-  .filter-form-wrapper{
-  }
-  .filtering-settings {
-    justify-content: flex-end;
-    & > span {
-      margin-right: 15px;
-    }
-    span {
-      font-size: 12px;
+  position: relative;
+  .filter-form-wrapper {
+    p {
+      padding: 0 0 1em 0;
       color: $content-grey;
-    }
-    .progress {
-      background: $table-row;
-      height: 5px;
-      border-radius: 40px;
-      width: 350px;
-      .progress-val {
-        border-radius: 40px;
-        width: 30%;
-        transition: .4s;
-        background: $main;
-        height: 5px;
-      }
     }
   }
   .filter-wrapper {
@@ -32,6 +14,9 @@
       padding: .75em;
     }
     .filters{
+      p {
+        padding: .5em 0;
+      }
       background: $table-row;
       .filter {
         margin-right: 10px;
@@ -64,6 +49,7 @@
       }
     }
   }
+
   table {
     width: 100%;
     table-layout: fixed;
@@ -77,31 +63,75 @@
       font-size: 14px;
       word-break: break-word;
     }
-  }
-  tbody {
-    tr {
-      cursor: pointer;
-      td:last-of-type{
-        border-right: 2px solid transparent;
+    tbody {
+      tr {
+        cursor: pointer;
+        td:last-of-type{
+          border-right: 2px solid transparent;
+        }
+        &:hover:not(.selected-row) {
+          background: $table-row;
+          color: $main;
+          td:last-of-type{
+            border-right-color: $main;
+          }
+        }
       }
-      &:hover:not(.selected-row) {
+      .selected-row {
         background: $table-row;
         color: $main;
+        font-weight: 500;
         td:last-of-type{
-          border-right-color: $main;
+          border-right: 2px solid transparent;
         }
       }
     }
-    .selected-row {
-      background: $table-row;
-      color: $main;
-      font-weight: 500;
-      td:last-of-type{
-        border-right: 2px solid transparent;
-      }
+    tr:last-of-type{
+      border-bottom: none;
     }
   }
-  tr:last-of-type{
-    border-bottom: none;
+
+
+  .pagination-wrapper {
+    padding: 1em .75em;
+    .filtering-settings {
+      justify-content: flex-end;
+      & > span {
+        margin-right: 15px;
+      }
+      span {
+        font-size: 12px;
+        color: $content-grey;
+      }
+      .progress {
+        background: $table-row;
+        height: 5px;
+        border-radius: 40px;
+        width: 225px;
+        cursor: pointer;
+        .progress-val {
+          border-radius: 40px;
+          width: 30%;
+          transition: .4s;
+          background: $main;
+          height: 5px;
+        }
+      }
+    }
+    .pagination {
+      padding-top: 1em;
+      .paginate-btn {
+        border-radius: 4px;
+        margin: 0 10px 0 0;
+        width: 20px;
+        color: inherit;
+        height: 20px;
+        &:hover {
+          background: $main;
+          color: $font-white;
+        }
+      }
+    }
+
   }
 }

@@ -1,21 +1,24 @@
 <div class="shopping">
+
   <div class="cart-header">
     <h2 class="main-colored">Add new shopping</h2>
   </div>
 
   <div class="products-to-add">
-     <app-table [items]="productsToSelect"></app-table>
+     <app-table [keysTitle]="'productsToSelectKeys'"
+     (rowClick)="addProductToSelected($event)"
+     [items]="productsToSelect"></app-table>
   </div>
 
+  <div class="selected-products">
+    <app-table [keysTitle]="'selectedProducts'" (rowClick)="removeProductFromSelected($event)"
+    [enableChangingPageSize]="false" [enableFilters]="false" [enablePagination]="false"
+    [title]="'Selected products'" [subTitle]="'click at row for remove product'"
+    [items]="selectedProducts">
+      <div class="whole-cost main-colored" *ngIf="sum > 0">
+        {{sum}} zł
+      </div>
+    </app-table>
+  </div>
 
 </div>
-
-
-
-<!--
-
-<div class="form-container">
-  <p>Filters</p>
-  <app-form [btnTitle]="'add'" [btnType]="'circle'"
-  [classes]="'filter-form'" [formSettings]="filterFormSettings" ></app-form>
-</div> -->

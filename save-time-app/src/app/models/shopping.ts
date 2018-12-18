@@ -1,8 +1,10 @@
 import { Product } from "src/app/models/product";
 
 export class ShoppingProduct {
-  constructor(public product: Product, public cost: number, public sum: number, public discount: number, public quantity: number = 1) {
-
+  constructor(public productName: string, public cost: number, public discount: number, public quantity: number = 1, public sum: number = 0) {
+    console.log(cost);
+    const sumVal: number = quantity * cost;
+    this.sum = Math.round(sumVal * 100) / 100
   }
 }
 

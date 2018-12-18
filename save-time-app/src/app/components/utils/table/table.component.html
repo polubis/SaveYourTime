@@ -1,27 +1,22 @@
 <div class="table-wrapper">
-  <div class="filter-wrapper">
-    <div *ngIf="settings" class="filtering-settings flex-center">
-      <span>3 records per page</span>
-      <div class="progress">
-        <div class="progress-val">
-        </div>
-      </div>
-    </div>
 
+  <div *ngIf="enableFilters" class="filter-wrapper">
     <div *ngIf="filters" class="filter-form-wrapper">
+      <p>Apply filters for searching from server</p>
       <app-form [btnTitle]="'add'" [btnType]="'circle'"
       [classes]="'filter-form'" [formSettings]="filterFormSettings" ></app-form>
     </div>
 
     <div *ngIf="filters" class="filters flex-center">
 
-      <div class="filter flex-column">
-        <span class="main-colored">Product name</span>
-        <span>Płatki</span>
-      </div>
-      <div class="filter flex-column">
-        <span class="main-colored">Product name</span>
-        <span>Płatki</span>
+      <p *ngIf="filtersList.length === 0; else filtersRef">
+        Any filters applied
+      </p>
+
+      <div *ngFor="let filter of filtersList"
+      #filtersRef class="filter flex-column">
+        <span class="main-colored">{{filter.category}}</span>
+        <span>{{filter.value}}</span>
       </div>
 
     </div>
@@ -29,15 +24,15 @@
   </div>
 
   <header>
-    <span class="main-colored">Products</span>
-    <span>select products for shopping</span>
+    <span class="main-colored">{{title}}</span>
+    <span>{{subTitle}}</span>
 
-    <button (click)="togle('filters')" class="label-btn-thin flex-center">
+    <button *ngIf="enableFilters" (click)="togle('filters')" class="label-btn-thin flex-center">
       <i class="material-icons">filter_list</i>
       {{filters ? 'SHOW' : 'HIDE'}} FILTERS
     </button>
 
-    <button (click)="togle('settings')" class="label-btn-thin flex-center">
+    <button *ngIf="enableChangingPageSize" (click)="togle('settings')" class="label-btn-thin flex-center">
       <i class="material-icons">settings</i>
       {{settings ? 'SHOW' : 'HIDE'}} SETTINGS
     </button>
@@ -45,37 +40,46 @@
   <table>
     <thead>
       <tr>
-        <th>Product name</th>
-        <th>Company</th>
-        <th>Type</th>
-        <th>Rate</th>
-        <th>Calories</th>
-        <th>Price</th>
+        <th *ngFor="let key of keys">
+          {{key.display}}
+        </th>
       </tr>
     </thead>
 
     <tbody>
-      <tr *ngFor="let item of items; let i = index">
-        <td>
-          {{item.name}}
-        </td>
-        <td>
-          {{item.company}}
-        </td>
-        <td>
-          {{item.type}}
-        </td>
-        <td>
-          {{item.rate}}
-        </td>
-        <td>
-          {{item.calories}}
-        </td>
-        <td>
-          {{item.price}}
+      <tr *ngFor="let item of items; let i = index" (click)="rowClick.emit({item: item, index: i})">
+        <td *ngFor="let key of keys">
+          {{item[key.key]}}
         </td>
       </tr>
     </tbody>
 
   </table>
+
+  <ng-content></ng-content>
+
+  <div class="pagination-wrapper">
+
+    <div *ngIf="settings && enableChangingPageSize" class="filtering-settings flex-center">
+      <span>3 records per page</span>
+      <div class="progress">
+        <div class="progress-val">
+        </div>
+      </div>
+    </div>
+
+    <div class="pagination">
+      <button class="paginate-btn">
+        1
+      </button>
+      <button class="paginate-btn">
+        2
+      </button>
+      <button class="paginate-btn">
+          3
+      </button>
+    </div>
+
+  </div>
+
   </div>
