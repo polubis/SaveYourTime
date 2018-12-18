@@ -1,27 +1,31 @@
-<div class="shopping">
+<app-dropzone>
+  <div class="shopping">
 
-  <div class="cart-header">
-    <h2 class="main-colored">Add new shopping</h2>
+    <div class="cart-header">
+      <h2 class="main-colored">Add new shopping</h2>
+    </div>
+
+    <div class="products-to-add">
+        <app-table
+        (settingChanges)="fetchProducts($event)"
+        [keysTitle]="'productsToSelectKeys'"
+        (rowClick)="addProductToSelected($event)"
+        [items]="productsToSelect"></app-table>
+    </div>
+
+    <div class="selected-products">
+      <app-table [tableClass]="'table-remove'" [emptyTitle]="'This table is already empty. Start selecting products'"
+      [keysTitle]="'selectedProducts'" (rowClick)="removeProductFromSelected($event)"
+      [enableChangingPageSize]="false" [enableFilters]="false" [enablePagination]="false"
+      [title]="'Selected products'" [subTitle]="'click at row for remove product'"
+      [items]="selectedProducts">
+        <div class="whole-cost main-colored" *ngIf="sum > 0">
+          {{sum}} zł
+        </div>
+      </app-table>
+    </div>
+
   </div>
 
-  <div class="products-to-add">
-     <app-table
-     (settingChanges)="fetchProducts($event)"
-     [keysTitle]="'productsToSelectKeys'"
-     (rowClick)="addProductToSelected($event)"
-     [items]="productsToSelect"></app-table>
-  </div>
+</app-dropzone>
 
-  <div class="selected-products">
-    <app-table [tableClass]="'table-remove'" [emptyTitle]="'This table is already empty. Start selecting products'"
-    [keysTitle]="'selectedProducts'" (rowClick)="removeProductFromSelected($event)"
-    [enableChangingPageSize]="false" [enableFilters]="false" [enablePagination]="false"
-    [title]="'Selected products'" [subTitle]="'click at row for remove product'"
-    [items]="selectedProducts">
-      <div class="whole-cost main-colored" *ngIf="sum > 0">
-        {{sum}} zł
-      </div>
-    </app-table>
-  </div>
-
-</div>

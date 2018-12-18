@@ -34,3 +34,14 @@ export class InputBase extends ValidationService {
     reader.readAsDataURL(file);
   }
 }
+
+// import { Tesseract } from "tesseract.ts";
+
+// Tesseract
+// .recognize(file, {
+//   lang: 'pol',
+// })
+// .progress(console.log)
+// .then((res: any) => {
+//     console.log(res.text);
+// })

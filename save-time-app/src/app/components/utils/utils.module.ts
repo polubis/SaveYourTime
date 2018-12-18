@@ -15,15 +15,19 @@ import { FilePickerComponent } from './file-picker/file-picker.component';
 import { EmptyListComponent } from './empty-list/empty-list.component';
 import { TableComponent } from './table/table.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { DropzoneComponent } from './dropzone/dropzone.component';
+import { Dropzone } from "src/app/components/utils/dropzone/dropzone";
 
 @NgModule({
   declarations: [ NavigationComponent, ProductFormComponent, FormComponent, ModalComponent, SpinnerComponent,
-    ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent, ImageDirective, FilePickerComponent, EmptyListComponent, TableComponent, PaginationComponent
+    ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent, ImageDirective, FilePickerComponent, EmptyListComponent, TableComponent, PaginationComponent,
+    Dropzone,
+    DropzoneComponent
   ],
   imports: [ CommonModule ],
   exports: [ NavigationComponent, ProductFormComponent, FormComponent, ModalComponent, SpinnerComponent,
     ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent, ImageDirective,
-    FilePickerComponent, EmptyListComponent, TableComponent, PaginationComponent ]
+    FilePickerComponent, EmptyListComponent, TableComponent, PaginationComponent, Dropzone, DropzoneComponent ]
 })
 export class UtilsModule{
 

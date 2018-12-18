@@ -6,6 +6,7 @@ import { getProducts } from '../../../store/index';
 import { Product } from "src/app/models/product";
 import { Subscription } from "rxjs";
 import { ShoppingProduct } from "src/app/models/shopping";
+
 @Component({
   selector: 'app-shopping-form',
   templateUrl: './shopping-form.component.html',
@@ -76,4 +77,7 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
     this.sum = Math.round(sum * 100) / 100;
   }
 
+  onUploadSuccess() {
+    console.log("Siema");
+  }
 }

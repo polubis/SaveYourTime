@@ -24,7 +24,7 @@ export class ProductFormComponent extends FormBase implements OnInit {
       type: new Setting('type', { isNotEmptyString: true, minLength: 3, maxLength: 50 }),
       calories: new Setting('calories', { isNotEmptyString: true, minLength: 3, maxLength: 50 }),
       price: new Setting('price', { isNotEmptyString: true, minLength: 3, maxLength: 50 }),
-      picturePath: new Setting('product picture', { isPicture: true, isFileWithCorrectSize: 300000 }, '', 'file')
+      picturePath: new Setting('product picture', { isPicture: true }, '', 'file')
     };
 
     this.productFormSettings = this.elementToEdit ?

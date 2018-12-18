@@ -1,0 +1,33 @@
+@import '../../../../colors.scss';
+.dropzone {
+  transition: .2s ease-in-out;
+  transform: scale(1);
+  padding: 0;
+  &::before{
+    content: 'dropped !';
+    position: fixed;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: .4s ease-in-out;
+    top: -50px;
+    margin: 0 auto;
+    color: $font-white;
+    background: $main;
+    max-width: 100px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 4px;
+  }
+}
+.dragging{
+  padding: 25px;
+  background: $side;
+  transform: scale(.96);
+}
+.dropped {
+  &::before {
+    top: 25px;
+    opacity: 1;
+  }
+}

@@ -6,4 +6,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'save-time-app';
+  constructor() {
+    window.addEventListener("dragover", function(e){
+      e.preventDefault();
+    },false);
+    window.addEventListener("drop", function(e){
+      e.preventDefault();
+    },false);
+  }
 }

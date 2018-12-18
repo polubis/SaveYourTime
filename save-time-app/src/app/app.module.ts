@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -30,7 +30,10 @@ import { NavigationComponent } from "src/app/components/utils/navigation/navigat
 import { UtilsModule } from "src/app/components/utils/utils.module";
 import { ShoppingFormComponent } from './components/common/shopping-form/shopping-form.component';
 import { ShoppingListComponent } from './components/common/shopping-list/shopping-list.component';
+import localePl from '@angular/common/locales/pl';
+import { registerLocaleData } from "@angular/common";
 
+registerLocaleData(localePl);
 
 @NgModule({
   declarations: [
@@ -55,7 +58,9 @@ import { ShoppingListComponent } from './components/common/shopping-list/shoppin
     EffectsModule.forRoot([ProductsEffects, UsersEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'pl' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
