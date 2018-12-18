@@ -1,6 +1,6 @@
 <div class="image-preview" *ngIf="path">
-  <img [src]="path" image (click)="filePicking.click($event)"/>
-  <div (click)="changing.emit('')" class="transparent-bg perf-flex">
+  <img [src]="path" image (click)="filePicking.click($event)" (error)="removeDeleteOption()"/>
+  <div *ngIf="deleteOption" (click)="changing.emit('')" class="transparent-bg perf-flex">
     <i class="material-icons remove-input-icon animated-icon">delete</i>
   </div>
 </div>
