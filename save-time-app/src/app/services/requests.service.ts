@@ -6,7 +6,7 @@ import { Observable, of, throwError } from "rxjs";
 import { AppState } from "src/app/app.reducers";
 import { Store } from "@ngrx/store";
 import { Notification } from '../models/notification';
-import { PushNotification, RemoveNotification } from '../store/notifications/actions';
+import { TryPushNotification } from '../store/notifications/actions';
 import { getNotifications } from '../store/index';
 
 @Injectable({providedIn: 'root'})
@@ -50,13 +50,17 @@ export class RequestsService {
     return request.pipe(
       mergeMap((response: any) => {
         if (this.succesfullMessages[settingKey]) {
-          this.pushNotifications(settingKey, this.succesfullMessages[settingKey], 'ok');
+          this.store.dispatch(new TryPushNotification(
+            new Notification(this.succesfullMessages[settingKey], 'ok', settingKey)
+          ));
         }
         return of(response);
       }),
       catchError((error: HttpErrorResponse) => {
         if (shouldShowError) {
-          this.pushNotifications(settingKey, this.handleError(error), 'error');
+          this.store.dispatch(new TryPushNotification(
+            new Notification(this.handleError(error), 'error', settingKey)
+          ));
         }
         if(callback) callback();
 
@@ -88,19 +92,6 @@ export class RequestsService {
     }
 
     return 'Ups something goes wrong...'
-  }
-
-  pushNotifications(settingKey: string, message: string, notificationType: string) {
-    this.store.select(getNotifications).pipe(take(1))
-      .subscribe((notifications: Notification[]) => {
-        const index = notifications.findIndex(notif => notif.id === settingKey);
-        if (index !== -1) {
-          this.store.dispatch(new RemoveNotification(index));
-        }
-
-        const notification = new Notification(message, notificationType, settingKey);
-        this.store.dispatch(new PushNotification(notification));
-      });
   }
 
   prepareRequestParams(requestPath: string, type: string, payload?: any): Observable<any> {

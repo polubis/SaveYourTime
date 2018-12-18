@@ -32,6 +32,7 @@ import { ShoppingFormComponent } from './components/common/shopping-form/shoppin
 import { ShoppingListComponent } from './components/common/shopping-list/shopping-list.component';
 import localePl from '@angular/common/locales/pl';
 import { registerLocaleData } from "@angular/common";
+import { NotificationsEffects } from "src/app/store/notifications/effects";
 
 registerLocaleData(localePl);
 
@@ -55,7 +56,7 @@ registerLocaleData(localePl);
     HttpClientModule,
     UtilsModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([ProductsEffects, UsersEffects]),
+    EffectsModule.forRoot([ProductsEffects, UsersEffects, NotificationsEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [

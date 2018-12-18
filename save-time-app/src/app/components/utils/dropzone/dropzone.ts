@@ -3,7 +3,7 @@ import { InputBase } from "src/app/services/input-base";
 import { Setting } from "src/app/components/utils/form/form";
 import { AppState } from "src/app/app.reducers";
 import { Store } from "@ngrx/store";
-import { PushNotification } from "src/app/store/notifications/actions";
+import { TryPushNotification } from "src/app/store/notifications/actions";
 import { Notification } from '../../../models/notification';
 
 @Directive({
@@ -45,7 +45,7 @@ export class Dropzone extends InputBase implements OnInit {
           }, 500);
         } else {
           const notification = new Notification(this.error, 'error', 'dropzone', false);
-          this.store.dispatch(new PushNotification(notification));
+          this.store.dispatch(new TryPushNotification(notification));
           this.elementClass = this.defaultClass;
         }
       } else {
