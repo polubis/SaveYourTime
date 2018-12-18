@@ -6,11 +6,11 @@
     </div>
 
     <div class="products-to-add">
-        <app-table
-        (settingChanges)="fetchProducts($event)"
-        [keysTitle]="'productsToSelectKeys'"
-        (rowClick)="addProductToSelected($event)"
-        [items]="productsToSelect"></app-table>
+      <app-table
+      (settingChanges)="fetchProducts($event)"
+      [keysTitle]="'productsToSelectKeys'"
+      (rowClick)="addProductToSelected($event)"
+      [items]="productsToSelect"></app-table>
     </div>
 
     <div class="selected-products">
