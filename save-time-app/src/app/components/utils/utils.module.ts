@@ -14,15 +14,16 @@ import { ImageDirective } from "src/app/components/utils/image-directive";
 import { FilePickerComponent } from './file-picker/file-picker.component';
 import { EmptyListComponent } from './empty-list/empty-list.component';
 import { TableComponent } from './table/table.component';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
   declarations: [ NavigationComponent, ProductFormComponent, FormComponent, ModalComponent, SpinnerComponent,
-    ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent, ImageDirective, FilePickerComponent, EmptyListComponent, TableComponent
+    ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent, ImageDirective, FilePickerComponent, EmptyListComponent, TableComponent, PaginationComponent
   ],
   imports: [ CommonModule ],
   exports: [ NavigationComponent, ProductFormComponent, FormComponent, ModalComponent, SpinnerComponent,
     ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent, ImageDirective,
-    FilePickerComponent, EmptyListComponent, TableComponent ]
+    FilePickerComponent, EmptyListComponent, TableComponent, PaginationComponent ]
 })
 export class UtilsModule{
 

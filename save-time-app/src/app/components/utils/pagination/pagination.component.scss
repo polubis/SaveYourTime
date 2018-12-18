@@ -1,0 +1,18 @@
+@import '../../../../colors.scss';
+.pagination {
+  padding-top: 1em;
+  .paginate-btn {
+    border-radius: 4px;
+    margin: 0 10px 10px 0;
+    color: inherit;
+    padding: 5px;
+    &:hover {
+      background: $main;
+      color: $font-white;
+    }
+  }
+  .focused-page {
+    background: $main;
+    color: $font-white;
+  }
+}

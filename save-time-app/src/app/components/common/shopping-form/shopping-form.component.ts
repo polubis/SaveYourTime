@@ -27,7 +27,12 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
     this.productsSubscription = this.store.select(state => state.products.products).subscribe((products: Product[]) => {
       this.productsToSelect = products;
     });
-    this.store.dispatch(new FetchProducts());
+    this.fetchProducts({size: 10, page: 1});
+  }
+
+  fetchProducts(settings: {size: number, page: number}) {
+    let query = `?size=${settings.size}&page=${settings.page}`;
+    this.store.dispatch(new FetchProducts(query));
   }
 
   ngOnDestroy() {

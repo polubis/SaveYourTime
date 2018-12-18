@@ -27,10 +27,12 @@ export class Setting {
 }
 
 export class Form extends ValidationService {
+  @ViewChild('form') formRef: ElementRef;
   initialSnapshot: FormState;
   preview: any = "";
   @Input() isSubmiting;
   @Input() elementToEdit?: any;
+  @Input() indexOfInputToFocusAfterSubmit?: number;
   @Output() submiting = new EventEmitter<FormState>()
   formState: FormState;
   formErrors: FormErrors;
@@ -151,6 +153,7 @@ export class Form extends ValidationService {
     this.formErrors = result.errors;
 
     if (!this.isErrorsInForm) {
+      this.formRef.nativeElement[this.indexOfInputToFocusAfterSubmit ? this.indexOfInputToFocusAfterSubmit.toString() : '0'].focus();
       this.submiting.emit(this.formState);
     }
   }

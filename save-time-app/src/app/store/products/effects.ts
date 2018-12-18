@@ -23,12 +23,12 @@ export class ProductsEffects {
   @Effect()
   productsFetching = this.actions$.ofType(ProductsActions.FETCH_PRODUCTS).pipe(
     switchMap((action: ProductsActions.FetchProducts) => {
-      return this.requestsService.execute('products');
+      return this.requestsService.execute('products', {}, null, action.payload);
     }),
-    map((response: {products: Product[]}) => {
+    map((response: {products: Product[], count: number}) => {
       return {
         type: ProductsActions.SET_PRODUCTS,
-        payload: response.products
+        payload: {products: response.products, productsCount: response.count}
       };
     })
   );

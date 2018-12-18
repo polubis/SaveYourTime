@@ -1,0 +1,5 @@
+<div class="pagination">
+  <button (click)="changePage(page)" class="paginate-btn" *ngFor="let page of pages" [ngClass]="{'focused-page': currentPage === page}">
+    {{page}}
+  </button>
+</div>

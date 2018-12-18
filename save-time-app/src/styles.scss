@@ -218,3 +218,13 @@ button{
     font-size: 12px;
   }
 }
+@keyframes animate-link {
+  from {
+      opacity: 0;
+      transform: translateY(-7.5px);
+  }
+  to{
+      opacity: 1;
+      transform: translateY(0);
+  }
+}

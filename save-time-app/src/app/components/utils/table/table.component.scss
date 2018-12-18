@@ -13,13 +13,18 @@
     & > div {
       padding: .75em;
     }
-    .filters{
+    div.filters{
+      padding: 0 .75em;
       p {
-        padding: .5em 0;
+        padding: .75em 0;
       }
+      display: flex;
+      flex-flow: wrap;
       background: $table-row;
       .filter {
-        margin-right: 10px;
+        animation: .4s animate-link forwards;
+        margin: .75em .75em .75em 0;
+        cursor: pointer;
         span.main-colored {
           margin-right: 5px;
           font-size: 12px;
@@ -116,7 +121,7 @@
 
 
   .pagination-wrapper {
-    padding: 1em .75em;
+    padding: 0 .75em;
     .filtering-settings {
       justify-content: flex-end;
       & > span {
@@ -131,30 +136,29 @@
         height: 5px;
         border-radius: 40px;
         width: 225px;
-        cursor: pointer;
-        .progress-val {
-          border-radius: 40px;
-          width: 30%;
-          transition: .4s;
-          background: $main;
+        position: relative;
+        .progress-val, .markers span {
           height: 5px;
         }
-      }
-    }
-    .pagination {
-      padding-top: 1em;
-      .paginate-btn {
-        border-radius: 4px;
-        margin: 0 10px 0 0;
-        width: 20px;
-        color: inherit;
-        height: 20px;
-        &:hover {
+        .progress-val, .markers {
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+        .progress-val {
+          border-radius: 40px;
+          transition: .4s;
           background: $main;
-          color: $font-white;
+        }
+        .markers {
+          z-index: 1;
+          width: 100%;
+          span {
+            float: left;
+            cursor: pointer;
+          }
         }
       }
     }
-
   }
 }

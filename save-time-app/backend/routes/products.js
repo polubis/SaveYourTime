@@ -28,9 +28,30 @@ const storage = multer.diskStorage({
 });
 
 router.get('', (req, res, next) => {
-  Product.find().then(documents => {
+
+  const size = +req.query.size;
+  const page = +req.query.page;
+  const productsQuery = Product.find();
+  let products;
+  console.log(size, page);
+  if (size && page) {
+    productsQuery.skip((page - 1) * size).limit(size);
+  }
+
+  productsQuery.then(documents => {
+    products = documents;
+    return Product.countDocuments();
+  })
+  .then(count => {
     res.status(200).json({
-      products: documents
+      count,
+      products
+    })
+  })
+  .catch(error => {
+    console.log(error);
+    res.status(400).json({
+      error: 'There is a problem with fetching products. Query params can be incorrect'
     });
   });
 });

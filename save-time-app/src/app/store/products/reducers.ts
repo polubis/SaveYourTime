@@ -2,7 +2,8 @@ import * as fromApp from '../../app.reducers';
 import { Product } from "src/app/models/product";
 import * as ProductsActions from './actions';
 export interface State {
-  products: Product[],
+  products: Product[];
+  productsCount: number;
   isAddingOrEditingProduct: boolean;
   isRemovingProduct: boolean;
   removingProductStatus?: boolean;
@@ -10,6 +11,7 @@ export interface State {
 
 const initialState: State = {
   products: [],
+  productsCount: 0,
   isAddingOrEditingProduct: false,
   isRemovingProduct: false,
   removingProductStatus: null
@@ -20,7 +22,8 @@ export function productsReducer(state = initialState, action: ProductsActions.Pr
       case ProductsActions.SET_PRODUCTS:
         return {
             ...state,
-            products: [...action.payload]
+            products: [...action.payload.products],
+            productsCount: action.payload.productsCount
         };
       case ProductsActions.PUSH_PRODUCT:
         return {
@@ -78,4 +81,4 @@ export function productsReducer(state = initialState, action: ProductsActions.Pr
 }
 export const isAddingOrEditing = (state: State) => state.isAddingOrEditingProduct;
 export const products = (state: State) => state.products;
-
+export const productsCount = (state: State) => state.productsCount;

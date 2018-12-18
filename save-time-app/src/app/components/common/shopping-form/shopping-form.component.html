@@ -5,13 +5,15 @@
   </div>
 
   <div class="products-to-add">
-     <app-table [keysTitle]="'productsToSelectKeys'"
+     <app-table
+     (settingChanges)="fetchProducts($event)"
+     [keysTitle]="'productsToSelectKeys'"
      (rowClick)="addProductToSelected($event)"
      [items]="productsToSelect"></app-table>
   </div>
 
   <div class="selected-products">
-    <app-table [tableClass]="'table-remove'"
+    <app-table [tableClass]="'table-remove'" [emptyTitle]="'This table is already empty. Start selecting products'"
     [keysTitle]="'selectedProducts'" (rowClick)="removeProductFromSelected($event)"
     [enableChangingPageSize]="false" [enableFilters]="false" [enablePagination]="false"
     [title]="'Selected products'" [subTitle]="'click at row for remove product'"

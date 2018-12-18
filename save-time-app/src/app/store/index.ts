@@ -21,3 +21,7 @@ export const getAddingOrEditingState = createSelector(
 export const getProducts = createSelector(
   selectProductsEntity, fromProducts.products
 );
+
+export const getProductsCount = createSelector(
+  selectProductsEntity, fromProducts.productsCount
+);

@@ -18,11 +18,12 @@ export const START_VOTING = "[Products] START_VOTING";
 
 export class SetProducts implements Action{
     readonly type = SET_PRODUCTS;
-    constructor(public payload: Product[]){}
+    constructor(public payload: {products: Product[], productsCount: number}){}
 }
 
 export class FetchProducts implements Action {
     readonly type = FETCH_PRODUCTS;
+    constructor(public payload: string = '') {}
 }
 
 export class PushProduct implements Action {
