@@ -77,7 +77,7 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
     this.sum = Math.round(sum * 100) / 100;
   }
 
-  onUploadSuccess() {
-    console.log("Siema");
+  handleDropReceipt(data: File | File[]) {
+    console.log(data);
   }
 }

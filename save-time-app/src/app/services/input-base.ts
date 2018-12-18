@@ -9,7 +9,7 @@ export class InputBase extends ValidationService {
   setting: Setting;
   @Output() changing = new EventEmitter<any>();
   @Input() value?: any;
-  constructor(setting: Setting) {
+  constructor(setting?: Setting) {
     super();
     this.setting = setting;
   }
@@ -24,7 +24,7 @@ export class InputBase extends ValidationService {
     const file = (event.target as HTMLInputElement).files[0];
     const reader = new FileReader();
     reader.onload = () => {
-      this.error = super.runInputValidation(file, this.setting);
+      this.onFileReaded(file);
       if (!this.error) {
         this.preview = reader.result;
         this.changing.emit(file);
@@ -32,6 +32,10 @@ export class InputBase extends ValidationService {
       this.isDoingAsync = false;
     };
     reader.readAsDataURL(file);
+  }
+
+  onFileReaded(file: File) {
+    if (this.setting) this.error = super.runInputValidation(file, this.setting);
   }
 }
 

@@ -2,11 +2,13 @@
 .dropzone {
   transition: .2s ease-in-out;
   transform: scale(1);
+
   padding: 0;
   &::before{
     content: 'dropped !';
     position: fixed;
     left: 0;
+    z-index: 2;
     right: 0;
     opacity: 0;
     transition: .4s ease-in-out;
@@ -21,7 +23,6 @@
   }
 }
 .dragging{
-  padding: 25px;
   background: $side;
   transform: scale(.96);
 }

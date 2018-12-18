@@ -1,52 +1,62 @@
 import { Directive, HostListener, HostBinding, Input, EventEmitter, Output, OnInit } from "@angular/core";
-import { Subscription, Subject } from "rxjs";
-import { debounceTime, tap, filter } from "rxjs/operators";
+import { InputBase } from "src/app/services/input-base";
+import { Setting } from "src/app/components/utils/form/form";
+import { AppState } from "src/app/app.reducers";
+import { Store } from "@ngrx/store";
+import { PushNotification } from "src/app/store/notifications/actions";
+import { Notification } from '../../../models/notification';
 
 @Directive({
   selector: "[dropzone]"
 })
-export class Dropzone implements OnInit {
-  isMouseAtElement = false;
-  subscription: Subscription;
-  private drag = new Subject<Event>();
-
+export class Dropzone extends InputBase implements OnInit {
   @Input() defaultClass: string = 'dropzone';
   @Input() dragingClass: string = 'dragging';
   @Input() droppingClass: string = 'dropped';
+
+  @Input() givenSettings: Setting = null;
 
   @HostBinding('class')
   elementClass = '';
 
   ngOnInit() {
     this.elementClass = this.defaultClass;
-    this.subscription = this.drag.pipe(
-      )
-      .subscribe((e: Event) => {
-        this.isMouseAtElement = true;
-        this.elementClass = this.defaultClass + ' ' + this.dragingClass;
-      });
+    this.setting = this.givenSettings;
   }
-
-  constructor() {
+  constructor(private store: Store<AppState>) {
+    super();
   }
-
-  @Output() filesDropped = new EventEmitter<any>();
+  @Output() filesDropped = new EventEmitter<File | File[]>();
 
   @HostListener('drop', ['$event'])
     onDrop($event) {
       $event.preventDefault();
       let transfer = $event.dataTransfer;
-      this.filesDropped.emit(transfer.files);
-      this.elementClass = this.defaultClass + ' ' + this.droppingClass;
-      setTimeout(() => {
+
+      if(transfer.files.length > 0) {
+
+        this.onFileReaded(transfer.files[0]);
+
+        if (!this.error) {
+          this.filesDropped.emit(transfer.files);
+          this.elementClass = this.defaultClass + ' ' + this.droppingClass;
+          setTimeout(() => {
+            this.elementClass = this.defaultClass;
+          }, 500);
+        } else {
+          const notification = new Notification(this.error, 'error', 'dropzone', false);
+          this.store.dispatch(new PushNotification(notification));
+          this.elementClass = this.defaultClass;
+        }
+      } else {
         this.elementClass = this.defaultClass;
-      }, 500);
+      }
     }
 
   @HostListener('dragover', ['$event'])
     onDragOver($event) {
       $event.preventDefault();
-      this.drag.next($event);
+      this.elementClass = this.defaultClass + ' ' + this.dragingClass;
     }
 
   @HostListener('dragleave', ['$event'])

@@ -22,6 +22,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
   @Input() content: string;
   @Input() type: string;
   @Input() closeNotificationTime = 5000;
+  @Input() pausing: boolean;
   @Output() removing = new EventEmitter<void>();
 
   subscription: Subscription;
@@ -36,7 +37,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
   constructor() { }
 
   pauseCounting() {
-    this.subscription.unsubscribe();
+    if (this.pausing)
+      this.subscription.unsubscribe();
   }
 
   ngOnInit() {
