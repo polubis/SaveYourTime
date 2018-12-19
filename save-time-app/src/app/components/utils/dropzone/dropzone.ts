@@ -4,6 +4,7 @@ import { Store } from "@ngrx/store";
 import { TryPushNotification } from "src/app/store/notifications/actions";
 import { Notification } from '../../../models/notification';
 import { Validators } from "src/app/components/utils/form/validation.service";
+import { interval } from "rxjs";
 
 export interface ValidatorConfig {
   content: string;
@@ -14,7 +15,7 @@ export interface IDropzone {
   blackList?: ValidatorConfig;
   size?: ValidatorConfig;
   filesTypes?: ValidatorConfig;
-  maxFiles?: ValidatorConfig;
+  maxFiles: ValidatorConfig;
 }
 
 export class DropzoneBase extends Validators {
@@ -32,9 +33,12 @@ export class DropzoneBase extends Validators {
 
     for(let key in configKeys) {
       const ruleName = configKeys[key];
-      const error = this.configFunctionsRefs[ruleName](file, config[ruleName]);
-      if (error)
-        return  file.name + ' ' + error;
+      if (this.configFunctionsRefs[ruleName]) {
+        const error = this.configFunctionsRefs[ruleName](file, config[ruleName]);
+        if (error) {
+          return  file.name + ' ' + error;
+        }
+      }
     }
 
     return '';
@@ -62,7 +66,6 @@ export class Dropzone extends DropzoneBase implements OnInit {
   @HostBinding('class')
   elementClass = '';
 
-
   ngOnInit() {
     this.elementClass = this.defaultClass;
   }
@@ -72,23 +75,42 @@ export class Dropzone extends DropzoneBase implements OnInit {
   @HostListener('drop', ['$event'])
     onDrop($event) {
       $event.preventDefault();
-      let transfer = $event.dataTransfer;
+      const files: File[] = $event.dataTransfer.files;
+      const filesLength = files.length;
+      const correctFiles: File[] = [];
 
-      if(transfer.files.length > 0) {
+      if(filesLength > 0) {
 
-        const error = super.check(transfer.files[0], this.config);
+        const { value, content } = this.config.maxFiles;
 
-        if (!error) {
-          this.filesDropped.emit(transfer.files);
+        if (filesLength > value) {
+          this.handlePromptingErrors(content + value.toString(), 'dropzone');
+          this.elementClass = this.defaultClass;
+        }
+        else {
           this.elementClass = this.defaultClass + ' ' + this.droppingClass;
           setTimeout(() => {
             this.elementClass = this.defaultClass;
           }, 500);
-        } else {
-          const notification = new Notification(error, 'error', 'dropzone', false);
-          this.store.dispatch(new TryPushNotification(notification));
-          this.elementClass = this.defaultClass;
+
+          for(let key in files) {
+            if(files[key].size) {
+              const file: File = files[key];
+              const error = super.check(file, this.config);
+              if (error) {
+                setTimeout(() => {
+                  this.handlePromptingErrors(error, 'dropzone' + file.name);
+                }, 150);
+                this.elementClass = this.defaultClass;
+              } else {
+                correctFiles.push(file);
+              }
+            }
+          }
+
+          this.filesDropped.emit(correctFiles);
         }
+
       } else {
         this.elementClass = this.defaultClass;
       }
@@ -104,4 +126,9 @@ export class Dropzone extends DropzoneBase implements OnInit {
     onDragleave($event) {
       this.elementClass = this.defaultClass;
     }
+
+  handlePromptingErrors(content: string, id: any) {
+    const notification = new Notification(content, 'error', id, false);
+    this.store.dispatch(new TryPushNotification(notification));
+  }
 }

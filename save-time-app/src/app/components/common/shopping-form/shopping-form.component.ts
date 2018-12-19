@@ -32,8 +32,9 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
   filesNamesInExtractingProcess: string[];
 
   receiptConfig: IDropzone = {
-    blackList: { content: 'file is already in extract process', value: [] },
-    filesTypes: { content: 'file should be a jpg/jpeg/png format', value: ['image/jpg', 'image/jpeg', 'image/png'] }
+    blackList: { content: 'file is already in extract receipts', value: [] },
+    filesTypes: { content: 'file should be a jpg/jpeg/png format', value: ['image/jpg', 'image/jpeg', 'image/png'] },
+    maxFiles: { content: 'To many files was dropped. Limit is ', value: 3 }
   };
 
   putFilesInterval: Observable<number> = interval(200);
