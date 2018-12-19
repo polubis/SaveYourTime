@@ -17,7 +17,7 @@
         <span class="description" *ngIf="operations[key].isProcessing">{{operations[key].description}}...</span>
 
         <span *ngIf="!operations[key].isProcessing" class="flex-center btn-holder">
-          <button class="label-btn">
+          <button (click)="onConfirm(key)" class="label-btn">
             OK
           </button>
           <button *ngIf="operations[key].finishStatus === 'error'" class="label-btn main-colored">

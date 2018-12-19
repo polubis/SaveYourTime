@@ -15,13 +15,19 @@ const initialState: State = {
 
 export function operationsReducer(state = initialState, action: OperationsActions.OperationsActions){
     switch(action.type){
-        case OperationsActions.PUT_OPERATION:
-          return {
-              ...state,
-              filesToExtract: {...state.filesToExtract, ...action.payload}
-          };
-        default:
-            return state;
+      case OperationsActions.PUT_OPERATION:
+        return {
+          ...state,
+          filesToExtract: {...state.filesToExtract, ...action.payload}
+        };
+      case OperationsActions.SET_OPERATIONS:
+        console.log(action.payload);
+        return {
+          ...state,
+          filesToExtract: {...action.payload}
+        }
+      default:
+        return state;
     }
 }
 

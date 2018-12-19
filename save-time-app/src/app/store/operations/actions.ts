@@ -5,6 +5,8 @@ import { IFileToExtract } from "src/app/store/operations/reducers";
 
 export const TRY_PUT_OPERATION = "[Operations] TRY_PUT_OPERATION";
 export const PUT_OPERATION = "[Operations] PUT_OPERATION";
+export const TRY_REMOVE_OPERATION = "[Operations] TRY_REMOVE_OPERATION";
+export const SET_OPERATIONS = "[Operations] SET_OPERATIONS";
 
 export class TryPutOperation {
   readonly type = TRY_PUT_OPERATION;
@@ -18,4 +20,14 @@ export class PutOperation {
   }
 }
 
-export type OperationsActions = PutOperation | TryPutOperation;
+export class SetOperations {
+  readonly type = SET_OPERATIONS;
+  constructor(public payload: IFileToExtract) {}
+}
+
+export class TryRemoveOperation {
+  readonly type = TRY_REMOVE_OPERATION;
+  constructor(public payload: string) {}
+}
+
+export type OperationsActions = PutOperation | TryPutOperation | SetOperations | TryRemoveOperation;

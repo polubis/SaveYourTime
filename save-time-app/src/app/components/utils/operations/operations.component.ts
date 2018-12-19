@@ -6,6 +6,8 @@ import { Subscription } from "rxjs";
 import { getFilesToExtract } from '../../../store/index';
 import { Tesseract } from "tesseract.ts";
 import { OperationState, Operation } from "src/app/models/operation-state";
+import { TryRemoveOperation } from "src/app/store/operations/actions";
+import { filter } from "rxjs/operators";
 @Component({
   selector: 'app-operations',
   templateUrl: './operations.component.html',
@@ -27,29 +29,30 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
   filesSubscription: Subscription;
   ngOnInit() {
-    this.filesSubscription = this.store.select(getFilesToExtract)
+    this.filesSubscription = this.store.select(getFilesToExtract).pipe(filter(files => files ? true : false))
       .subscribe((files: IFileToExtract) => {
-        if(files) {
-          const keys = Object.keys(files);
-          const keysCount = keys.length;
-          if(keysCount > 0 && keysCount > this.operationsKeys.length) {
-            const operationState = new OperationState(true, '', 0, 'starting extracing data from file...');
-            const operationName = keys[keysCount-1];
+        const filesKeys: string[] = Object.keys(files);
+        const filesLength = filesKeys.length;
 
-            const operation: Operation = {
-              [operationName]: operationState
-            };
-            this.operations = { ...this.operations, ...operation };
-            this.previewOpened = true;
-            this.containsOperations = true;
-
-            this.convertImageToText(files[operationName], operationName);
-          } else {
-            this.previewOpened = false;
-            this.containsOperations = false;
-          }
-          this.operationsKeys = keys;
+        if (filesLength === 0) {
+          this.previewOpened = false;
+          this.containsOperations = false;
         }
+        else if (filesLength > this.operationsKeys.length) {
+          const operationState = new OperationState(true, '', 0, 'starting extracing data from file...');
+          const operationName = filesKeys[filesLength-1];
+
+          const operation: Operation = {
+            [operationName]: operationState
+          };
+          this.operations = { ...this.operations, ...operation };
+
+          this.previewOpened = true;
+          this.containsOperations = true;
+          this.convertImageToText(files[operationName], operationName);
+        }
+
+        this.operationsKeys = filesKeys;
       });
   }
 
@@ -62,10 +65,10 @@ export class OperationsComponent implements OnInit, OnDestroy {
   }
 
   onConfirm(key: string) {
-
+    this.store.dispatch(new TryRemoveOperation(key));
   }
 
-  onRetry(key: string) {
+  onRetry(id: string) {
 
   }
 
@@ -79,3 +82,26 @@ export class OperationsComponent implements OnInit, OnDestroy {
     })
   }
 }
+
+// if(files) {
+//   const keys = Object.keys(files);
+//   const keysCount = keys.length;
+//   if(keysCount > 0 && keysCount > this.operationsKeys.length) {
+//     const operationState = new OperationState(true, '', 0, 'starting extracing data from file...');
+//     const operationName = keys[keysCount-1];
+
+//     const operation: Operation = {
+//       [operationName]: operationState
+//     };
+//     this.operations = { ...this.operations, ...operation };
+//     this.previewOpened = true;
+//     this.containsOperations = true;
+
+//     this.convertImageToText(files[operationName], operationName);
+//   } else {
+//     this.previewOpened = false;
+//     this.containsOperations = false;
+
+//   }
+//   this.operationsKeys = keys;
+// }
