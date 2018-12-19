@@ -1,4 +1,4 @@
-<app-dropzone (dropped)="handleDropReceipt($event)">
+<app-dropzone (dropped)="handleDropReceipt($event)" [blackList]="filesNamesInExtractingProcess">
   <div class="shopping">
 
     <div class="cart-header">

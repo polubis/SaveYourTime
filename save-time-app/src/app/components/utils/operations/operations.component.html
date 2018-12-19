@@ -1,0 +1,37 @@
+<div *ngIf="containsOperations" class="progress-bars" [ngClass]="{'progress-open': previewOpened, 'progress-closed': !previewOpened}">
+  <h4 class="flex-center">
+    <span>Currently processed objects</span>
+    <i (click)="togle('previewOpened')" class="material-icons">fullscreen_exit</i>
+  </h4>
+  <ul>
+    <li *ngFor="let key of operationsKeys">
+      <p class="flex-center progress-description">
+        <span [class]="'flex-center ' + operations[key].finishStatus">
+          <i class="material-icons">{{statusIcons[operations[key].finishStatus] ? statusIcons[operations[key].finishStatus] : 'file_upload'}}</i>
+          {{key}}
+        </span>
+        <span *ngIf="operations[key].isProcessing">operation</span>
+      </p>
+      <p class="flex-center progress-ratio">
+        <span>{{operations[key].value}} %</span>
+        <span class="description" *ngIf="operations[key].isProcessing">{{operations[key].description}}...</span>
+
+        <span *ngIf="!operations[key].isProcessing" class="flex-center btn-holder">
+          <button class="label-btn">
+            OK
+          </button>
+          <button *ngIf="operations[key].finishStatus === 'error'" class="label-btn main-colored">
+            RETRY
+          </button>
+        </span>
+
+      </p>
+    </li>
+  </ul>
+  <div class="progress-footer"></div>
+</div>
+<button *ngIf="containsOperations" (click)="togle('previewOpened')" class="circle-btn" [ngClass]="{'btn-closed': previewOpened, 'btn-open': !previewOpened}">
+  <i class="material-icons">
+    fullscreen
+  </i>
+</button>

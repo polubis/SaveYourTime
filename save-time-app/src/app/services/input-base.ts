@@ -37,15 +37,14 @@ export class InputBase extends ValidationService {
   onFileReaded(file: File) {
     if (this.setting) this.error = super.runInputValidation(file, this.setting);
   }
+
+  isOnBlackList(fileName: string, blackList: string[]) {
+    if(blackList) {
+      this.error = blackList.findIndex(x => x === fileName) !== -1 ? `File ${fileName} is already in extracting process` : '';
+    }
+    else {
+      this.error = '';
+    }
+  }
 }
 
-// import { Tesseract } from "tesseract.ts";
-
-// Tesseract
-// .recognize(file, {
-//   lang: 'pol',
-// })
-// .progress(console.log)
-// .then((res: any) => {
-//     console.log(res.text);
-// })

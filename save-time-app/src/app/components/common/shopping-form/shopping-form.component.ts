@@ -2,10 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppState } from "src/app/app.reducers";
 import { Store } from "@ngrx/store";
 import { FetchProducts, StartRemovingProduct, SetRemovingProductState } from '../../../store/products/actions';
-import { getProducts } from '../../../store/index';
 import { Product } from "src/app/models/product";
 import { Subscription } from "rxjs";
 import { ShoppingProduct } from "src/app/models/shopping";
+import { TryPutOperation, TryPutOperations } from "src/app/store/operations/actions";
+import { getFilesToExtract } from "src/app/store";
+import { IFileToExtract } from "src/app/store/operations/reducers";
 
 @Component({
   selector: 'app-shopping-form',
@@ -18,13 +20,21 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>) { }
 
   productsSubscription: Subscription;
+  extractedFileSub: Subscription;
 
   productsToSelect: Product[];
 
   selectedProducts: ShoppingProduct[] = [];
   sum: number = 0;
 
+  filesNamesInExtractingProcess: string[];
+
   ngOnInit() {
+    this.extractedFileSub = this.store.select(getFilesToExtract).subscribe((extractedFiles: IFileToExtract) => {
+      if (extractedFiles) {
+        this.filesNamesInExtractingProcess = Object.keys(extractedFiles);
+      }
+    })
     this.productsSubscription = this.store.select(state => state.products.products).subscribe((products: Product[]) => {
       this.productsToSelect = products;
     });
@@ -38,6 +48,7 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.productsSubscription.unsubscribe();
+    this.extractedFileSub.unsubscribe();
   }
 
   removeProductFromSelected (item: { item: Product, index: number } ) {
@@ -77,7 +88,11 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
     this.sum = Math.round(sum * 100) / 100;
   }
 
-  handleDropReceipt(data: File | File[]) {
-    console.log(data);
+  handleDropReceipt(files: File | File[]) {
+    if (files.length === 1) {
+      this.store.dispatch(new TryPutOperation(files[0]));
+    } else {
+      this.store.dispatch(new TryPutOperations(files));
+    }
   }
 }

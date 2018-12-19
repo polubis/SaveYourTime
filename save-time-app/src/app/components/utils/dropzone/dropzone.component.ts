@@ -8,7 +8,7 @@ import { Setting } from "src/app/components/utils/form/form";
   styleUrls: ['./dropzone.component.scss']
 })
 export class DropzoneComponent implements OnInit {
-  @Input() mode = 'single';
+  @Input() blackList: string[];
   @Output() dropped = new EventEmitter<File | File[]>();
   receiptSetting = new Setting('Receipt', { isPicture: true }, 'file', 'file');
   constructor() {
@@ -18,6 +18,6 @@ export class DropzoneComponent implements OnInit {
   }
 
   handleFilesDrop(files: File[]) {
-    this.dropped.emit(this.mode === 'single' ? files[0] : files);
+    this.dropped.emit(files);
   }
 }

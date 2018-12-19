@@ -10,6 +10,7 @@ import { Notification } from '../../../models/notification';
   selector: "[dropzone]"
 })
 export class Dropzone extends InputBase implements OnInit {
+  @Input() blackList: string[];
   @Input() defaultClass: string = 'dropzone';
   @Input() dragingClass: string = 'dragging';
   @Input() droppingClass: string = 'dropped';
@@ -26,7 +27,7 @@ export class Dropzone extends InputBase implements OnInit {
   constructor(private store: Store<AppState>) {
     super();
   }
-  @Output() filesDropped = new EventEmitter<File | File[]>();
+  @Output() filesDropped = new EventEmitter<File[]>();
 
   @HostListener('drop', ['$event'])
     onDrop($event) {
@@ -36,6 +37,7 @@ export class Dropzone extends InputBase implements OnInit {
       if(transfer.files.length > 0) {
 
         this.onFileReaded(transfer.files[0]);
+        this.isOnBlackList(transfer.files[0].name, this.blackList);
 
         if (!this.error) {
           this.filesDropped.emit(transfer.files);

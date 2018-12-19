@@ -2,17 +2,17 @@
 .dropzone {
   transition: .2s ease-in-out;
   transform: scale(1);
-
+  height: 100%;
   padding: 0;
   &::before{
     content: 'dropped !';
     position: fixed;
     left: 0;
-    z-index: 2;
+    z-index: 10;
     right: 0;
     opacity: 0;
     transition: .4s ease-in-out;
-    top: -50px;
+    top: 0;
     margin: 0 auto;
     color: $font-white;
     background: $main;

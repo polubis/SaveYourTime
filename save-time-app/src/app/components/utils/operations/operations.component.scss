@@ -1,0 +1,103 @@
+@import '../../../../colors.scss';
+.progress-open {
+  bottom: 0;
+}
+.progress-closed {
+  bottom: -500px;
+}
+.progress-bars {
+  transition: .4s;
+  animation: .4s animate-link;
+  position: fixed;
+  right: 0;
+  width: 400px;
+  box-shadow: $shadow;
+  i {
+    font-size: 28px;
+  }
+  h4, p.flex-center{
+    justify-content: space-between;
+  }
+  h4 {
+    background: $progress-bg;
+    margin: 0;
+    padding: .75em;
+    i {
+      cursor: pointer;
+    }
+  }
+  ul {
+    li {
+      padding: .5em .75em;
+      border-bottom: 1px solid $font;
+      &:last-of-type{
+        border-bottom: none;
+      }
+      p {
+        padding: 0 0 .5em 0;
+      }
+      .progress-description {
+        span:first-of-type {
+          font-weight: 500;
+          color: $main;
+        }
+        i {
+          margin-right: 7.5px;
+        }
+        span:last-of-type{
+          font-weight: 500;
+        }
+        span.ok {
+          color: $ok;
+        }
+        span.error {
+          color: $error;
+        }
+      }
+      .progress-ratio {
+        padding-bottom: 0;
+        span:first-of-type{
+          font-weight: 500;
+          margin-left: 5px;
+        }
+        .description {
+          font-weight: 300;
+          font-size: 14px;
+        }
+        .btn-holder {
+          button{
+            margin-left: .75em;
+          }
+        }
+        .label-btn:last-of-type{
+          margin-right: 7.5px;
+        }
+      }
+    }
+  }
+  .progress-footer {
+    background: $progress-bg;
+    width: 100%;
+    height: 25px;
+  }
+}
+
+.circle-btn {
+  transition: .4s;
+  width: 50px;
+  height: 50px;
+  position: fixed;
+  right: 25px;
+  i {
+    font-size: 28px;
+  }
+}
+.btn-open {
+  bottom: 25px;
+}
+.btn-closed {
+  bottom: -150px;
+}
+.label-btn{
+  font-weight: 400;
+}
