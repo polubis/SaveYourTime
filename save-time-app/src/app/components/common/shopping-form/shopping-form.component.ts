@@ -9,6 +9,7 @@ import { TryPutOperation } from "src/app/store/operations/actions";
 import { getFilesToExtract } from "src/app/store";
 import { IFileToExtract } from "src/app/store/operations/reducers";
 import { take, map } from "rxjs/operators";
+import { IDropzone } from "src/app/components/utils/dropzone/dropzone";
 
 @Component({
   selector: 'app-shopping-form',
@@ -30,12 +31,17 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
 
   filesNamesInExtractingProcess: string[];
 
+  receiptConfig: IDropzone = {
+    blackList: { content: 'file is already in extract process', value: [] },
+    filesTypes: { content: 'file should be a jpg/jpeg/png format', value: ['image/jpg', 'image/jpeg', 'image/png'] }
+  };
+
   putFilesInterval: Observable<number> = interval(200);
 
   ngOnInit() {
     this.extractedFileSub = this.store.select(getFilesToExtract).subscribe((extractedFiles: IFileToExtract) => {
       if (extractedFiles) {
-        this.filesNamesInExtractingProcess = Object.keys(extractedFiles);
+        this.receiptConfig.blackList.value = Object.keys(extractedFiles);
       }
     })
     this.productsSubscription = this.store.select(state => state.products.products).subscribe((products: Product[]) => {

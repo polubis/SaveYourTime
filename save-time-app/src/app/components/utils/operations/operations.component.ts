@@ -75,7 +75,6 @@ export class OperationsComponent implements OnInit, OnDestroy {
       this.operations[key] = new OperationState(true, '', Math.round(progress.progress * 100), progress.status);
     })
     .finally(response => {
-      console.log(response.text);
       this.operations[key] = new OperationState(false, 'ok', 100, 'succesfully extracted');
     })
   }

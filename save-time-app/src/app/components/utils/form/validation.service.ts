@@ -1,7 +1,44 @@
 import { Validator, Setting, FormState, FormErrors, FormSettings } from "src/app/components/utils/form/form";
 
-export class ValidationService {
-  private readonly allowedPicturesFormats: string[] = ['image/jpg', 'image/jpeg', 'image/png'];
+export class Validators {
+
+  protected isPicture(file: File) {
+    return file.size ? ['image/jpg', 'image/jpeg', 'image/png'].findIndex(format => format === file.type) !== -1 : true;
+  }
+
+  protected isNotInvalidFileFormat(file: File, formats: string[]) {
+    return file.size ? formats.findIndex(format => format === file.type) !== -1 : true;
+  }
+
+  protected isNotEmptyString(value: any) {
+    return value !== '';
+  }
+  protected minLength(length: any, limit: number) {
+    return length > limit;
+  }
+
+  protected maxLength(length: any, limit: number) {
+    return length < limit;
+  }
+
+  protected isFileWithCorrectSize(file: File, allowedSize: number) {
+    return file.size ? file.size < allowedSize : true;
+  }
+
+  protected isLengthEqualTo(length: any, limit: number) {
+    return length === limit;
+  }
+
+  protected isNotOnBlackList(file: File, blackList: string[]) {
+    return file.size ? blackList.findIndex(x => x === file.name) === -1 : true;
+  }
+
+}
+
+export class ValidationService extends Validators {
+  constructor() {
+    super();
+  }
   private errorsStagger = {
     isNotEmptyString: (title) => `${title} field cannot be empty`,
     minLength: (title, limit) => `${title} field must have more than ${limit} characters`,
@@ -12,36 +49,14 @@ export class ValidationService {
   };
 
   private validationStagger = {
-    isNotEmptyString: (value) => this.isNotEmptyString(value),
-    minLength: (value, limit) => this.minLength(value.length, limit),
-    maxLength: (value, limit) => this.maxLength(value.length, limit),
-    isLengthEqualTo: (value, limit) => this.isLengthEqualTo(value.length, limit),
-    isPicture: (file) => this.isPicture(file),
-    isFileWithCorrectSize: (file, limit) => this.isFileWithCorrectSize(file, limit)
+    isNotEmptyString: (value) => super.isNotEmptyString(value),
+    minLength: (value, limit) => super.minLength(value.length, limit),
+    maxLength: (value, limit) => super.maxLength(value.length, limit),
+    isLengthEqualTo: (value, limit) => super.isLengthEqualTo(value.length, limit),
+    isPicture: (file) => super.isPicture(file),
+    isFileWithCorrectSize: (file, limit) => super.isFileWithCorrectSize(file, limit)
   };
 
-  private isNotEmptyString(value: any) {
-    return value !== '';
-  }
-  private minLength(length: any, limit: number) {
-    return length > limit;
-  }
-
-  private maxLength(length: any, limit: number) {
-    return length < limit;
-  }
-
-  private isPicture(file: File) {
-    return file.size ? this.allowedPicturesFormats.findIndex(format => format === file.type) !== -1 : true;
-  }
-
-  private isFileWithCorrectSize(file: File, allowedSize: number) {
-    return file.size ? file.size < allowedSize : true;
-  }
-
-  private isLengthEqualTo(length: any, limit: number) {
-    return length === limit;
-  }
   protected runInputValidation(value: any, setting: Setting) {
     if (setting.validators) {
       const { label, validators } = setting;

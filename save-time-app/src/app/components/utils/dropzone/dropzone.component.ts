@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { InputBase } from "src/app/services/input-base";
 import { Setting } from "src/app/components/utils/form/form";
+import { IDropzone } from "src/app/components/utils/dropzone/dropzone";
 
 @Component({
   selector: 'app-dropzone',
@@ -8,9 +9,9 @@ import { Setting } from "src/app/components/utils/form/form";
   styleUrls: ['./dropzone.component.scss']
 })
 export class DropzoneComponent implements OnInit {
-  @Input() blackList: string[];
+  @Input() config: IDropzone;
   @Output() dropped = new EventEmitter<File | File[]>();
-  receiptSetting = new Setting('Receipt', { isPicture: true }, 'file', 'file');
+
   constructor() {
   }
 
