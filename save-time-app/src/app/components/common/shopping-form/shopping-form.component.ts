@@ -3,11 +3,12 @@ import { AppState } from "src/app/app.reducers";
 import { Store } from "@ngrx/store";
 import { FetchProducts, StartRemovingProduct, SetRemovingProductState } from '../../../store/products/actions';
 import { Product } from "src/app/models/product";
-import { Subscription } from "rxjs";
+import { Subscription, interval, Observable } from "rxjs";
 import { ShoppingProduct } from "src/app/models/shopping";
-import { TryPutOperation, TryPutOperations } from "src/app/store/operations/actions";
+import { TryPutOperation } from "src/app/store/operations/actions";
 import { getFilesToExtract } from "src/app/store";
 import { IFileToExtract } from "src/app/store/operations/reducers";
+import { take, map } from "rxjs/operators";
 
 @Component({
   selector: 'app-shopping-form',
@@ -28,6 +29,8 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
   sum: number = 0;
 
   filesNamesInExtractingProcess: string[];
+
+  putFilesInterval: Observable<number> = interval(200);
 
   ngOnInit() {
     this.extractedFileSub = this.store.select(getFilesToExtract).subscribe((extractedFiles: IFileToExtract) => {
@@ -88,11 +91,20 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
     this.sum = Math.round(sum * 100) / 100;
   }
 
-  handleDropReceipt(files: File | File[]) {
-    if (files.length === 1) {
+  handleDropReceipt(files: File[]) {
+    const filesLength = files.length;
+
+    if (filesLength === 1) {
       this.store.dispatch(new TryPutOperation(files[0]));
-    } else {
-      this.store.dispatch(new TryPutOperations(files));
+    }
+    else {
+      this.putFilesInterval.pipe(
+        take(filesLength),
+        map(i => {
+          return this.store.dispatch(new TryPutOperation(files[i]));
+        })
+      )
+      .subscribe();
     }
   }
 }
