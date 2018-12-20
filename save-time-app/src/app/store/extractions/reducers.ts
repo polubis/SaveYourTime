@@ -30,9 +30,15 @@ export function extractionsReducer(state = initialState, action: ExtractionsActi
           ...state,
           filesToExtract: {...action.payload}
         }
+      case ExtractionsActions.PUT_EXTRACTED_FILE:
+        return {
+          ...state,
+          extractedFiles: {...state.extractedFiles, ...action.payload }
+        }
       default:
         return state;
     }
 }
 
 export const selectFilesToExtract = (state: State) => state.filesToExtract;
+export const selectExtractedFiles = (state: State) => state.extractedFiles;

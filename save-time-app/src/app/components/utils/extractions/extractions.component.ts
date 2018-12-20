@@ -6,7 +6,7 @@ import { filter } from "rxjs/operators";
 import { AppState } from "src/app/app.reducers";
 import { getFilesToExtract } from "src/app/store";
 import { IFileToExtract } from "src/app/store/extractions/reducers";
-import { TryRemoveExtraction } from "src/app/store/extractions/actions";
+import { TryRemoveExtraction, TryPutExtractedFile } from "src/app/store/extractions/actions";
 import { Extraction, ExtractionState } from "src/app/models/extraction-state";
 @Component({
   selector: 'app-extractions',
@@ -15,7 +15,7 @@ import { Extraction, ExtractionState } from "src/app/models/extraction-state";
 })
 export class ExtractionsComponent implements OnInit, OnDestroy {
   statusIcons = {
-    error: 'cloud_off',
+    error: 'error_outline',
     ok: 'done'
   };
 
@@ -24,8 +24,8 @@ export class ExtractionsComponent implements OnInit, OnDestroy {
   previewOpened = false;
   containsOperations = false;
 
-  operationsKeys: string[] = [];
-  operations: Extraction = null;
+  extractionsKeys: string[] = [];
+  currentExtractions: Extraction = null;
 
   filesSubscription: Subscription;
   ngOnInit() {
@@ -38,21 +38,21 @@ export class ExtractionsComponent implements OnInit, OnDestroy {
           this.previewOpened = false;
           this.containsOperations = false;
         }
-        else if (filesLength > this.operationsKeys.length) {
+        else if (filesLength > this.extractionsKeys.length) {
           const operationState = new ExtractionState(true, '', 0, 'starting extracing data from file...');
           const operationName = filesKeys[filesLength-1];
 
           const operation: Extraction = {
             [operationName]: operationState
           };
-          this.operations = { ...this.operations, ...operation };
+          this.currentExtractions = { ...this.currentExtractions, ...operation };
 
           this.previewOpened = true;
           this.containsOperations = true;
           this.convertImageToText(files[operationName], operationName);
         }
 
-        this.operationsKeys = filesKeys;
+        this.extractionsKeys = filesKeys;
       });
   }
 
@@ -64,21 +64,26 @@ export class ExtractionsComponent implements OnInit, OnDestroy {
     this[key] = !this[key];
   }
 
-  onConfirm(key: string) {
+  handleCloseAndDeny(key: string) {
     this.store.dispatch(new TryRemoveExtraction(key));
-  }
-
-  onRetry(id: string) {
-
   }
 
   convertImageToText(file: File, key: string) {
     Tesseract.recognize(file, {lang: 'pol'})
     .progress(progress => {
-      this.operations[key] = new ExtractionState(true, '', Math.round(progress.progress * 100), progress.status);
+      this.currentExtractions[key] = new ExtractionState(true, '', Math.round(progress.progress * 100), progress.status);
+    }).catch(error => {
+      if (error) {
+        console.log("Siema");
+      }
     })
-    .finally(response => {
-      this.operations[key] = new ExtractionState(false, 'ok', 100, 'succesfully extracted');
+    .finally((response: any) => {
+      if (response.text) {
+        this.currentExtractions[key] = new ExtractionState(false, 'ok', 100, 'succesfully extracted');
+        this.store.dispatch(new TryPutExtractedFile({ text: response.text, key }));
+      } else {
+        this.currentExtractions[key] = new ExtractionState(false, 'error', 0, "Given image doesn't contains words");
+      }
     })
   }
 }

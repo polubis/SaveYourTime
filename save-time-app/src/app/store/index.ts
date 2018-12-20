@@ -3,7 +3,7 @@ import * as fromNotifications from './notifications/reducers';
 import * as fromProducts from './products/reducers';
 import * as fromExtractions from './extractions/reducers';
 
-export const selectOperationsEntity = createFeatureSelector<fromExtractions.State>(
+export const selectExtractionsEntity = createFeatureSelector<fromExtractions.State>(
   'extractions'
 );
 export const selectNotificationEntity = createFeatureSelector<fromNotifications.State>(
@@ -30,5 +30,9 @@ export const getProductsCount = createSelector(
 );
 
 export const getFilesToExtract = createSelector(
-  selectOperationsEntity, fromExtractions.selectFilesToExtract
+  selectExtractionsEntity, fromExtractions.selectFilesToExtract
+);
+
+export const getExtractedFiles = createSelector(
+  selectExtractionsEntity, fromExtractions.selectExtractedFiles
 );

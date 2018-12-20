@@ -9,7 +9,7 @@ import { AppState } from "src/app/app.reducers";
 import * as ExtractionsActions from '../../store/extractions/actions';
 import { of } from "rxjs";
 import { getFilesToExtract } from "src/app/store";
-import { IFileToExtract } from "src/app/store/extractions/reducers";
+import { IFileToExtract, IExtractedFiles } from "src/app/store/extractions/reducers";
 @Injectable()
 export class ExtractionsEffects {
   keyToRemove: string;
@@ -50,6 +50,22 @@ export class ExtractionsEffects {
       }
       return {
         type: ExtractionsActions.SET_EXTRACTIONS, payload: cutedFiles
+      };
+    })
+  )
+
+  @Effect()
+  tryPutExtractedFile = this.actions$.ofType(ExtractionsActions.TRY_PUT_EXTRACTED_FILE).pipe(
+    switchMap((action: ExtractionsActions.TryPutExtractedFile) => {
+      const extractedFile: IExtractedFiles = {
+        [action.payload.key]: action.payload.text
+      };
+      return of(extractedFile);
+    }),
+    map((extractedFile: IExtractedFiles) => {
+      console.log(extractedFile);
+      return {
+        type: ExtractionsActions.PUT_EXTRACTED_FILE, payload: extractedFile
       };
     })
   )

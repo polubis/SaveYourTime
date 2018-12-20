@@ -4,26 +4,29 @@
     <i (click)="togle('previewOpened')" class="material-icons">fullscreen_exit</i>
   </h4>
   <ul>
-    <li *ngFor="let key of operationsKeys">
+    <li *ngFor="let key of extractionsKeys">
       <p class="flex-center progress-description">
-        <span [class]="'flex-center ' + operations[key].finishStatus">
-          <i class="material-icons">{{statusIcons[operations[key].finishStatus] ? statusIcons[operations[key].finishStatus] : 'file_upload'}}</i>
+        <span [class]="'flex-center ' + currentExtractions[key].finishStatus">
+          <i class="material-icons">{{statusIcons[currentExtractions[key].finishStatus] ? statusIcons[currentExtractions[key].finishStatus] : 'file_upload'}}</i>
           {{key}}
         </span>
-        <span *ngIf="operations[key].isProcessing">operation</span>
+        <span *ngIf="currentExtractions[key].isProcessing">operation</span>
       </p>
       <p class="flex-center progress-ratio">
-        <span>{{operations[key].value}} %</span>
-        <span class="description" *ngIf="operations[key].isProcessing">{{operations[key].description}}...</span>
+        <span>{{currentExtractions[key].value}} %</span>
+        <span class="description">{{currentExtractions[key].description}}...</span>
 
-        <span *ngIf="!operations[key].isProcessing" class="flex-center btn-holder">
-          <button (click)="onConfirm(key)" class="label-btn">
-            OK
-          </button>
-          <button *ngIf="operations[key].finishStatus === 'error'" class="label-btn main-colored">
-            RETRY
-          </button>
-        </span>
+        <button *ngIf="currentExtractions[key].finishStatus === 'ok'" class="label-btn main-colored">
+          CHECK
+        </button>
+
+        <button (click)="handleCloseAndDeny(key)" *ngIf="currentExtractions[key].finishStatus === 'error'" class="label-btn">
+          CLOSE
+        </button>
+
+        <button (click)="handleCloseAndDeny(key)" *ngIf="currentExtractions[key].isProcessing" class="label-btn danger-color">
+          DENY
+        </button>
 
       </p>
     </li>

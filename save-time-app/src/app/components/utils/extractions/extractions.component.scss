@@ -15,13 +15,11 @@
   i {
     font-size: 28px;
   }
-  h4, p.flex-center{
-    justify-content: space-between;
-  }
   h4 {
     background: $progress-bg;
     margin: 0;
     padding: .75em;
+    justify-content: space-between;
     i {
       cursor: pointer;
     }
@@ -37,6 +35,7 @@
         padding: 0 0 .5em 0;
       }
       .progress-description {
+        justify-content: space-between;
         span:first-of-type {
           font-weight: 500;
           color: $main;
@@ -59,18 +58,15 @@
         span:first-of-type{
           font-weight: 500;
           margin-left: 5px;
+          margin-right: 7.5px;
         }
         .description {
           font-weight: 300;
           font-size: 14px;
         }
-        .btn-holder {
-          button{
-            margin-left: .75em;
-          }
-        }
-        .label-btn:last-of-type{
-          margin-right: 7.5px;
+        button{
+          margin-left: auto;
+          font-weight: 400;
         }
       }
     }
