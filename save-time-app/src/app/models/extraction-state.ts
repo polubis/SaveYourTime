@@ -1,10 +1,10 @@
 
-export class OperationState {
+export class ExtractionState {
   constructor(public isProcessing: boolean, public finishStatus: string,
     public value: number, public description: string) {
 
   }
 }
-export interface Operation {
-  [key: string]: OperationState;
+export interface Extraction {
+  [key: string]: ExtractionState;
 };

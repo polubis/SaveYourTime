@@ -5,11 +5,11 @@ import { FetchProducts, StartRemovingProduct, SetRemovingProductState } from '..
 import { Product } from "src/app/models/product";
 import { Subscription, interval, Observable } from "rxjs";
 import { ShoppingProduct } from "src/app/models/shopping";
-import { TryPutOperation } from "src/app/store/operations/actions";
 import { getFilesToExtract } from "src/app/store";
-import { IFileToExtract } from "src/app/store/operations/reducers";
 import { take, map } from "rxjs/operators";
 import { IDropzone } from "src/app/components/utils/dropzone/dropzone";
+import { IFileToExtract } from "src/app/store/extractions/reducers";
+import { TryPutExtraction } from "src/app/store/extractions/actions";
 
 @Component({
   selector: 'app-shopping-form',
@@ -100,15 +100,14 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
 
   handleDropReceipt(files: File[]) {
     const filesLength = files.length;
-
     if (filesLength === 1) {
-      this.store.dispatch(new TryPutOperation(files[0]));
+      this.store.dispatch(new TryPutExtraction(files[0]));
     }
     else {
       this.putFilesInterval.pipe(
         take(filesLength),
         map(i => {
-          return this.store.dispatch(new TryPutOperation(files[i]));
+          return this.store.dispatch(new TryPutExtraction(files[i]));
         })
       )
       .subscribe();

@@ -9,9 +9,10 @@ import { DashboardComponent } from "src/app/containers/main/dashboard/dashboard.
 import { ShoppingComponent } from './shopping/shopping.component';
 import { ShoppingFormComponent } from "src/app/components/common/shopping-form/shopping-form.component";
 import { ShoppingListComponent } from "src/app/components/common/shopping-list/shopping-list.component";
+import { ExtractionsComponent } from "src/app/components/utils/extractions/extractions.component";
 
 @NgModule({
-  declarations: [ MainComponent, DashboardComponent, ProductsComponent, ShoppingComponent, ShoppingFormComponent, ShoppingListComponent ],
+  declarations: [ MainComponent, DashboardComponent, ProductsComponent, ShoppingComponent, ShoppingFormComponent, ShoppingListComponent, ExtractionsComponent ],
   imports: [ MainRoutingModule, CommonModule, UtilsModule ]
 })
 export class MainModule {

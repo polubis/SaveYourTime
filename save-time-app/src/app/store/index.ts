@@ -1,10 +1,10 @@
 import { createSelector, createFeatureSelector } from "@ngrx/store";
 import * as fromNotifications from './notifications/reducers';
 import * as fromProducts from './products/reducers';
-import * as fromOperations from './operations/reducers';
+import * as fromExtractions from './extractions/reducers';
 
-export const selectOperationsEntity = createFeatureSelector<fromOperations.State>(
-  'operations'
+export const selectOperationsEntity = createFeatureSelector<fromExtractions.State>(
+  'extractions'
 );
 export const selectNotificationEntity = createFeatureSelector<fromNotifications.State>(
   'notifications'
@@ -30,5 +30,5 @@ export const getProductsCount = createSelector(
 );
 
 export const getFilesToExtract = createSelector(
-  selectOperationsEntity, fromOperations.selectFilesToExtract
+  selectOperationsEntity, fromExtractions.selectFilesToExtract
 );

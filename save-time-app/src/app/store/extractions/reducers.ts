@@ -1,27 +1,31 @@
-import * as OperationsActions from './actions';
-import { OperationState } from "src/app/models/operation-state";
+import * as ExtractionsActions from './actions';
 
 export interface State {
   filesToExtract: IFileToExtract;
+  extractedFiles: IExtractedFiles;
 };
 
 export interface IFileToExtract {
   [key: string]: File;
 }
 
+export interface IExtractedFiles {
+  [key: string]: string;
+}
+
 const initialState: State = {
-  filesToExtract: null
+  filesToExtract: null,
+  extractedFiles: null
 };
 
-export function operationsReducer(state = initialState, action: OperationsActions.OperationsActions){
+export function extractionsReducer(state = initialState, action: ExtractionsActions.ExtractionsActions){
     switch(action.type){
-      case OperationsActions.PUT_OPERATION:
+      case ExtractionsActions.PUT_EXTRACTION:
         return {
           ...state,
           filesToExtract: {...state.filesToExtract, ...action.payload}
         };
-      case OperationsActions.SET_OPERATIONS:
-        console.log(action.payload);
+      case ExtractionsActions.SET_EXTRACTIONS:
         return {
           ...state,
           filesToExtract: {...action.payload}
