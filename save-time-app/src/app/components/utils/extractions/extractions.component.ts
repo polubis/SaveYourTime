@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from "@ngrx/store";
-import { Subscription } from "rxjs";
+import { Subscription, interval } from "rxjs";
 import { Tesseract } from "tesseract.ts";
 import { filter } from "rxjs/operators";
 import { AppState } from "src/app/app.reducers";
@@ -8,6 +8,8 @@ import { getFilesToExtract } from "src/app/store";
 import { IFileToExtract } from "src/app/store/extractions/reducers";
 import { TryRemoveExtraction, TryPutExtractedFile } from "src/app/store/extractions/actions";
 import { Extraction, ExtractionState } from "src/app/models/extraction-state";
+import { TryPushNotification } from "src/app/store/notifications/actions";
+import { Notification } from '../../../models/notification';
 @Component({
   selector: 'app-extractions',
   templateUrl: './extractions.component.html',
@@ -26,10 +28,14 @@ export class ExtractionsComponent implements OnInit, OnDestroy {
 
   extractionsKeys: string[] = [];
   currentExtractions: Extraction = null;
+  checkIsTesseractFreezed = interval(3500);
+  isFreezed = false;
 
   filesSubscription: Subscription;
+  checkFreezedSubscription: Subscription;
   ngOnInit() {
-    this.filesSubscription = this.store.select(getFilesToExtract).pipe(filter(files => files ? true : false))
+
+    this.filesSubscription = this.store.select(getFilesToExtract).pipe(filter(files => files !== null ? true : false))
       .subscribe((files: IFileToExtract) => {
         const filesKeys: string[] = Object.keys(files);
         const filesLength = filesKeys.length;
@@ -37,6 +43,7 @@ export class ExtractionsComponent implements OnInit, OnDestroy {
         if (filesLength === 0) {
           this.previewOpened = false;
           this.containsOperations = false;
+          this.checkFreezedSubscription.unsubscribe();
         }
         else if (filesLength > this.extractionsKeys.length) {
           const operationState = new ExtractionState(true, '', 0, 'starting extracing data from file...');
@@ -52,19 +59,68 @@ export class ExtractionsComponent implements OnInit, OnDestroy {
           this.convertImageToText(files[operationName], operationName);
         }
 
+        if(!this.checkFreezedSubscription)
+          this.checkIsFreezed();
+        if(this.checkFreezedSubscription)
+          if (this.checkFreezedSubscription.closed)
+            this.checkIsFreezed();
+
         this.extractionsKeys = filesKeys;
       });
+
+  }
+
+  checkIsFreezed() {
+    this.checkFreezedSubscription = this.checkIsTesseractFreezed.subscribe(() => {
+      const breakValue = 100;
+      const breakComunicate = 'initializing api';
+      const firstExtractionKey: string = this.extractionsKeys[0];
+      const firstExtraction = this.currentExtractions[firstExtractionKey];
+
+      this.isFreezed = (firstExtraction.value === 100 && firstExtraction.finishStatus === '' && firstExtraction.description === breakComunicate) ?
+        true : false;
+      this.pushFreezeComunicates();
+    });
+  }
+
+  pushFreezeComunicates() {
+    if (this.isFreezed) {
+      const currentExtractions: Extraction = {};
+      for (let key in this.extractionsKeys) {
+        const extKey = this.extractionsKeys[key];
+        const extractionState = new ExtractionState(false, 'error', 0, "Reading error. Try again later");
+        currentExtractions[extKey] = extractionState;
+      }
+      this.currentExtractions = currentExtractions;
+      this.checkFreezedSubscription.unsubscribe();
+      const notification = new Notification('First image must contains text. Reload page and try again.',
+        'error', 'tesseract', false);
+      this.store.dispatch(new TryPushNotification(notification));
+    }
+  }
+
+  checkAllExtractionsStatus() {
+    let isDone = true;
+    for(let key in this.extractionsKeys) {
+      const extKey = this.extractionsKeys[key];
+      if (this.currentExtractions[extKey].finishStatus === '')
+        isDone = false;
+    }
+    if (isDone) {
+      this.checkFreezedSubscription.unsubscribe();
+    }
   }
 
   ngOnDestroy() {
     this.filesSubscription.unsubscribe();
+    this.checkFreezedSubscription.unsubscribe();
   }
 
   togle(key: string) {
     this[key] = !this[key];
   }
 
-  handleCloseAndDeny(key: string) {
+  handleClose(key: string) {
     this.store.dispatch(new TryRemoveExtraction(key));
   }
 
@@ -72,10 +128,6 @@ export class ExtractionsComponent implements OnInit, OnDestroy {
     Tesseract.recognize(file, {lang: 'pol'})
     .progress(progress => {
       this.currentExtractions[key] = new ExtractionState(true, '', Math.round(progress.progress * 100), progress.status);
-    }).catch(error => {
-      if (error) {
-        console.log("Siema");
-      }
     })
     .finally((response: any) => {
       if (response.text) {
@@ -84,6 +136,8 @@ export class ExtractionsComponent implements OnInit, OnDestroy {
       } else {
         this.currentExtractions[key] = new ExtractionState(false, 'error', 0, "Given image doesn't contains words");
       }
+
+      this.checkAllExtractionsStatus();
     })
   }
 }

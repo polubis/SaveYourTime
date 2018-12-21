@@ -64,8 +64,14 @@
           font-weight: 300;
           font-size: 14px;
         }
-        button{
+        .buttons {
           margin-left: auto;
+        }
+        .deny-btn {
+          color: $content-grey;
+        }
+        button{
+          margin-left: 10px;
           font-weight: 400;
         }
       }

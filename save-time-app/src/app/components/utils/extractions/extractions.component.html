@@ -10,25 +10,22 @@
           <i class="material-icons">{{statusIcons[currentExtractions[key].finishStatus] ? statusIcons[currentExtractions[key].finishStatus] : 'file_upload'}}</i>
           {{key}}
         </span>
-        <span *ngIf="currentExtractions[key].isProcessing">operation</span>
+        <span *ngIf="currentExtractions[key].isProcessing">in progress...</span>
       </p>
-      <p class="flex-center progress-ratio">
+      <div class="flex-center progress-ratio">
         <span>{{currentExtractions[key].value}} %</span>
         <span class="description">{{currentExtractions[key].description}}...</span>
 
-        <button *ngIf="currentExtractions[key].finishStatus === 'ok'" class="label-btn main-colored">
-          CHECK
-        </button>
+        <div class="buttons">
+          <button (click)="handleClose(key)" *ngIf="currentExtractions[key].finishStatus !== ''" class="label-btn deny-btn">
+            {{currentExtractions[key].finishStatus === 'ok' ? 'DENY' : 'CLOSE'}}
+          </button>
+          <button *ngIf="currentExtractions[key].finishStatus === 'ok'" class="label-btn main-colored">
+            USE IN FORM
+          </button>
+        </div>
 
-        <button (click)="handleCloseAndDeny(key)" *ngIf="currentExtractions[key].finishStatus === 'error'" class="label-btn">
-          CLOSE
-        </button>
-
-        <button (click)="handleCloseAndDeny(key)" *ngIf="currentExtractions[key].isProcessing" class="label-btn danger-color">
-          DENY
-        </button>
-
-      </p>
+      </div>
     </li>
   </ul>
   <div class="progress-footer"></div>

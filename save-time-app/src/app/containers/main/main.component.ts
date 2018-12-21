@@ -15,4 +15,5 @@ export class MainComponent implements OnInit {
   togle(key: string) {
     this[key] = !this[key];
   }
+
 }
