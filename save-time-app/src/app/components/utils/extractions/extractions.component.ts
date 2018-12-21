@@ -57,13 +57,14 @@ export class ExtractionsComponent implements OnInit, OnDestroy {
           this.previewOpened = true;
           this.containsOperations = true;
           this.convertImageToText(files[operationName], operationName);
-        }
 
-        if(!this.checkFreezedSubscription)
-          this.checkIsFreezed();
-        if(this.checkFreezedSubscription)
-          if (this.checkFreezedSubscription.closed)
+          if(!this.checkFreezedSubscription)
             this.checkIsFreezed();
+          if(this.checkFreezedSubscription)
+            if (this.checkFreezedSubscription.closed)
+              this.checkIsFreezed();
+
+        }
 
         this.extractionsKeys = filesKeys;
       });
