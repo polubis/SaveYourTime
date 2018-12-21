@@ -28,7 +28,8 @@ export function extractionsReducer(state = initialState, action: ExtractionsActi
       case ExtractionsActions.SET_EXTRACTIONS:
         return {
           ...state,
-          filesToExtract: {...action.payload}
+          filesToExtract: action.payload.filesToExtract,
+          extractedFiles: action.payload.extractedFiles
         }
       case ExtractionsActions.PUT_EXTRACTED_FILE:
         return {

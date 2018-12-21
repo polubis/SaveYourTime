@@ -8,7 +8,6 @@ import { switchMap, map, take } from "rxjs/operators";
 import { AppState } from "src/app/app.reducers";
 import * as ExtractionsActions from '../../store/extractions/actions';
 import { of } from "rxjs";
-import { getFilesToExtract } from "src/app/store";
 import { IFileToExtract, IExtractedFiles } from "src/app/store/extractions/reducers";
 @Injectable()
 export class ExtractionsEffects {
@@ -37,19 +36,16 @@ export class ExtractionsEffects {
   tryRemoveExtraction = this.actions$.ofType(ExtractionsActions.TRY_REMOVE_EXTRACTION).pipe(
     switchMap((action: ExtractionsActions.TryRemoveExtraction) => {
       this.keyToRemove = action.payload;
-      return this.store.select(getFilesToExtract).pipe(take(1));
+      return this.store.select(state => state.extractions).pipe(take(1));
     }),
-    map((filesToExtract: IFileToExtract) => {
-      const cutedFiles: IFileToExtract = {};
-      const keys = Object.keys(filesToExtract);
-      for(let key in keys) {
-        const extFileKey = keys[key];
-        if (extFileKey !== this.keyToRemove) {
-          cutedFiles[extFileKey] = filesToExtract[extFileKey];
-        }
-      }
+    map((state: {filesToExtract: IFileToExtract, extractedFiles: IExtractedFiles}) => {
+      const filesToExtract = {...state.filesToExtract};
+      const extractedFiles = {...state.extractedFiles};
+
+      delete filesToExtract[this.keyToRemove];
+      delete extractedFiles[this.keyToRemove];
       return {
-        type: ExtractionsActions.SET_EXTRACTIONS, payload: cutedFiles
+        type: ExtractionsActions.SET_EXTRACTIONS, payload: {filesToExtract, extractedFiles}
       };
     })
   )
@@ -63,7 +59,6 @@ export class ExtractionsEffects {
       return of(extractedFile);
     }),
     map((extractedFile: IExtractedFiles) => {
-      console.log(extractedFile);
       return {
         type: ExtractionsActions.PUT_EXTRACTED_FILE, payload: extractedFile
       };

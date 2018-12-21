@@ -33,7 +33,7 @@ export class PutExtraction {
 
 export class SetExtractions {
   readonly type = SET_EXTRACTIONS;
-  constructor(public payload: IFileToExtract) {}
+  constructor(public payload: {filesToExtract: IFileToExtract, extractedFiles: IExtractedFiles}) {}
 }
 
 export class TryRemoveExtraction {
