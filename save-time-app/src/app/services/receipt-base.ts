@@ -7,17 +7,16 @@ export class ReceiptBase {
     )
   };
 
-  receipt
 
-  extractSumLine(text: string): number {
-    const sumRegex = /(su|pln)\w*\s*(\d*(\D|\W|)\s*\d{2})/;
+  extractSum(text: string): number {
+    const sumRegex = /(sum|pln)[\W\D]*[0-9]+(\W?\D?)[0-9]{2}/;
     const extractedRgx = sumRegex.exec(text);
-    // poprawic ten regex zeby ten 1 przypadek ogarnialo
-    if(extractedRgx){
-      console.log(extractedRgx, +extractedRgx[2].replace(/,/, '.'));
 
-    }
-    return extractedRgx ? +extractedRgx[2].replace(/\D|\W/, '.') : null;
+    return extractedRgx ?
+      +extractedRgx.input
+      .replace(/[a-zA-Z-_@ ]/g, '')
+      .replace(/,/, '.')
+      : null;
   }
 
   extractCoreReceiptData(lines: string[]) {
@@ -27,9 +26,10 @@ export class ReceiptBase {
     const linesCount = lines.length;
     for (let i = 0; i < linesCount; i++) {
       if (!sum) {
-        sum = this.extractSumLine(lines[i]);
+        sum = this.extractSum(lines[i]);
       }
     }
+    console.log(sum);
   }
 
 

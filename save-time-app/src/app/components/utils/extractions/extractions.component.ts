@@ -139,7 +139,7 @@ export class ExtractionsComponent extends ReceiptBase implements OnInit, OnDestr
     })
     .finally((response: any) => {
       if (response.text) {
-        const lines: string[] = response.lines.map(line => line.text.toLowerCase().replace(/ /g, ' '));
+        const lines: string[] = response.lines.map(line => line.text.toLowerCase());
         const quality: IQuality = super.checkQualityOfExtractedImage(lines, 'receipt');
         if (quality.isOk) {
           this.currentExtractions[key] = new ExtractionState(false, 'ok', 100, `${quality.ratio.toFixed(2)} % matches`, response.text);
