@@ -39,9 +39,9 @@
         span:first-of-type {
           font-weight: 500;
           color: $main;
-        }
-        i {
-          margin-right: 7.5px;
+          i {
+            margin-right: 7.5px;
+          }
         }
         span:last-of-type{
           font-weight: 500;
@@ -55,14 +55,15 @@
       }
       .progress-ratio {
         padding-bottom: 0;
-        span:first-of-type{
+        .percentage{
           font-weight: 500;
           margin-left: 5px;
-          margin-right: 7.5px;
+          margin-right: 5px;
         }
         .description {
           font-weight: 300;
           font-size: 14px;
+          margin-right: 3.5px;
         }
         .buttons {
           margin-left: auto;
@@ -102,4 +103,7 @@
 }
 .label-btn{
   font-weight: 400;
+}
+.overview-content {
+  padding: 20px;
 }

@@ -10,25 +10,28 @@ import { TryRemoveExtraction, TryPutExtractedFile } from "src/app/store/extracti
 import { Extraction, ExtractionState } from "src/app/models/extraction-state";
 import { TryPushNotification } from "src/app/store/notifications/actions";
 import { Notification } from '../../../models/notification';
+import { ReceiptBase, IQuality } from "src/app/services/receipt-base";
 @Component({
   selector: 'app-extractions',
   templateUrl: './extractions.component.html',
   styleUrls: ['./extractions.component.scss']
 })
-export class ExtractionsComponent implements OnInit, OnDestroy {
+export class ExtractionsComponent extends ReceiptBase implements OnInit, OnDestroy {
   statusIcons = {
     error: 'error_outline',
     ok: 'done'
   };
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) { super(); }
 
   previewOpened = false;
   containsOperations = false;
 
+  currentOpenedOverview: string;
+
   extractionsKeys: string[] = [];
   currentExtractions: Extraction = null;
-  checkIsTesseractFreezed = interval(3500);
+  checkIsTesseractFreezed = interval(5000);
   isFreezed = false;
 
   filesSubscription: Subscription;
@@ -69,6 +72,10 @@ export class ExtractionsComponent implements OnInit, OnDestroy {
         this.extractionsKeys = filesKeys;
       });
 
+  }
+
+  togleOverview(text: string) {
+    this.currentOpenedOverview = text;
   }
 
   checkIsFreezed() {
@@ -132,8 +139,17 @@ export class ExtractionsComponent implements OnInit, OnDestroy {
     })
     .finally((response: any) => {
       if (response.text) {
-        this.currentExtractions[key] = new ExtractionState(false, 'ok', 100, 'succesfully extracted');
-        this.store.dispatch(new TryPutExtractedFile({ text: response.text, key }));
+        const lines: string[] = response.lines.map(line => line.text.toLowerCase());
+        const isQualityOk: IQuality = super.checkQualityOfExtractedImage(lines, 'receipt');
+        if (isQualityOk.isOk) {
+          this.currentExtractions[key] = new ExtractionState(false, 'ok', 100, 'succesfully extracted', response.text);
+          this.store.dispatch(new TryPutExtractedFile({ text: response.text, key }));
+        }
+        else {
+          this.currentExtractions[key] = new ExtractionState(false, 'error', 0,
+            `Extracted receipt quality is to low. ${isQualityOk.ratio} % matches`, response.text);
+
+        }
       } else {
         this.currentExtractions[key] = new ExtractionState(false, 'error', 0, "Given image doesn't contains words");
       }
