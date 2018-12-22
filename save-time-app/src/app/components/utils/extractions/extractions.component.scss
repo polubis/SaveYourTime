@@ -3,13 +3,14 @@
   bottom: 0;
 }
 .progress-closed {
-  bottom: -500px;
+  bottom: -100vh;
 }
 .progress-bars {
   transition: .4s;
   animation: .4s animate-link;
   position: fixed;
   right: 0;
+  background: $font-white;
   width: 400px;
   box-shadow: $shadow;
   i {

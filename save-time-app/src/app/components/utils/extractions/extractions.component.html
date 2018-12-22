@@ -8,7 +8,7 @@
       <p class="flex-center progress-description">
         <span [class]="'flex-center ' + currentExtractions[key].finishStatus">
           <i class="material-icons">{{statusIcons[currentExtractions[key].finishStatus] ? statusIcons[currentExtractions[key].finishStatus] : 'file_upload'}}</i>
-          {{key}}
+          {{key | shorten}}
         </span>
         <span *ngIf="currentExtractions[key].isProcessing">in progress...</span>
         <i *ngIf="!currentExtractions[key].isProcessing && currentExtractions[key].extractionOnErrorOverview"

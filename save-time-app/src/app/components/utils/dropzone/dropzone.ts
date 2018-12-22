@@ -82,8 +82,8 @@ export class Dropzone extends DropzoneBase implements OnInit {
       if(filesLength > 0) {
 
         const { value, content } = this.config.maxFiles;
-
-        if (filesLength > value) {
+          //filesLengty > valuye
+        if (filesLength === 0) {
           this.handlePromptingErrors(content + value.toString(), 'dropzone');
           this.elementClass = this.defaultClass;
         }

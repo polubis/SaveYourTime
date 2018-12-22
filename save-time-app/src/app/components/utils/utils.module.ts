@@ -17,17 +17,18 @@ import { TableComponent } from './table/table.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { DropzoneComponent } from './dropzone/dropzone.component';
 import { Dropzone } from "src/app/components/utils/dropzone/dropzone";
+import { TextPipe } from "src/app/components/utils/text-pipe";
 
 @NgModule({
   declarations: [ NavigationComponent, ProductFormComponent, FormComponent, ModalComponent, SpinnerComponent,
     ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent, ImageDirective, FilePickerComponent, EmptyListComponent, TableComponent, PaginationComponent,
-    Dropzone,
+    Dropzone, TextPipe,
     DropzoneComponent
   ],
   imports: [ CommonModule ],
   exports: [ NavigationComponent, ProductFormComponent, FormComponent, ModalComponent, SpinnerComponent,
     ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent, ImageDirective,
-    FilePickerComponent, EmptyListComponent, TableComponent, PaginationComponent, Dropzone,
+    FilePickerComponent, EmptyListComponent, TableComponent, PaginationComponent, Dropzone, TextPipe,
     DropzoneComponent ]
 })
 export class UtilsModule{
