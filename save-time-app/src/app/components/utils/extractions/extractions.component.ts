@@ -140,14 +140,14 @@ export class ExtractionsComponent extends ReceiptBase implements OnInit, OnDestr
     .finally((response: any) => {
       if (response.text) {
         const lines: string[] = response.lines.map(line => line.text.toLowerCase());
-        const isQualityOk: IQuality = super.checkQualityOfExtractedImage(lines, 'receipt');
-        if (isQualityOk.isOk) {
-          this.currentExtractions[key] = new ExtractionState(false, 'ok', 100, 'succesfully extracted', response.text);
+        const quality: IQuality = super.checkQualityOfExtractedImage(lines, 'receipt');
+        if (quality.isOk) {
+          this.currentExtractions[key] = new ExtractionState(false, 'ok', 100, `${quality.ratio.toFixed(2)} % matches`, response.text);
           this.store.dispatch(new TryPutExtractedFile({ text: response.text, key }));
         }
         else {
           this.currentExtractions[key] = new ExtractionState(false, 'error', 0,
-            `Extracted receipt quality is to low. ${isQualityOk.ratio} % matches`, response.text);
+            `Receipt quality is to low. ${quality.ratio.toFixed(2)} % matches`, response.text);
 
         }
       } else {

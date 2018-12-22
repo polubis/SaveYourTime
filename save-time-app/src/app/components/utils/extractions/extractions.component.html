@@ -15,7 +15,8 @@
         class="material-icons clickable" (click)="togleOverview(currentExtractions[key].extractionOnErrorOverview)">visibility</i>
       </p>
       <div class="flex-center progress-ratio">
-        <span class="percentage" *ngIf="currentExtractions[key].finishStatus !== 'error'">{{currentExtractions[key].value}} %</span>
+        <span class="percentage" *ngIf="currentExtractions[key].isProcessing">{{currentExtractions[key].value}} %</span>
+
         <span class="description">{{currentExtractions[key].description}}...</span>
 
         <div class="buttons">

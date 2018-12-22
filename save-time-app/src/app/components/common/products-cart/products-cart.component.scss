@@ -5,6 +5,7 @@
 }
 .small-cart-products{
   max-width: 320px;
+  min-width: 300px;
   margin: 0 15px 15px 0;
 }
 .small-cart-products, .marginated-cart {
@@ -38,6 +39,7 @@
       }
   }
   .product-details{
+      grid-area: content;
       .label{
         margin: 0 1em 1em 0;
         float: left;

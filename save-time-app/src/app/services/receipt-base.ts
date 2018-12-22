@@ -30,7 +30,6 @@ export class ReceiptBase {
     return { ratio: currentMatchRatio, isOk: currentMatchRatio > match.minimumMatchRate };
   }
 
-
   createRegexPatterns(dictionary: string[]) {
     const regexes: {[key: string]: any} = {};
     for(let key in dictionary) {
@@ -61,7 +60,7 @@ export class ReceiptBase {
 }
 
 export class Match {
-  constructor(public matchDictionary: string[], public informationsDictionary: string[], public minimumMatchRate: number = 75, additionalRegexes?: any, public jumpRatio?: number) {
+  constructor(public matchDictionary: string[], public informationsDictionary: string[], public minimumMatchRate: number = 25, additionalRegexes?: any, public jumpRatio?: number) {
     const jump = 100 / matchDictionary.length;
     this.jumpRatio = Math.round(jump * 100) / 100;
   }

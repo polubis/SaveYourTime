@@ -8,12 +8,12 @@
   </p>
 
   <div class="product-details">
-    <div class="label">
+    <div class="label" *ngIf="product.company">
       <span>company</span>
       <span>{{product.company}}</span>
     </div>
 
-    <div class="label">
+    <div class="label" *ngIf="product.type">
       <span>type</span>
       <span>{{product.type}}</span>
     </div>

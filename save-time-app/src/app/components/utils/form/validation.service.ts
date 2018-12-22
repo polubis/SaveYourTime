@@ -14,7 +14,7 @@ export class Validators {
     return value !== '';
   }
   protected minLength(length: any, limit: number) {
-    return length > limit;
+    return length > 0 ? length > limit : true;
   }
 
   protected maxLength(length: any, limit: number) {
