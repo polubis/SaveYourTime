@@ -5,7 +5,34 @@ export class ReceiptBase {
       ['suma', 'gotówka', 'reszta', 'sprzedaż', 'nip', 'paragon fiskalny'],
       ['suma', 'gotówka', 'reszta', 'sprzedaż'],
     )
+  };
+
+  receipt
+
+  extractSumLine(text: string): number {
+    const sumRegex = /(su|pln)\w*\s*(\d*(\D|\W|)\s*\d{2})/;
+    const extractedRgx = sumRegex.exec(text);
+    // poprawic ten regex zeby ten 1 przypadek ogarnialo
+    if(extractedRgx){
+      console.log(extractedRgx, +extractedRgx[2].replace(/,/, '.'));
+
+    }
+    return extractedRgx ? +extractedRgx[2].replace(/\D|\W/, '.') : null;
   }
+
+  extractCoreReceiptData(lines: string[]) {
+    let sum: number;
+    let rest: number;
+    let cash: number;
+    const linesCount = lines.length;
+    for (let i = 0; i < linesCount; i++) {
+      if (!sum) {
+        sum = this.extractSumLine(lines[i]);
+      }
+    }
+  }
+
+
 
 
   checkQualityOfExtractedImage(lines: string[], matchName: string): IQuality{
@@ -37,8 +64,6 @@ export class ReceiptBase {
     }
     return regexes;
   }
-
-
 
   createWordInTextRgx(baseValue: any) {
     const baseValLength = baseValue.length;
