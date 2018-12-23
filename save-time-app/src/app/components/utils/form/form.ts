@@ -22,8 +22,13 @@ export interface FormSettings {
 }
 
 export class Setting {
-  constructor(public label?: string, public validators?: any, public type: string = 'text', public mode = 'input', public initialValue = '') {
+  constructor(public label?: string, public validators?: any, public type: string = 'text', public mode = 'input', public initialValue = '',
+  public list?: { value: any, label: string}[]) {
   }
+}
+
+export interface FormLists {
+  [name: string]: { value: any, label: string }[];
 }
 
 export class Form extends ValidationService {
@@ -33,8 +38,10 @@ export class Form extends ValidationService {
   @Input() isSubmiting;
   @Input() elementToEdit?: any;
   @Input() indexOfInputToFocusAfterSubmit?: number;
-  @Output() submiting = new EventEmitter<FormState>()
+  @Output() submiting = new EventEmitter<FormState>();
+
   formState: FormState;
+  formLists: FormLists;
   formErrors: FormErrors;
   formSettings: FormSettings;
   formStateKeys: string[];
@@ -53,12 +60,16 @@ export class Form extends ValidationService {
 
   createInitialState(settings: FormSettings) {
     const formStateKeys = Object.keys(settings);
+    const formLists: FormLists = {};
     const formState: FormState = {};
     const formErrors: FormErrors = {};
     const formSettings: FormSettings = {};
 
     formStateKeys.forEach(name => {
-      const { initialValue } = settings[name];
+      const { initialValue, list } = settings[name];
+      if (list) {
+        formLists[name] = list;
+      }
       formState[name] = initialValue ? initialValue : '';
       formErrors[name] = '';
       formSettings[name] = {...settings[name]};
@@ -70,6 +81,7 @@ export class Form extends ValidationService {
     this.formSettings = formSettings;
     this.formStateKeys = formStateKeys;
     this.formState = formState;
+    this.formLists = formLists;
     this.formErrors = formErrors;
     this.initialSnapshot = {...formState};
   }

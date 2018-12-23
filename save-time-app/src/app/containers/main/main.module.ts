@@ -10,9 +10,10 @@ import { ShoppingComponent } from './shopping/shopping.component';
 import { ShoppingFormComponent } from "src/app/components/common/shopping-form/shopping-form.component";
 import { ShoppingListComponent } from "src/app/components/common/shopping-list/shopping-list.component";
 import { ExtractionsComponent } from "src/app/components/utils/extractions/extractions.component";
+import { ProductCategoryFormComponent } from "src/app/components/common/product-category-form/product-category-form.component";
 
 @NgModule({
-  declarations: [ MainComponent, DashboardComponent, ProductsComponent, ShoppingComponent, ShoppingFormComponent, ShoppingListComponent, ExtractionsComponent ],
+  declarations: [ MainComponent, DashboardComponent, ProductsComponent, ShoppingComponent, ShoppingFormComponent, ShoppingListComponent, ExtractionsComponent, ProductCategoryFormComponent ],
   imports: [ MainRoutingModule, CommonModule, UtilsModule ]
 })
 export class MainModule {

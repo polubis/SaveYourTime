@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { Product } from "src/app/models/product";
+import { Product, IProductCategory } from "src/app/models/product";
 import { FormState } from "src/app/components/utils/form/form";
 
 export const FETCH_PRODUCTS = "[Products] FETCH_PRODUCTS";
@@ -16,6 +16,12 @@ export const START_REMOVING_PRODUCT = "[Products] START_REMOVING_PRODUCT";
 
 export const START_VOTING = "[Products] START_VOTING";
 
+export const SET_PRODUCT_CATEGORIES = "[Products] SET_PRODUCT_CATEGORIES";
+export const TRY_GET_PRODUCT_CATEGORIES = "[Products] TRY_GET_PRODUCT_CATEGORIES";
+export const TRY_ADD_PRODUCT_CATEGORY = "[Products] TRY_ADD_PRODUCT_CATEGORY";
+export const FINISH_ADDING_PRODUCT_CATEGORY = "[Products] FINISH_ADDING_PRODUCT_CATEGORY";
+
+export const CHANGE_LOADING_STATE = "[Products] CHANGE_LOADING_STATE";
 export class SetProducts implements Action{
     readonly type = SET_PRODUCTS;
     constructor(public payload: {products: Product[], productsCount: number}){}
@@ -72,5 +78,28 @@ export class StartVoting implements Action {
   constructor(public payload: { rate: number, product: Product }) {}
 }
 
+export class SetProductCategories implements Action {
+  readonly type = SET_PRODUCT_CATEGORIES;
+  constructor(public payload: IProductCategory[]) {}
+}
+
+export class TryGetProductCategories implements Action {
+  readonly type = TRY_GET_PRODUCT_CATEGORIES;
+}
+
+export class TryAddProductCategory implements Action {
+  readonly type = TRY_ADD_PRODUCT_CATEGORY;
+  constructor(public payload: {name: string}) {}
+}
+export class ChangeLoadingState implements Action {
+  readonly type = CHANGE_LOADING_STATE;
+  constructor(public payload: {key: string, status: boolean}) {}
+}
+export class FinishAddingProductCategory implements Action {
+  readonly type = FINISH_ADDING_PRODUCT_CATEGORY;
+  constructor(public payload: IProductCategory) {}
+}
+
 export type ProductsActions = SetProducts | FetchProducts | PushProduct | StartAddingProduct | StartEditProduct |
-  SetChangeProductsState | PutProduct | RemoveProduct | StartRemovingProduct | SetRemovingProductState | StartVoting;
+  SetChangeProductsState | PutProduct | RemoveProduct | StartRemovingProduct | SetRemovingProductState | StartVoting | SetProductCategories | TryGetProductCategories
+  | TryAddProductCategory | FinishAddingProductCategory | ChangeLoadingState;

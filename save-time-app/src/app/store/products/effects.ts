@@ -10,7 +10,7 @@ import { of } from "rxjs";
 import { catchError } from "rxjs/internal/operators/catchError";
 import { RequestsService } from "src/app/services/requests.service";
 import * as ProductsActions from '../../store/products/actions';
-import { Product } from "src/app/models/product";
+import { Product, IProductCategory } from "src/app/models/product";
 import { AppState } from "src/app/app.reducers";
 @Injectable()
 export class ProductsEffects {
@@ -89,6 +89,35 @@ export class ProductsEffects {
       return {
          type: ProductsActions.PUT_PRODUCT,
          payload: { product: newProduct, productId: newProduct._id }
+      }
+    })
+  )
+
+  @Effect()
+  getCategories = this.actions$.ofType(ProductsActions.TRY_GET_PRODUCT_CATEGORIES).pipe(
+    switchMap((action: ProductsActions.TryGetProductCategories) => {
+      return this.requestsService.execute('getCategories');
+    }),
+    map((res: {productCategories: IProductCategory[]}) => {
+      return {
+        type: ProductsActions.SET_PRODUCT_CATEGORIES,
+        payload: res.productCategories
+      }
+    })
+  )
+
+  @Effect()
+  addCategory = this.actions$.ofType(ProductsActions.TRY_ADD_PRODUCT_CATEGORY).pipe(
+    switchMap((action: ProductsActions.TryAddProductCategory) => {
+      return this.requestsService.execute('createProductCategory', action.payload,
+        () => this.store.dispatch(new ProductsActions.ChangeLoadingState({key: 'isAddingProductCategory', status: false}))
+      );
+    }),
+    map((response: {savedCategory: IProductCategory}) => {
+      const category: IProductCategory = { _id: response.savedCategory._id, name: response.savedCategory.name };
+      return {
+        type: ProductsActions.FINISH_ADDING_PRODUCT_CATEGORY,
+        payload: category
       }
     })
   )

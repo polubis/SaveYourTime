@@ -20,7 +20,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   productToDelete: Product;
   isDeletingProduct: boolean;
   addProductModal = false;
-
+  addCategoryModal = true;
 
   ngOnInit() {
     this.deleteProductSub = this.store.select(state => state.products).subscribe((state: State) => {
@@ -36,6 +36,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.deleteProductSub.unsubscribe();
+  }
+  togle(key: string) {
+    this[key] = !this[key];
   }
   togleAddProductModal() {
     this.addProductModal = !this.addProductModal;

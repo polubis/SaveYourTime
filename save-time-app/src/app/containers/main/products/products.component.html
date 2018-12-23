@@ -37,3 +37,14 @@
  (closing)="togleDeleteModal(null)" (confirming)="deleteProduct()">
  <app-spinner *ngIf="isDeletingProduct" [backdrop]="true" [classes]="'spinner-big'" [containerClasses]="'spinner-centered'"></app-spinner>
 </app-confirm>
+
+
+<app-modal *ngIf="addCategoryModal" [classes]="'m-w-center product-modal'" (closing)="togle('addCategoryModal')">
+  <header class="modal-header flex-center">
+    <i class="material-icons">store</i>
+    <span>Create new product category</span>
+  </header>
+  <app-product-category-form>
+
+  </app-product-category-form>
+</app-modal>

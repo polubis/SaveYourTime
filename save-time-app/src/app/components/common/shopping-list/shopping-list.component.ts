@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Shopping } from "src/app/models/shopping";
 
 @Component({
   selector: 'app-shopping-list',
@@ -7,7 +6,7 @@ import { Shopping } from "src/app/models/shopping";
   styleUrls: ['./shopping-list.component.scss']
 })
 export class ShoppingListComponent implements OnInit {
-  shopping: Shopping[] = [];
+  shopping: any[] = [];
   constructor() { }
 
   ngOnInit() {

@@ -25,6 +25,10 @@ export const getProducts = createSelector(
   selectProductsEntity, fromProducts.products
 );
 
+export const getCategories = createSelector(
+  selectProductsEntity, fromProducts.selectCategories
+);
+
 export const getProductsCount = createSelector(
   selectProductsEntity, fromProducts.productsCount
 );

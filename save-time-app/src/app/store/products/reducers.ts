@@ -1,5 +1,5 @@
 import * as fromApp from '../../app.reducers';
-import { Product } from "src/app/models/product";
+import { Product, IProductCategory } from "src/app/models/product";
 import * as ProductsActions from './actions';
 export interface State {
   products: Product[];
@@ -7,6 +7,8 @@ export interface State {
   isAddingOrEditingProduct: boolean;
   isRemovingProduct: boolean;
   removingProductStatus?: boolean;
+  productCategories: IProductCategory[];
+  isAddingProductCategory?: boolean;
 };
 
 const initialState: State = {
@@ -14,11 +16,18 @@ const initialState: State = {
   productsCount: 0,
   isAddingOrEditingProduct: false,
   isRemovingProduct: false,
-  removingProductStatus: null
+  removingProductStatus: null,
+  productCategories: [],
+  isAddingProductCategory: null
 };
 
 export function productsReducer(state = initialState, action: ProductsActions.ProductsActions){
     switch(action.type){
+      case ProductsActions.CHANGE_LOADING_STATE:
+        return {
+          ...state,
+          [action.payload.key]: action.payload.status
+        };
       case ProductsActions.SET_PRODUCTS:
         return {
             ...state,
@@ -75,6 +84,22 @@ export function productsReducer(state = initialState, action: ProductsActions.Pr
             ...state,
             isAddingOrEditingProduct: action.payload
         };
+      case ProductsActions.SET_PRODUCT_CATEGORIES:
+        return {
+          ...state,
+          productCategories: action.payload
+        };
+      case ProductsActions.TRY_ADD_PRODUCT_CATEGORY:
+        return {
+          ...state,
+          isAddingProductCategory: true
+        };
+      case ProductsActions.FINISH_ADDING_PRODUCT_CATEGORY:
+        return {
+          ...state,
+          isAddingProductCategory: false,
+          productCategories: [action.payload, ...state.productCategories]
+        }
       default:
         return state;
     }
@@ -82,3 +107,4 @@ export function productsReducer(state = initialState, action: ProductsActions.Pr
 export const isAddingOrEditing = (state: State) => state.isAddingOrEditingProduct;
 export const products = (state: State) => state.products;
 export const productsCount = (state: State) => state.productsCount;
+export const selectCategories = (state: State) => state.productCategories;

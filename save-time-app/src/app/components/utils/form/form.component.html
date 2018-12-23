@@ -1,12 +1,26 @@
-<form [class]="'form ' + classes" #form (submit)="submit($event)">
+<form [class]="'form ' + classes" #form (submit)="submit($event)" [ngClass]="{'scaled-content': isSubmiting}">
 
   <section *ngFor="let key of formStateKeys" [class]="'input-whole-wrapper ' + key">
 
-    <div *ngIf="formSettings[key].mode !== 'file'" class="input-wrapper" [ngClass]="{'section-error': formErrors[key] !== ''}">
+    <div *ngIf="formSettings[key].mode === 'input'" class="input-wrapper" [ngClass]="{'section-error': formErrors[key] !== ''}">
 
       <input class="normal-input" *ngIf="formSettings[key].mode === 'input'"
       (input)="input($event, key)" (focus)="focus(key)" (blur)="blur()" [value]="formState[key]"
       [type]="formSettings[key].type" />
+
+      <label *ngIf="formSettings[key].label" [ngClass]="{'label-up': (key === currentFocusedInput || formState[key] !== '')}">{{formSettings[key].label}}</label>
+
+    </div>
+
+    <div *ngIf="formSettings[key].mode === 'select-type'" class="input-wrapper" [ngClass]="{'section-error': formErrors[key] !== ''}">
+
+      <input [value]="formState[key]" (input)="input($event, key)" list="select-items" (focus)="focus(key)" (blur)="blur()" class="normal-input"/>
+
+      <datalist id="select-items">
+          <option *ngFor="let item of formLists[key]" [value]="item.value">
+            {{item.label}}
+          </option>
+      </datalist>
 
       <label *ngIf="formSettings[key].label" [ngClass]="{'label-up': (key === currentFocusedInput || formState[key] !== '')}">{{formSettings[key].label}}</label>
 

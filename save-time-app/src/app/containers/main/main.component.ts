@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AppState } from "src/app/app.reducers";
+import { Store } from "@ngrx/store";
+import { TryGetProductCategories } from "src/app/store/products/actions";
 
 @Component({
   selector: 'app-main',
@@ -7,9 +10,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
   openAddProduct = false;
-  constructor() { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
+    this.store.dispatch(new TryGetProductCategories());
   }
 
   togle(key: string) {

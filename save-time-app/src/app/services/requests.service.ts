@@ -19,10 +19,13 @@ export class RequestsService {
     register: 'Your account has been succesfully created',
     addProduct: 'Product has been succesfully added',
     editProduct: 'Product has been succesfully edited',
-    deleteProduct: "Product has been succesfully deleted"
+    deleteProduct: "Product has been succesfully deleted",
+    createProductCategory: "Category has been succesfully added"
   }
 
   settings: Settings = {
+    getCategories: new RequestSetting('product/categories'),
+    createProductCategory: new RequestSetting('product/categories', false, RequestTypes.Post),
     products: new RequestSetting('products'),
     addProduct: new RequestSetting('products', false, RequestTypes.Post, true, true),
     editProduct: new RequestSetting('products/', false, RequestTypes.Patch, true, true),

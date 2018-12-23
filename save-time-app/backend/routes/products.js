@@ -33,7 +33,6 @@ router.get('', (req, res, next) => {
   const page = +req.query.page;
   const productsQuery = Product.find();
   let products;
-  console.log(size, page);
   if (size && page) {
     productsQuery.skip((page - 1) * size).limit(size);
   }
@@ -49,7 +48,6 @@ router.get('', (req, res, next) => {
     })
   })
   .catch(error => {
-    console.log(error);
     res.status(400).json({
       error: 'There is a problem with fetching products. Query params can be incorrect'
     });
@@ -71,6 +69,7 @@ function deleteImage (picPath, cb, delPath = '/backend/images/products/') {
 }
 
 router.post('', multer({ storage: storage }).single("picturePath"), (req, res, next) => {
+
   const product = new Product({
     ...req.body
   });
@@ -80,9 +79,11 @@ router.post('', multer({ storage: storage }).single("picturePath"), (req, res, n
   }
 
   product.save().then(createdProduct => {
+
     res.status(201).json({
       product: createdProduct
     });
+
   }).catch(error => {
     res.status(400).json({
       error: 'Product with that data cannot be created. Try again later'

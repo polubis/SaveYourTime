@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Shopping } from "src/app/models/shopping";
 
 @Component({
   selector: 'app-shopping',

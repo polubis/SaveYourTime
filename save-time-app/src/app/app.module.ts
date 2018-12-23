@@ -49,7 +49,7 @@ registerLocaleData(localePl);
     RegisterComponent,
     NotificationsComponent,
     NotificationComponent,
-    ProductsInstructionComponent
+    ProductsInstructionComponent,
   ],
   imports: [
     BrowserModule,
