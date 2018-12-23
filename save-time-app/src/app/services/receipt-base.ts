@@ -38,16 +38,17 @@ export class ReceiptBase {
     const sum: number = this.extractSum(lines);
     const receiptTitleIndex: number = this.findPatternDataInReceipt(lines, [/p.{5}n\s/, /n.*e\s?f.{7}/, /f.{6}y/]);
     const sellTaxTitleIndex: number = this.findPatternDataInReceipt(lines, [/(s|ś)prze/]);
-    const ratio = this.checkRatio({ sum, receiptTitleIndex, sellTaxTitleIndex });
-    return { sum, receiptTitleIndex, sellTaxTitleIndex, ratio };
+    return { sum, receiptTitleIndex, sellTaxTitleIndex };
   }
-  checkRatio(receiptCore: IReceiptCore) {
-    let ratio = 0;
-    if (receiptCore.sum) ratio++;
-    if (receiptCore.receiptTitleIndex) ratio++;
-    if (receiptCore.sellTaxTitleIndex) ratio++;
-    return ratio;
+
+  concatItems(lines: string[], startIndex: number, endIndex: number) {
+    const concatedLines: string[] = [];
+    for (let i = startIndex; i < endIndex; i++) {
+      concatedLines.push(lines[i]);
+    }
+    return concatedLines;
   }
+
 }
 
 export interface IQuality {
@@ -58,5 +59,4 @@ export interface IReceiptCore {
   sum: number;
   receiptTitleIndex: number;
   sellTaxTitleIndex: number;
-  ratio?: number;
 }

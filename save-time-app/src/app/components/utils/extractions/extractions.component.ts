@@ -7,7 +7,7 @@ import { AppState } from "src/app/app.reducers";
 import { getFilesToExtract } from "src/app/store";
 import { IFileToExtract } from "src/app/store/extractions/reducers";
 import { TryRemoveExtraction, TryPutExtractedFile } from "src/app/store/extractions/actions";
-import { Extraction, ExtractionState } from "src/app/models/extraction-state";
+import { Extraction, ExtractionState, IExtractionToFix } from "src/app/models/extraction-state";
 import { TryPushNotification } from "src/app/store/notifications/actions";
 import { Notification } from '../../../models/notification';
 import { ReceiptBase, IReceiptCore, IQuality } from "src/app/services/receipt-base";
@@ -28,7 +28,7 @@ export class ExtractionsComponent extends ReceiptBase implements OnInit, OnDestr
   previewOpened = false;
   containsOperations = false;
 
-  currentOpenedOverview: string;
+  readedContents: IExtractionToFix = null;
 
   extractionsKeys: string[] = [];
   currentExtractions: Extraction = null;
@@ -72,10 +72,6 @@ export class ExtractionsComponent extends ReceiptBase implements OnInit, OnDestr
         this.extractionsKeys = filesKeys;
       });
 
-  }
-
-  togleOverview(text: string) {
-    this.currentOpenedOverview = text;
   }
 
   checkIsFreezed() {
@@ -139,20 +135,25 @@ export class ExtractionsComponent extends ReceiptBase implements OnInit, OnDestr
     })
     .finally((response: any) => {
       if (response.text) {
+
         const lines: string[] = response.lines.map(line => line.text.toLowerCase());
         const coreData: IReceiptCore = super.getCoreReceiptData(lines);
-        const correctRatio = 3;
-        console.log(coreData);
-        if (coreData.ratio === correctRatio) {
-          this.currentExtractions[key] = new ExtractionState(false, 'ok', 100, `Data has been read successfully`);
+        if (coreData.receiptTitleIndex && coreData.sellTaxTitleIndex) {
+
+          const cutedLines = super.concatItems(lines, coreData.receiptTitleIndex, coreData.sellTaxTitleIndex);
+          const readedContent = {
+            [key]: { lines: cutedLines, receiptCoreData: coreData }
+          };
+          this.readedContents = { ...this.readedContents, ...readedContent };
+
+          const icon = coreData.sum ? 'ok' : 'warn';
+          const message = coreData.sum ? `Data has been read successfully` : 'Problem with some data. Using in form too is risky';
+
+          this.currentExtractions[key] = new ExtractionState(false, icon, 100, message);
           this.store.dispatch(new TryPutExtractedFile({ text: response.text, key }));
         }
-        else if(coreData.ratio === 0) {
-          this.currentExtractions[key] = new ExtractionState(false, 'error', 100, `Receipt quality is to low`);
-        }
         else {
-          this.currentExtractions[key] = new ExtractionState(false, 'warn', 100,
-          'Need to indicate data some receipt data...', lines);
+          this.currentExtractions[key] = new ExtractionState(false, 'error', 100, `Receipt quality is to low`);
         }
 
       } else {

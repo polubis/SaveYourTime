@@ -37,9 +37,6 @@
       }
       .progress-description {
         justify-content: space-between;
-        & > i {
-          font-size: 24px;
-        }
         span:first-of-type {
           font-weight: 500;
           color: $main;
@@ -110,12 +107,4 @@
 }
 .label-btn{
   font-weight: 400;
-}
-.overview-content {
-  padding: 20px;
-  max-height: 500px;
-  overflow-y: auto;
-  p {
-    padding: 0;
-  }
 }
