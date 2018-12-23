@@ -10,7 +10,7 @@ import { TryRemoveExtraction, TryPutExtractedFile } from "src/app/store/extracti
 import { Extraction, ExtractionState } from "src/app/models/extraction-state";
 import { TryPushNotification } from "src/app/store/notifications/actions";
 import { Notification } from '../../../models/notification';
-import { ReceiptBase, IQuality } from "src/app/services/receipt-base";
+import { ReceiptBase, IReceiptCore, IQuality } from "src/app/services/receipt-base";
 @Component({
   selector: 'app-extractions',
   templateUrl: './extractions.component.html',
@@ -19,7 +19,8 @@ import { ReceiptBase, IQuality } from "src/app/services/receipt-base";
 export class ExtractionsComponent extends ReceiptBase implements OnInit, OnDestroy {
   statusIcons = {
     error: 'error_outline',
-    ok: 'done'
+    ok: 'done',
+    warn: 'warning'
   };
 
   constructor(private store: Store<AppState>) { super(); }
@@ -66,7 +67,6 @@ export class ExtractionsComponent extends ReceiptBase implements OnInit, OnDestr
           if(this.checkFreezedSubscription)
             if (this.checkFreezedSubscription.closed)
               this.checkIsFreezed();
-
         }
 
         this.extractionsKeys = filesKeys;
@@ -140,17 +140,21 @@ export class ExtractionsComponent extends ReceiptBase implements OnInit, OnDestr
     .finally((response: any) => {
       if (response.text) {
         const lines: string[] = response.lines.map(line => line.text.toLowerCase());
-        const quality: IQuality = super.checkQualityOfExtractedImage(lines, 'receipt');
-        if (quality.isOk) {
-          this.currentExtractions[key] = new ExtractionState(false, 'ok', 100, `${quality.ratio.toFixed(2)} % matches`, response.text);
-          super.extractCoreReceiptData(lines);
+        const coreData: IReceiptCore = super.getCoreReceiptData(lines);
+        const correctRatio = 3;
+        console.log(coreData);
+        if (coreData.ratio === correctRatio) {
+          this.currentExtractions[key] = new ExtractionState(false, 'ok', 100, `Data has been read successfully`);
           this.store.dispatch(new TryPutExtractedFile({ text: response.text, key }));
         }
-        else {
-          this.currentExtractions[key] = new ExtractionState(false, 'error', 0,
-            `Receipt quality is to low. ${quality.ratio.toFixed(2)} % matches`, response.text);
-
+        else if(coreData.ratio === 0) {
+          this.currentExtractions[key] = new ExtractionState(false, 'error', 100, `Receipt quality is to low`);
         }
+        else {
+          this.currentExtractions[key] = new ExtractionState(false, 'warn', 100,
+          'Need to indicate data some receipt data...', lines);
+        }
+
       } else {
         this.currentExtractions[key] = new ExtractionState(false, 'error', 0, "Given image doesn't contains words");
       }
@@ -158,4 +162,5 @@ export class ExtractionsComponent extends ReceiptBase implements OnInit, OnDestr
       this.checkAllExtractionsStatus();
     })
   }
+
 }

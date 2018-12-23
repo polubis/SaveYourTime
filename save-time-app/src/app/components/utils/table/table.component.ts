@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
 import { FormSettings, Setting, FormState } from "src/app/components/utils/form/form";
 import * as tableKeys from './table-keys';
 import { Subscription } from "rxjs";
@@ -8,6 +8,8 @@ import { Subscription } from "rxjs";
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit {
+  @ViewChild('pagination') pagination: any;
+
   @Input() tableClass = 'table-add';
   @Input() title = 'Products';
   @Input() subTitle = 'click row for select';
@@ -44,6 +46,7 @@ export class TableComponent implements OnInit {
   changeRowsLimit(limit: number) {
     this.rowsLimit = limit;
     this.percentageLimit = this.calculateProgressMarkup(limit);
+    this.pagination.changePage(1);
     this.settingChanges.emit({ size: limit, page: this.currentPage });
   }
 
@@ -79,4 +82,3 @@ export class TableComponent implements OnInit {
   }
 
 }
-// Zapytac sie czy moge dynamicznie przekazac komponent i go wyrenderowac

@@ -1,100 +1,62 @@
 
 export class ReceiptBase {
-  matches: IMatch = {
-    receipt: new Match(
-      ['suma', 'gotówka', 'reszta', 'sprzedaż', 'nip', 'paragon fiskalny'],
-      ['suma', 'gotówka', 'reszta', 'sprzedaż'],
-    )
-  };
-
-
-  extractSum(text: string): number {
+  extractSum(lines: string[]): number {
     const sumRegex = /(sum|pln)[\W\D]*[0-9]+(\W?\D?)[0-9]{2}/;
-    const extractedRgx = sumRegex.exec(text);
-
-    return extractedRgx ?
-      +extractedRgx.input
-      .replace(/[a-zA-Z-_@ ]/g, '')
-      .replace(/,/, '.')
-      : null;
-  }
-
-  extractCoreReceiptData(lines: string[]) {
     let sum: number;
-    let rest: number;
-    let cash: number;
-    const linesCount = lines.length;
-    for (let i = 0; i < linesCount; i++) {
-      if (!sum) {
-        sum = this.extractSum(lines[i]);
+    for (let key in lines) {
+      if (sum)
+        break;
+
+      const extractedRgx = sumRegex.exec(lines[key]);
+      if (extractedRgx) {
+        sum = +extractedRgx.input
+        .replace(/[a-zA-Z-_@ ]/g, '')
+        .replace(/,/, '.')
       }
     }
-    console.log(sum);
+    return sum;
   }
 
-
-
-
-  checkQualityOfExtractedImage(lines: string[], matchName: string): IQuality{
-    const linesCount = lines.length;
-    const match: Match = this.matches[matchName];
-    const regexPatterns = this.createRegexPatterns(match.matchDictionary);
-    const patternsKeys = Object.keys(regexPatterns);
-    let currentMatchRatio = 0;
-
-    for (let key in patternsKeys) {
-      const name: string = patternsKeys[key];
-
-      for(let i = 0; i < linesCount; i++) {
-        const text: string = lines[i];
-        const result = regexPatterns[name].test(text);
-        if(result) {
-          currentMatchRatio += match.jumpRatio
-          break;
+  findPatternDataInReceipt(lines: string[], patterns: any[]) {
+    let index: number;
+    for(let i = 0; i < lines.length; i++) {
+      if (index) {
+        break;
+      }
+      const text: string = lines[i];
+      for(let rx in patterns) {
+        const pattern = patterns[rx];
+        if (pattern.test(text)){
+          index = i;
         }
       }
     }
-    return { ratio: currentMatchRatio, isOk: currentMatchRatio > match.minimumMatchRate };
+    return index;
   }
 
-  createRegexPatterns(dictionary: string[]) {
-    const regexes: {[key: string]: any} = {};
-    for(let key in dictionary) {
-      regexes[dictionary[key]] = this.createWordInTextRgx(dictionary[key]);
-    }
-    return regexes;
+  getCoreReceiptData(lines: string[]): IReceiptCore {
+    const sum: number = this.extractSum(lines);
+    const receiptTitleIndex: number = this.findPatternDataInReceipt(lines, [/p.{5}n\s/, /n.*e\s?f.{7}/, /f.{6}y/]);
+    const sellTaxTitleIndex: number = this.findPatternDataInReceipt(lines, [/(s|ś)prze/]);
+    const ratio = this.checkRatio({ sum, receiptTitleIndex, sellTaxTitleIndex });
+    return { sum, receiptTitleIndex, sellTaxTitleIndex, ratio };
   }
-
-  createWordInTextRgx(baseValue: any) {
-    const baseValLength = baseValue.length;
-    let expression = `${baseValue}`;
-    let currentSlice = '';
-    const sliceLimit = 3;
-    if (baseValLength > sliceLimit) {
-      for(let i = 0; i < baseValLength; i++) {
-        if (currentSlice.length === sliceLimit)
-          break;
-
-        currentSlice = baseValue.slice(0, baseValLength-1-i);
-        expression += `|${currentSlice}`;
-      }
-    }
-
-    return new RegExp(expression);
+  checkRatio(receiptCore: IReceiptCore) {
+    let ratio = 0;
+    if (receiptCore.sum) ratio++;
+    if (receiptCore.receiptTitleIndex) ratio++;
+    if (receiptCore.sellTaxTitleIndex) ratio++;
+    return ratio;
   }
-}
-
-export class Match {
-  constructor(public matchDictionary: string[], public informationsDictionary: string[], public minimumMatchRate: number = 25, additionalRegexes?: any, public jumpRatio?: number) {
-    const jump = 100 / matchDictionary.length;
-    this.jumpRatio = Math.round(jump * 100) / 100;
-  }
-}
-export interface IMatch {
-  [key: string]: Match;
 }
 
 export interface IQuality {
   ratio: number;
   isOk: boolean;
+}
+export interface IReceiptCore {
+  sum: number;
+  receiptTitleIndex: number;
+  sellTaxTitleIndex: number;
+  ratio?: number;
 }

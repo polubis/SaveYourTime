@@ -12,7 +12,7 @@
         </span>
         <span *ngIf="currentExtractions[key].isProcessing">in progress...</span>
         <i *ngIf="!currentExtractions[key].isProcessing && currentExtractions[key].extractionOnErrorOverview"
-        class="material-icons clickable" (click)="togleOverview(currentExtractions[key].extractionOnErrorOverview)">visibility</i>
+        class="material-icons clickable" (click)="togleOverview(key)">build</i>
       </p>
       <div class="flex-center progress-ratio">
         <span class="percentage" *ngIf="currentExtractions[key].isProcessing">{{currentExtractions[key].value}} %</span>
@@ -45,6 +45,9 @@
     <span>Extracted text from image</span>
   </header>
   <div class="overview-content">
-    {{currentOpenedOverview}}
+    <p *ngFor="let overview of currentExtractions[currentOpenedOverview].extractionOnErrorOverview">
+      {{overview}}
+    </p>
+
   </div>
 </app-modal>

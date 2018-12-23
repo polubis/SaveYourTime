@@ -52,7 +52,7 @@
       </div>
     </div>
 
-    <app-pagination *ngIf="enablePagination" [limit]="rowsLimit" (changingPage)="changePage($event)">
+    <app-pagination #pagination *ngIf="enablePagination" [limit]="rowsLimit" (changingPage)="changePage($event)">
 
     </app-pagination>
 

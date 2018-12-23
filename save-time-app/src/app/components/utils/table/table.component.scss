@@ -11,19 +11,19 @@
   }
   .filter-wrapper {
     & > div {
-      padding: .75em;
+      padding: 12.5px;
     }
     div.filters{
-      padding: 0 .75em;
+      padding: 0 12.5px;
       p {
-        padding: .75em 0;
+        padding: 12.5px 0;
       }
       display: flex;
       flex-flow: wrap;
       background: $table-row;
       .filter {
         animation: .4s animate-link forwards;
-        margin: .75em .75em .75em 0;
+        margin: 12.5px 12.5px 12.5px 0;
         cursor: pointer;
         span.main-colored {
           margin-right: 5px;
@@ -33,7 +33,7 @@
     }
   }
   header {
-    padding: .75em;
+    padding: 12.5px;
     display: inline-block;
     width: 100%;
     box-sizing: border-box;
@@ -87,7 +87,7 @@
     border-collapse: collapse;
     color: $font;
     th, td {
-      padding: .75em;
+      padding: 12.5px;
       text-align: left;
     }
     td {
@@ -121,7 +121,7 @@
 
 
   .pagination-wrapper {
-    padding: 0 .75em;
+    padding: 0 12.5px;
     .filtering-settings {
       justify-content: flex-end;
       & > span {
