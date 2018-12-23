@@ -110,16 +110,6 @@ export class Form extends ValidationService {
     this.putError('', name);
   }
 
-  removeErrors(name: string) {
-    const formErrors = {...this.formErrors};
-    const formState = {...this.formState};
-    formErrors[name] = '';
-    formState[name] = this.initialSnapshot[name];
-    this.isErrorsInForm = false;
-    this.formErrors = formErrors;
-    this.formState = formState;
-  }
-
   onFilePicked(e: Event, name: string) {
     this.isLoadingDataForForm = true;
     const file = (event.target as HTMLInputElement).files[0];

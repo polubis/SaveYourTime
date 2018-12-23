@@ -1,6 +1,6 @@
 <div [class]="'cart cart-products ' + classes">
   <p class="flex-between">
-    <span class="cart-name">{{product.name}}</span>
+    <span [title]="product.detailedName" class="cart-name">{{product.detailedName | shorten}}</span>
     <span *ngIf="allowOperations">
       <i (click)="editing.emit()" class="material-icons main-colored animated-icon">edit</i>
       <i (click)="deleting.emit()" class="material-icons main-colored animated-icon danger-color">delete</i>
@@ -8,14 +8,15 @@
   </p>
 
   <div class="product-details">
-    <div class="label" *ngIf="product.company">
-      <span>company</span>
-      <span>{{product.company}}</span>
+
+    <div class="label" *ngIf="product.name">
+      <span>name</span>
+      <span>{{product.name}}</span>
     </div>
 
-    <div class="label" *ngIf="product.type">
-      <span>type</span>
-      <span>{{product.type}}</span>
+    <div class="label" *ngIf="product.category">
+      <span>category</span>
+      <span>{{product.category}}</span>
     </div>
 
     <div *ngIf="product.rate" class="label">
@@ -25,13 +26,9 @@
 
     <div *ngIf="product.calories" class="label">
       <span>calories</span>
-      <span>{{product.calories}}</span>
+      <span>{{product.calories}} {{product.caloriesUnit}}</span>
     </div>
 
-    <div *ngIf="product.price" class="label">
-      <span>price</span>
-      <span>{{product.price}} zł</span>
-    </div>
   </div>
 
   <div class="cart-image">

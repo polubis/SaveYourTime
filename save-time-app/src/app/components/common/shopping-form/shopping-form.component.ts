@@ -4,12 +4,12 @@ import { Store } from "@ngrx/store";
 import { FetchProducts, StartRemovingProduct, SetRemovingProductState } from '../../../store/products/actions';
 import { Product } from "src/app/models/product";
 import { Subscription, interval, Observable } from "rxjs";
-import { ShoppingProduct } from "src/app/models/shopping";
 import { getFilesToExtract } from "src/app/store";
 import { take, map } from "rxjs/operators";
 import { IDropzone } from "src/app/components/utils/dropzone/dropzone";
 import { IFileToExtract } from "src/app/store/extractions/reducers";
 import { TryPutExtraction } from "src/app/store/extractions/actions";
+import { SelectedProduct } from "src/app/models/shopping";
 
 @Component({
   selector: 'app-shopping-form',
@@ -26,7 +26,7 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
 
   productsToSelect: Product[];
 
-  selectedProducts: ShoppingProduct[] = [];
+  selectedProducts: SelectedProduct[] = [];
   sum: number = 0;
 
   filesNamesInExtractingProcess: string[];
@@ -63,8 +63,7 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
 
   removeProductFromSelected (item: { item: Product, index: number } ) {
     const { item: product, index } = item;
-    const selectedProducts: ShoppingProduct[] = [...this.selectedProducts];
-    let sum = this.sum;
+    const selectedProducts: SelectedProduct[] = [...this.selectedProducts];
     const selectedProduct = selectedProducts[index];
 
     if (selectedProduct.quantity === 1) {
@@ -72,30 +71,26 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
     } else {
       selectedProduct.quantity = selectedProduct.quantity - 1;
     }
-    sum -= selectedProduct.cost;
-    this.sum = Math.round(sum * 100) / 100;
     this.selectedProducts = selectedProducts;
   }
 
   addProductToSelected(item: { item: Product, index: number }) {
     const { item: product, index } = item;
-    const selectedProducts: ShoppingProduct[] = [...this.selectedProducts];
-    const indexOfProduct = selectedProducts.findIndex(x => x.productName === product.name);
-    let sum = this.sum;
+    const selectedProducts: SelectedProduct[] = [...this.selectedProducts];
+    const indexOfProduct = selectedProducts.findIndex(x => x.name === product.name);
+
+    const { name, detailedName } = product;
 
     if (indexOfProduct !== -1) {
-      const { quantity }: ShoppingProduct = selectedProducts[indexOfProduct];
-      const cShoppingProductFromAlreadyAdded = new ShoppingProduct(product.name, product.price, 0, quantity + 1);
-      selectedProducts[indexOfProduct] = cShoppingProductFromAlreadyAdded;
-      sum += cShoppingProductFromAlreadyAdded.cost;
+      const { quantity }: SelectedProduct = selectedProducts[indexOfProduct];
+      const exitingSelectedProduct: SelectedProduct = { detailedName, name, quantity: quantity + 1 };
+      selectedProducts[indexOfProduct] = exitingSelectedProduct;
     } else {
-      const newShoppingProduct = new ShoppingProduct(product.name, product.price, 0);
-      selectedProducts.unshift(newShoppingProduct);
-      sum += newShoppingProduct.cost;
+      const newSelectedProduct = { detailedName, name, quantity: 1 };
+      selectedProducts.unshift(newSelectedProduct);
     }
 
     this.selectedProducts = selectedProducts;
-    this.sum = Math.round(sum * 100) / 100;
   }
 
   handleDropReceipt(files: File[]) {

@@ -33,7 +33,7 @@
     <p [ngClass]="{'abs-validation-message flex-between': formSettings[key].mode === 'file' && formErrors[key],
     'validation-message': formSettings[key].mode !== 'file'}"  *ngIf="formSettings[key].validators">
       <span *ngIf="formErrors[key]">{{formErrors[key]}}</span>
-      <button (click)="removeErrors(key)" *ngIf="formErrors[key] && formSettings[key].mode === 'file'" class="label-btn" type="button">OK</button>
+      <button (click)="clearInputState(key)" *ngIf="formErrors[key] && formSettings[key].mode === 'file'" class="label-btn" type="button">OK</button>
     </p>
   </section>
 

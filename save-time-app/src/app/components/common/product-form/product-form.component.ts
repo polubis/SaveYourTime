@@ -19,11 +19,11 @@ export class ProductFormComponent extends FormBase implements OnInit {
 
   ngOnInit() {
     const formSettings = {
+      detailedName: new Setting('detailed name', { isNotEmptyString: true, minLength: 3, maxLength: 50 }),
       name: new Setting('product name', { isNotEmptyString: true, minLength: 3, maxLength: 50 }),
-      company: new Setting('company', { minLength: 3, maxLength: 50 }),
-      type: new Setting('type', { minLength: 3, maxLength: 50 }),
-      calories: new Setting('calories', { minLength: 3, maxLength: 50 }),
-      price: new Setting('price', { minLength: 3, maxLength: 50 }),
+      category: new Setting('category', { isNotEmptyString: true, minLength: 3, maxLength: 50 }),
+      calories: new Setting('calories'),
+      caloriesUnit: new Setting('calories unit'),
       picturePath: new Setting('product picture', { isPicture: true }, '', 'file')
     };
 
@@ -38,8 +38,8 @@ export class ProductFormComponent extends FormBase implements OnInit {
 
   handleSubmit(formState: FormState) {
     if (this.elementToEdit) {
-      const newProduct  = new Product(this.elementToEdit._id, formState.name, formState.company, formState.type, formState.picturePath,
-        this.elementToEdit.rate, formState.calories, +formState.price);
+      const newProduct  = new Product(this.elementToEdit._id, formState.name, formState.detailedName,
+        formState.category, formState.picturePath, this.elementToEdit.rate, formState.calories, formState.caloriesUnit);
       this.store.dispatch(new StartEditProduct(newProduct));
     } else {
       this.store.dispatch(new StartAddingProduct(formState));

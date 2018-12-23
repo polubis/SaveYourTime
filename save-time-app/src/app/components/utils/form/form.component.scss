@@ -117,28 +117,28 @@
 }
 
 .product-form {
-  grid-template-rows: 1fr 125px auto 1fr;
+  grid-template-rows: 1fr 1fr 125px 1fr;
   grid-template-columns: 1fr 1fr;
   padding: 0 35px;
   grid-template-areas:
-    "name company"
-    "type picture"
-    "calories price"
+    "name dname"
+    "category picture"
+    "calories cunit"
     "button button";
   .name {
     grid-area: name;
   }
-  .company {
-    grid-area: company;
+  .detailedName {
+    grid-area: dname;
   }
-  .type {
-    grid-area: type;
-  }
-  .price{
-    grid-area: price;
+  .category {
+    grid-area: category;
   }
   .calories {
     grid-area: calories;
+  }
+  .caloriesUnit {
+    grid-area: cunit;
   }
   .productPicture {
     grid-area: picture;

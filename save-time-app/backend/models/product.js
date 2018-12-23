@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 const productSchema = mongoose.Schema({
   name: { type: String, required: true, unique: true },
-  company: { type: String },
-  type: { type: String },
+  detailedName: { type: String, required: true },
+  category: { type: String, required: true, ref: 'ProductCategory' },
   picturePath: { type: String },
   rate: { type: Number },
   calories: { type: Number },
-  price: { type: Number },
+  caloriesUnit: { type: String },
   versionKey: false
 });
 
