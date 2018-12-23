@@ -43,7 +43,7 @@ export class ReceiptBase {
 
   concatItems(lines: string[], startIndex: number, endIndex: number) {
     const concatedLines: string[] = [];
-    for (let i = startIndex; i < endIndex; i++) {
+    for (let i = startIndex + 1; i < endIndex; i++) {
       concatedLines.push(lines[i]);
     }
     return concatedLines;

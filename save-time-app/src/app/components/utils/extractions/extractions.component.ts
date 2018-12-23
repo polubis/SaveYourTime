@@ -145,7 +145,7 @@ export class ExtractionsComponent extends ReceiptBase implements OnInit, OnDestr
             [key]: { lines: cutedLines, receiptCoreData: coreData }
           };
           this.readedContents = { ...this.readedContents, ...readedContent };
-
+          console.log(this.readedContents);
           const icon = coreData.sum ? 'ok' : 'warn';
           const message = coreData.sum ? `Data has been read successfully` : 'Problem with some data. Using in form too is risky';
 
