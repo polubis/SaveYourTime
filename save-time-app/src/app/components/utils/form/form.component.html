@@ -26,6 +26,18 @@
 
     </div>
 
+    <div *ngIf="formSettings[key].mode === 'select'" class="input-wrapper" [ngClass]="{'section-error': formErrors[key] !== ''}">
+
+      <select [value]="formState[key]" (input)="input($event, key)" list="select-items" (focus)="focus(key)" (blur)="blur()" class="normal-input">
+        <option *ngFor="let item of formLists[key]" [value]="item.value">
+          {{item.label}}
+        </option>
+      </select>
+
+      <label *ngIf="formSettings[key].label" [ngClass]="{'label-up': (key === currentFocusedInput || formState[key] !== '')}">{{formSettings[key].label}}</label>
+
+    </div>
+
     <ng-container *ngIf="formSettings[key].mode === 'file'">
       <div class="file-picker" (click)="file.click($event)" *ngIf="!preview"
       [ngClass]="{'danger-bg': formErrors[key] !== '', 'main-bg': formErrors[key] === ''}">

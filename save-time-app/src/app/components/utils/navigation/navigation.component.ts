@@ -2,6 +2,9 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/app/app.reducers";
+import { ChangeState } from "src/app/store/products/actions";
+import { getCategories } from "src/app/store";
+import { IProductCategory } from "src/app/models/product";
 
 @Component({
   selector: 'app-navigation',
@@ -13,7 +16,8 @@ export class NavigationComponent implements OnInit {
   @Input() initial = 'full-nav';
   navigationLinks: any[] = [
     {path: '/main/products', icon: "store", name: "Products", childs: [
-        {label: "add new", func: () => this.onClickLink.emit('openAddProduct')}, {label: "browse shared"}, {label: "templates"}
+        {label: "add product", func: () => this.openAddProduct(), disabled: true},
+        {label: "add category", func: () => this.openAddCategoryModal()}, {label: "templates"}
       ]
     },
     {icon: "local_dining", name: "Shopping", childs: [
@@ -39,6 +43,14 @@ export class NavigationComponent implements OnInit {
     this.currentOpenedNavigationBar = this.findStartNavigationBarIndex();
   }
 
+  openAddProduct() {
+    this.onClickLink.emit('openAddProduct');
+  }
+
+  openAddCategoryModal() {
+    this.store.dispatch(new ChangeState( { key: 'categoryModal', value: true}));
+  }
+
   findStartNavigationBarIndex() {
     const path = document.location.pathname;
     const length = this.navigationLinks.length;
@@ -51,7 +63,21 @@ export class NavigationComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.store.select(getCategories)
+    .subscribe((categories: IProductCategory[]) => {
+      const navigationLinks = [...this.navigationLinks];
+      const productsLinks = {...navigationLinks[0]};
+      if (categories.length > 0) {
+        productsLinks.childs[0].disabled = false;
+        productsLinks.childs[0].func = () => this.openAddProduct();
+        productsLinks.childs[1].label = 'add category (' + categories.length + ')';
+      }
+      else {
+        productsLinks.childs[0].disabled = true;
+        productsLinks.childs[0].func = null;
+      }
+      this.navigationLinks = navigationLinks;
+    });
   }
   changeOpenedNavigationBar(index: number) {
     this.currentOpenedNavigationBar = index;

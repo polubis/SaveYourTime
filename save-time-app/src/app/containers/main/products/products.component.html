@@ -6,9 +6,15 @@
 
   <div class="products-list">
     <div *ngIf="products.length === 0; else productsList">
-      <app-empty-list (clicking)="togleAddProductModal()" [header]="'Products'">
-        Looks like your product list is empty. <br> If you want add
-        new one click button bellow
+      <app-empty-list (clicking)="togleModals()" [header]="isCategoriesAdded ? 'Products' : 'Categories'">
+        <ng-container *ngIf="isCategoriesAdded">
+          Looks like your product list is empty. <br> If you want add
+          new one click button bellow
+        </ng-container>
+        <ng-container *ngIf="!isCategoriesAdded">
+          You must add category of product firstly. <br> If you want add new one
+          and unlock adding products click button bellow
+        </ng-container>
       </app-empty-list>
     </div>
 
@@ -26,7 +32,7 @@
 (closing)="togleEditModal(null)">
   <header class="modal-header flex-center">
     <i class="material-icons">store</i>
-    <span>Edit selected product</span>
+    <span>{{productToEdit ? 'Edit selected product' : 'Add new product'}}</span>
   </header>
 
   <app-product-form *ngIf="productToEdit" [elementToEdit]="productToEdit"></app-product-form>
@@ -39,7 +45,7 @@
 </app-confirm>
 
 
-<app-modal *ngIf="addCategoryModal" [classes]="'m-w-center product-modal'" (closing)="togle('addCategoryModal')">
+<app-modal *ngIf="addCategoryModal" [classes]="'m-w-center product-modal'" (closing)="togleCategoryModal()">
   <header class="modal-header flex-center">
     <i class="material-icons">store</i>
     <span>Create new product category</span>

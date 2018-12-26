@@ -121,15 +121,12 @@
   grid-template-columns: 1fr 1fr;
   padding: 0 35px;
   grid-template-areas:
-    "name dname"
+    "name name"
     "category picture"
     "calories cunit"
     "button button";
   .name {
     grid-area: name;
-  }
-  .detailedName {
-    grid-area: dname;
   }
   .category {
     grid-area: category;

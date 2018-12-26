@@ -79,14 +79,14 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
     const selectedProducts: SelectedProduct[] = [...this.selectedProducts];
     const indexOfProduct = selectedProducts.findIndex(x => x.name === product.name);
 
-    const { name, detailedName } = product;
+    const { name } = product;
 
     if (indexOfProduct !== -1) {
       const { quantity }: SelectedProduct = selectedProducts[indexOfProduct];
-      const exitingSelectedProduct: SelectedProduct = { detailedName, name, quantity: quantity + 1 };
+      const exitingSelectedProduct: SelectedProduct = { name, quantity: quantity + 1 };
       selectedProducts[indexOfProduct] = exitingSelectedProduct;
     } else {
-      const newSelectedProduct = { detailedName, name, quantity: 1 };
+      const newSelectedProduct = { name, quantity: 1 };
       selectedProducts.unshift(newSelectedProduct);
     }
 

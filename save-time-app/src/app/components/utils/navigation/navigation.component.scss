@@ -46,6 +46,7 @@ nav{
         }
     }
   }
+
   .link-content{
     padding: 1em;
     span{
@@ -101,4 +102,9 @@ nav{
     background: $main;
     color: $font-white;
   }
+}
+li.dis-link {
+  color: $error;
+  cursor: initial;
+  text-decoration: line-through;
 }

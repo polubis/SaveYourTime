@@ -73,26 +73,22 @@ router.post('', multer({ storage: storage }).single("picturePath"), (req, res, n
   const product = new Product({
     ...req.body
   });
+
   if (req.file) {
     const picturePath = req.protocol + '://' + req.get('host') + '/images/products/';
     product.picturePath = picturePath + req.file.filename;
   }
 
-  product.save().then(createdProduct => {
-
-    res.status(201).json({
-      product: createdProduct
-    });
-
-  }).catch(error => {
-    res.status(400).json({
-      error: 'Product with that data cannot be created. Try again later'
+  product.save().then(sProduct => {
+    res.status(201).json({ product: sProduct });
+  })
+  .catch(err => {
+    deleteImage(product.picturePath, function(err) {
+      res.status(400).json({ error: 'There is a problem with adding product' })
     });
   });
+
 });
-
-
-
 
 router.patch('/rate/:id', (req, res, next) => {
   const productId = req.params.id;
@@ -160,13 +156,14 @@ function update(product, id, res) {
       product: product
     });
   }).catch(error => {
-    res.status(400).json({
-      error: 'Cannot edit product. Make sure all data is in correct format'
-    })
+    deleteImage(product.picturePath, function(err) {
+      res.status(400).json({ error: 'Cannot edit product. Make sure all data is in correct format' })
+    });
   });
 }
 
 router.patch('/:id', multer({ storage: storage }).single("picturePath"), (req, res, next) => {
+
     Product.findOne( { _id: req.params.id } ).then(product => {
 
       const newProduct = new Product({
@@ -198,7 +195,9 @@ router.patch('/:id', multer({ storage: storage }).single("picturePath"), (req, r
 
 
     }).catch(error => {
-      res.status(400).json({error: "Product with given id doesn't exists"})
+      deleteImage(req.body.picturePath, function() {
+        res.status(400).json({error: "Product with given id doesn't exists"})
+      });
     });
 
 });

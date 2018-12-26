@@ -22,6 +22,7 @@ export const TRY_ADD_PRODUCT_CATEGORY = "[Products] TRY_ADD_PRODUCT_CATEGORY";
 export const FINISH_ADDING_PRODUCT_CATEGORY = "[Products] FINISH_ADDING_PRODUCT_CATEGORY";
 
 export const CHANGE_LOADING_STATE = "[Products] CHANGE_LOADING_STATE";
+export const CHANGE_STATE = "[Products] CHANGE_STATE";
 export class SetProducts implements Action{
     readonly type = SET_PRODUCTS;
     constructor(public payload: {products: Product[], productsCount: number}){}
@@ -100,6 +101,11 @@ export class FinishAddingProductCategory implements Action {
   constructor(public payload: IProductCategory) {}
 }
 
+export class ChangeState implements Action {
+  readonly type = CHANGE_STATE;
+  constructor(public payload: {key: string, value: any}) {}
+}
+
 export type ProductsActions = SetProducts | FetchProducts | PushProduct | StartAddingProduct | StartEditProduct |
   SetChangeProductsState | PutProduct | RemoveProduct | StartRemovingProduct | SetRemovingProductState | StartVoting | SetProductCategories | TryGetProductCategories
-  | TryAddProductCategory | FinishAddingProductCategory | ChangeLoadingState;
+  | TryAddProductCategory | FinishAddingProductCategory | ChangeLoadingState | ChangeState;

@@ -12,6 +12,7 @@ import { RequestsService } from "src/app/services/requests.service";
 import * as ProductsActions from '../../store/products/actions';
 import { Product, IProductCategory } from "src/app/models/product";
 import { AppState } from "src/app/app.reducers";
+import { ChangeState } from "../../store/products/actions";
 @Injectable()
 export class ProductsEffects {
   constructor(
@@ -99,6 +100,9 @@ export class ProductsEffects {
       return this.requestsService.execute('getCategories');
     }),
     map((res: {productCategories: IProductCategory[]}) => {
+      if (res.productCategories.length === 0) {
+        this.store.dispatch(new ChangeState({ key: 'categoryModal', value: true}));
+      }
       return {
         type: ProductsActions.SET_PRODUCT_CATEGORIES,
         payload: res.productCategories
@@ -115,6 +119,8 @@ export class ProductsEffects {
     }),
     map((response: {savedCategory: IProductCategory}) => {
       const category: IProductCategory = { _id: response.savedCategory._id, name: response.savedCategory.name };
+      this.store.dispatch(new ChangeState({ key: 'categoryModal', value: false}));
+
       return {
         type: ProductsActions.FINISH_ADDING_PRODUCT_CATEGORY,
         payload: category

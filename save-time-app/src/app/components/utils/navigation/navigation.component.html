@@ -24,7 +24,8 @@
         </div>
 
         <ul *ngIf="link.childs && currentOpenedNavigationBar === i">
-          <li *ngFor="let child of link.childs" class="child-link clickable" (click)="child.func()">
+          <li *ngFor="let child of link.childs" class="child-link clickable" (click)="child.func()"
+          [ngClass]="{'dis-link': child.disabled}">
             {{child.label}}
           </li>
         </ul>

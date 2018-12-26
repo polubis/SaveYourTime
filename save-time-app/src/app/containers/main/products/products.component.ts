@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppState } from "src/app/app.reducers";
 import { Store } from "@ngrx/store";
-import { FetchProducts, StartRemovingProduct, SetRemovingProductState } from '../../../store/products/actions';
+import { FetchProducts, StartRemovingProduct, SetRemovingProductState, ChangeState } from '../../../store/products/actions';
 import { Product } from "src/app/models/product";
 import { Subscription } from "rxjs";
 import { State } from '../../../store/products/reducers';
@@ -20,7 +20,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
   productToDelete: Product;
   isDeletingProduct: boolean;
   addProductModal = false;
-  addCategoryModal = true;
+  addCategoryModal = false;
+  isCategoriesAdded = false;
 
   ngOnInit() {
     this.deleteProductSub = this.store.select(state => state.products).subscribe((state: State) => {
@@ -31,17 +32,20 @@ export class ProductsComponent implements OnInit, OnDestroy {
         this.productToDelete = null;
         this.store.dispatch(new SetRemovingProductState(null));
       }
+
+      this.addCategoryModal = state.categoryModal;
+      this.isCategoriesAdded = state.productCategories.length > 0;
     });
     this.store.dispatch(new FetchProducts());
   }
   ngOnDestroy() {
     this.deleteProductSub.unsubscribe();
   }
+  togleCategoryModal() {
+    this.store.dispatch(new ChangeState({key: 'categoryModal', value: !this.addCategoryModal}));
+  }
   togle(key: string) {
     this[key] = !this[key];
-  }
-  togleAddProductModal() {
-    this.addProductModal = !this.addProductModal;
   }
   togleEditModal(product: Product | any) {
     this.productToEdit = product ? product : null;
@@ -53,6 +57,13 @@ export class ProductsComponent implements OnInit, OnDestroy {
   deleteProduct() {
     this.store.dispatch(new StartRemovingProduct(this.productToDelete._id))
   }
-
+  togleModals() {
+    if (this.isCategoriesAdded) {
+      this.addProductModal = !this.addProductModal;
+    }
+    else {
+      this.togleCategoryModal();
+    }
+  }
 
 }

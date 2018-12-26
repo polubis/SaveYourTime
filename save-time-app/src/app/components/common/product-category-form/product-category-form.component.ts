@@ -16,7 +16,7 @@ export class ProductCategoryFormComponent extends FormBase implements OnInit {
 
   ngOnInit() {
     const categoryFormSettings = {
-      name: new Setting('product category name', { isNotEmptyString: true, minLength: 3, maxLength: 50 }),
+      name: new Setting("product category name (like: 'wegetables')", { isNotEmptyString: true, minLength: 3, maxLength: 50 }),
     };
 
     this.categoryFormSettings = this.elementToEdit ?
