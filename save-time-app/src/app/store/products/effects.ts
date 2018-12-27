@@ -132,6 +132,33 @@ export class ProductsEffects {
   )
 
 
+  categoryToChange: IProductCategory;
+
+  @Effect()
+  editCategory = this.actions$.ofType(ProductsActions.TRY_EDIT_PRODUCT_CATEGORY).pipe(
+    switchMap((action: ProductsActions.TryEditProductCategory) => {
+      this.categoryToChange = action.payload;
+      return this.requestsService.execute('editCategory', action.payload,
+        () => this.store.dispatch(new ChangeState( { key: 'editingCategory', value: false } )), ''
+      );
+    }),
+    switchMap(() => {
+      return this.store.select(getCategories).pipe(take(1));
+    }),
+    map((categories: IProductCategory[]) => {
+      const cCategories = [...categories];
+      const categoryIndex: number = cCategories.findIndex(category => category._id === this.categoryToChange._id);
+      cCategories[categoryIndex] = this.categoryToChange;
+
+      this.store.dispatch(new ChangeState( { key: 'editingCategory', value: false } ));
+      return {
+        type: ProductsActions.SET_PRODUCT_CATEGORIES,
+        payload: cCategories
+      };
+    })
+  )
+
+
   categoryToRemove_Id: string;
 
   @Effect()

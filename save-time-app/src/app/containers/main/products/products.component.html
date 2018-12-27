@@ -19,7 +19,7 @@
 
         <div class="icons flex-center">
           <i (click)="setCategoryToRemove(category._id)" class="material-icons danger-color animated-icon">delete</i>
-          <i class="material-icons main-colored animated-icon">edit</i>
+          <i (click)="setCategoryToEdit(category)" class="material-icons main-colored animated-icon">edit</i>
         </div>
 
       </div>
@@ -58,6 +58,11 @@
 
 </div>
 
+<app-modal *ngIf="categoryToEdit" [classes]="'m-w-center product-modal'" (closing)="setCategoryToEdit(null)">
+  <app-product-category-form [elementToEdit]="categoryToEdit">
+  </app-product-category-form>
+</app-modal>
+
 <app-modal *ngIf="productToEdit || addProductModal" [classes]="'m-w-center product-modal'"
 (closing)="togleEditModal(null)">
   <header class="modal-header flex-center">
@@ -71,9 +76,14 @@
 
 <app-confirm *ngIf="productToDelete" [header]="'Are you sure you want delete selected product ?'" [subHeader]="'This procedure is permanent and cannot be denied after confirm'"
  (closing)="togleDeleteModal(null)" (confirming)="deleteProduct()">
- <app-spinner *ngIf="isDeletingProduct" [backdrop]="true" [classes]="'spinner-big'" [containerClasses]="'spinner-centered'"></app-spinner>
+  <app-spinner *ngIf="isDeletingProduct" [backdrop]="true" [classes]="'spinner-big'" [containerClasses]="'spinner-centered'"></app-spinner>
 </app-confirm>
 
+<app-confirm *ngIf="categoryToRemove_ID" [header]="'Are you sure you want delete selected category ?'"
+[subHeader]="'This procedure is permanent and cannot be denied after confirm'"
+(closing)="setCategoryToRemove('')" (confirming)="removeCategory()">
+  <app-spinner *ngIf="isRemovingCategory" [classes]="'spinner-small'" [backdrop]="true" [containerClasses]="'spinner-form'"></app-spinner>
+</app-confirm>
 
 <app-modal *ngIf="addCategoryModal" [classes]="'m-w-center product-modal'" (closing)="togleCategoryModal()">
   <header class="modal-header flex-center">
@@ -84,11 +94,3 @@
 
   </app-product-category-form>
 </app-modal>
-
-
-
-<app-confirm *ngIf="categoryToRemove_ID" [header]="'Are you sure you want delete selected category ?'"
-[subHeader]="'This procedure is permanent and cannot be denied after confirm'"
-(closing)="setCategoryToRemove('')" (confirming)="removeCategory()">
-  <app-spinner *ngIf="isRemovingCategory" [classes]="'spinner-small'" [backdrop]="true" [containerClasses]="'spinner-form'"></app-spinner>
-</app-confirm>

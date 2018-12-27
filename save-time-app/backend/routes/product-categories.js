@@ -32,6 +32,21 @@ router.post('', (req, res, next) => {
   })
 });
 
+router.patch('', (req, res, next) => {
+
+  const category = new ProductCategory({
+    _id: req.body._id,
+    name: req.body.name
+  });
+
+  ProductCategory.updateOne( {_id: req.body._id }, category ).then(eCategory => {
+    res.status(202).json({});
+  }).catch(error => {
+    res.status(400).json({ error: 'Cannot edit category' });
+  });
+
+});
+
 router.delete('/:id', (req, res, next) => {
   ProductCategory.deleteOne( {_id: req.params.id }).then(dCat => {
       res.status(200).json({

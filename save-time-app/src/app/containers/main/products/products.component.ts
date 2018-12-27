@@ -30,6 +30,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   isRemovingCategory = false;
   categoryToRemove_ID: string;
 
+  categoryToEdit: IProductCategory;
   ngOnInit() {
     this.deleteProductSub = this.store.select(state => state.products).subscribe((state: State) => {
       this.products = state.products;
@@ -64,6 +65,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
   removeCategory() {
     this.store.dispatch(new TryRemoveCategory(this.categoryToRemove_ID));
+  }
+
+  setCategoryToEdit(category: IProductCategory) {
+    this.categoryToEdit = category;
   }
 
   setCategoryToRemove(id: string) {

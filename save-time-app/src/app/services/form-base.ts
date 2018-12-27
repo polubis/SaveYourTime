@@ -5,6 +5,10 @@ export class FormBase {
   constructor() {
 
   }
+  setSettingsBasedOnElementToEdit(formSettings: FormSettings) {
+    return this.elementToEdit ? this.putModelIntoFormOnEdit(this.elementToEdit, formSettings) :
+      formSettings;
+  }
   putModelIntoFormOnEdit(model: any, formSettings: FormSettings): FormSettings {
     const formSettingsKeys: string[] = Object.keys(formSettings);
     const modelKeys: string[] = Object.keys(model);
@@ -19,4 +23,6 @@ export class FormBase {
 
   @Input() elementToEdit?;
   isSubmiting = false;
+
+
 }

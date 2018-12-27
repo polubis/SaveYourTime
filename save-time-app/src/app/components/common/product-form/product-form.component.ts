@@ -27,9 +27,7 @@ export class ProductFormComponent extends FormBase implements OnInit {
       picturePath: new Setting('product picture', { isPicture: true }, '', 'file')
     };
 
-    this.productFormSettings = this.elementToEdit ?
-      super.putModelIntoFormOnEdit(this.elementToEdit, formSettings) :
-      formSettings;
+    this.productFormSettings = super.setSettingsBasedOnElementToEdit(formSettings);
 
     this.store.select(getCategories)
     .subscribe((data: IProductCategory[]) => {

@@ -19,6 +19,7 @@ export const START_VOTING = "[Products] START_VOTING";
 export const SET_PRODUCT_CATEGORIES = "[Products] SET_PRODUCT_CATEGORIES";
 export const TRY_GET_PRODUCT_CATEGORIES = "[Products] TRY_GET_PRODUCT_CATEGORIES";
 export const TRY_ADD_PRODUCT_CATEGORY = "[Products] TRY_ADD_PRODUCT_CATEGORY";
+export const TRY_EDIT_PRODUCT_CATEGORY = "[Products] TRY_EDIT_PRODUCT_CATEGORY";
 export const FINISH_ADDING_PRODUCT_CATEGORY = "[Products] FINISH_ADDING_PRODUCT_CATEGORY";
 
 export const CHANGE_LOADING_STATE = "[Products] CHANGE_LOADING_STATE";
@@ -93,6 +94,11 @@ export class TryAddProductCategory implements Action {
   readonly type = TRY_ADD_PRODUCT_CATEGORY;
   constructor(public payload: {name: string}) {}
 }
+export class TryEditProductCategory implements Action {
+  readonly type = TRY_EDIT_PRODUCT_CATEGORY;
+  constructor(public payload: IProductCategory){ }
+}
+
 export class ChangeLoadingState implements Action {
   readonly type = CHANGE_LOADING_STATE;
   constructor(public payload: {key: string, status: boolean}) {}
@@ -114,4 +120,4 @@ export class TryRemoveCategory implements Action {
 
 export type ProductsActions = SetProducts | FetchProducts | PushProduct | StartAddingProduct | StartEditProduct |
   SetChangeProductsState | PutProduct | RemoveProduct | StartRemovingProduct | SetRemovingProductState | StartVoting | SetProductCategories | TryGetProductCategories
-  | TryAddProductCategory | FinishAddingProductCategory | ChangeLoadingState | ChangeState | TryRemoveCategory;
+  | TryAddProductCategory | TryEditProductCategory | FinishAddingProductCategory | ChangeLoadingState | ChangeState | TryRemoveCategory;

@@ -12,6 +12,7 @@ const userSchema = mongoose.Schema({
   versionKey: false
 });
 
+
 userSchema.pre('save', function (next) {
   const user = this;
   bcrypt.hash(user.password, 10, function (err, hash){
@@ -24,3 +25,4 @@ userSchema.pre('save', function (next) {
 });
 
 module.exports = mongoose.model('User', userSchema);
+//mongoose-unique-validator

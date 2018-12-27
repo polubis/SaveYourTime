@@ -21,12 +21,14 @@ export class RequestsService {
     editProduct: 'Product has been succesfully edited',
     deleteProduct: "Product has been succesfully deleted",
     createProductCategory: "Category has been succesfully added",
-    removeCategory: 'Category has been succesfully removed'
+    removeCategory: 'Category has been succesfully removed',
+    editCategory: 'Category has been succesfully edited'
   }
 
   settings: Settings = {
     getCategories: new RequestSetting('product/categories'),
     createProductCategory: new RequestSetting('product/categories', false, RequestTypes.Post),
+    editCategory: new RequestSetting('product/categories', false, RequestTypes.Patch),
     removeCategory: new RequestSetting('product/categories/', false, RequestTypes.Delete),
 
     products: new RequestSetting('products'),
