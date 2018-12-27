@@ -1,7 +1,69 @@
-.products-list{
-  display: flex;
-  flex-flow: wrap;
-  & > div {
-    margin: auto;
+@import '../../../../colors.scss';
+div.grid-wrap {
+  grid-template-rows: auto auto 1fr;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "header"
+    "categories"
+    "products";
+  .cart-header {
+    grid-area: header;
+    .toolbox {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 1em;
+      button {
+        color: $font;
+        display: flex;
+        align-items: center;
+        font-weight: 400;
+        i {
+          margin-right: 7.5px;
+        }
+      }
+    }
+  }
+  .categories {
+    padding: 1em 0;
+    grid-area: categories;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    .category {
+      padding: 7.5px;
+      border-radius: 5px;
+      background: $side;
+      color: $font;
+      position: relative;
+      overflow: hidden;
+      margin-left: 15px;
+      &:hover .icons {
+        right: 0;
+      }
+      .icons {
+        right: -50px;
+        transition: .4s;
+        position: absolute;
+        height: 100%;
+        top: 0;
+        background: $side;
+        i {
+          margin-left: 5px;
+          cursor: pointer;
+          font-size: 20px;
+        }
+      }
+    }
+  }
+  .products-list{
+    display: flex;
+    grid-area: products;
+    flex-flow: wrap;
+    & > div {
+      margin: auto;
+    }
   }
 }
+
+
+

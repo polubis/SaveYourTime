@@ -10,6 +10,7 @@ export interface State {
   productCategories: IProductCategory[];
   isAddingProductCategory?: boolean;
   categoryModal: boolean;
+  isRemovingCategory: boolean;
 };
 
 const initialState: State = {
@@ -20,8 +21,8 @@ const initialState: State = {
   removingProductStatus: null,
   productCategories: [],
   isAddingProductCategory: null,
-
-  categoryModal: false
+  categoryModal: false,
+  isRemovingCategory: false,
 };
 
 export function productsReducer(state = initialState, action: ProductsActions.ProductsActions){
@@ -107,6 +108,11 @@ export function productsReducer(state = initialState, action: ProductsActions.Pr
         return {
           ...state,
           [action.payload.key]: action.payload.value
+        };
+      case ProductsActions.TRY_REMOVE_CATEGORY:
+        return {
+          ...state,
+          isRemovingCategory: true
         };
       default:
         return state;

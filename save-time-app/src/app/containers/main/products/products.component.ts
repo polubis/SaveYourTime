@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppState } from "src/app/app.reducers";
 import { Store } from "@ngrx/store";
-import { FetchProducts, StartRemovingProduct, SetRemovingProductState, ChangeState } from '../../../store/products/actions';
-import { Product } from "src/app/models/product";
+import { FetchProducts, StartRemovingProduct, SetRemovingProductState, ChangeState, TryRemoveCategory } from '../../../store/products/actions';
+import { Product, IProductCategory } from "src/app/models/product";
 import { Subscription } from "rxjs";
 import { State } from '../../../store/products/reducers';
+import { getNotifications } from "src/app/store";
+import { Notification } from '../../../models/notification';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -15,6 +17,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>) { }
   products: Product[];
   deleteProductSub: Subscription;
+  notificationSub: Subscription;
 
   productToEdit: Product;
   productToDelete: Product;
@@ -22,6 +25,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
   addProductModal = false;
   addCategoryModal = false;
   isCategoriesAdded = false;
+  productCategories: IProductCategory[] = [];
+  isRemovingCategory = false;
+  categoryToRemove_ID: string;
 
   ngOnInit() {
     this.deleteProductSub = this.store.select(state => state.products).subscribe((state: State) => {
@@ -35,12 +41,33 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
       this.addCategoryModal = state.categoryModal;
       this.isCategoriesAdded = state.productCategories.length > 0;
+      this.productCategories = state.productCategories;
+      this.isRemovingCategory = state.isRemovingCategory;
     });
+
+    this.notificationSub = this.store.select(getNotifications).subscribe((notifications: Notification[]) => {
+      const notId = 'removeCategory';
+      const isCategoryRemovedProperly = notifications.findIndex(n => n.id === notId && n.type === 'ok') !== -1;
+
+      if (isCategoryRemovedProperly) {
+        this.categoryToRemove_ID = '';
+      }
+    });
+
     this.store.dispatch(new FetchProducts());
   }
   ngOnDestroy() {
     this.deleteProductSub.unsubscribe();
+    this.notificationSub.unsubscribe();
   }
+  removeCategory() {
+    this.store.dispatch(new TryRemoveCategory(this.categoryToRemove_ID));
+  }
+
+  setCategoryToRemove(id: string) {
+    this.categoryToRemove_ID = id;
+  }
+
   togleCategoryModal() {
     this.store.dispatch(new ChangeState({key: 'categoryModal', value: !this.addCategoryModal}));
   }

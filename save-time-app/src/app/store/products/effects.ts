@@ -13,6 +13,7 @@ import * as ProductsActions from '../../store/products/actions';
 import { Product, IProductCategory } from "src/app/models/product";
 import { AppState } from "src/app/app.reducers";
 import { ChangeState } from "../../store/products/actions";
+import { getCategories } from "src/app/store";
 @Injectable()
 export class ProductsEffects {
   constructor(
@@ -124,6 +125,32 @@ export class ProductsEffects {
       return {
         type: ProductsActions.FINISH_ADDING_PRODUCT_CATEGORY,
         payload: category
+      }
+    })
+  )
+
+
+  categoryToRemove_Id: string;
+
+  @Effect()
+  removeCategory = this.actions$.ofType(ProductsActions.TRY_REMOVE_CATEGORY).pipe(
+    switchMap((action: ProductsActions.TryRemoveCategory) => {
+      return this.requestsService.execute('removeCategory', null,
+        () => this.store.dispatch(new ChangeState( { key: 'isRemovingCategory', value: false } )), action.payload
+      )
+    }),
+    switchMap((response: { _id: any }) => {
+      this.categoryToRemove_Id = response._id;
+      return this.store.select(state => state.products.productCategories).pipe(
+        take(1)
+      );
+    }),
+    map((categories: any[]) => {
+      const fCategories = categories.filter(c => c._id !== this.categoryToRemove_Id);
+      this.store.dispatch(new ChangeState({ key: 'isRemovingCategory', value: false }));
+      return {
+        type: ProductsActions.SET_PRODUCT_CATEGORIES,
+        payload: fCategories
       }
     })
   )

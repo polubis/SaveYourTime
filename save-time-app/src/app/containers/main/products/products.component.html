@@ -1,30 +1,54 @@
 <div class="grid-wrap">
   <div class="cart-header">
-    <h2 class="main-colored">Products added by you</h2>
+    <h2 class="main-colored">Products dashboard</h2>
+
+    <div class="toolbox">
+
+      <button (click)="togleCategoryModal()" class="label-btn">
+        <i class="material-icons">storage</i> CATEGORIES
+      </button>
+
+    </div>
 
   </div>
 
+  <div *ngIf="isCategoriesAdded" class="categories">
+    <div class="category" *ngFor="let category of productCategories">
+      <span>{{category.name}}</span>
+
+      <div class="icons flex-center">
+        <i (click)="setCategoryToRemove(category._id)" class="material-icons danger-color animated-icon">delete</i>
+        <i class="material-icons main-colored animated-icon">edit</i>
+      </div>
+
+    </div>
+  </div>
+
   <div class="products-list">
-    <div *ngIf="products.length === 0; else productsList">
-      <app-empty-list (clicking)="togleModals()" [header]="isCategoriesAdded ? 'Products' : 'Categories'">
-        <ng-container *ngIf="isCategoriesAdded">
-          Looks like your product list is empty. <br> If you want add
-          new one click button bellow
-        </ng-container>
-        <ng-container *ngIf="!isCategoriesAdded">
-          You must add category of product firstly. <br> If you want add new one
-          and unlock adding products click button bellow
-        </ng-container>
+
+    <div *ngIf="!isCategoriesAdded" >
+      <app-empty-list (clicking)="togleModals()" [header]="'Categories'">
+        You must add category of product firstly. <br> If you want add new one
+        and unlock adding products click button bellow
+      </app-empty-list>
+    </div>
+    <div *ngIf="isCategoriesAdded && products.length === 0">
+      <app-empty-list (clicking)="togleModals()" [header]="'Products'">
+        Products list is actualy empty. <br> If you want add new one
+        click button bellow
       </app-empty-list>
     </div>
 
-    <app-products-cart #productsList
-    (deleting)="togleDeleteModal(product)"
-    (editing)="togleEditModal(product)"
-    *ngFor="let product of products" [classes]="'small-cart-products'"
-    [product]="product">
+    <ng-container *ngIf="isCategoriesAdded && products.length > 0">
+      <app-products-cart
+      (deleting)="togleDeleteModal(product)"
+      (editing)="togleEditModal(product)"
+      *ngFor="let product of products" [classes]="'small-cart-products'"
+      [product]="product">
 
-    </app-products-cart>
+      </app-products-cart>
+    </ng-container>
+
   </div>
 </div>
 
@@ -54,3 +78,11 @@
 
   </app-product-category-form>
 </app-modal>
+
+
+
+<app-confirm *ngIf="categoryToRemove_ID" [header]="'Are you sure you want delete selected category ?'"
+[subHeader]="'This procedure is permanent and cannot be denied after confirm'"
+(closing)="setCategoryToRemove('')" (confirming)="removeCategory()">
+  <app-spinner *ngIf="isRemovingCategory" [classes]="'spinner-small'" [backdrop]="true" [containerClasses]="'spinner-form'"></app-spinner>
+</app-confirm>

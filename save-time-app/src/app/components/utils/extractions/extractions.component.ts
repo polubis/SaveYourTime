@@ -138,6 +138,7 @@ export class ExtractionsComponent extends ReceiptBase implements OnInit, OnDestr
 
         const lines: string[] = response.lines.map(line => line.text.toLowerCase());
         const coreData: IReceiptCore = super.getCoreReceiptData(lines);
+        console.log(lines, coreData);
         if (coreData.receiptTitleIndex && coreData.sellTaxTitleIndex) {
 
           const cutedLines = super.concatItems(lines, coreData.receiptTitleIndex, coreData.sellTaxTitleIndex);
@@ -145,9 +146,8 @@ export class ExtractionsComponent extends ReceiptBase implements OnInit, OnDestr
             [key]: { lines: cutedLines, receiptCoreData: coreData }
           };
           this.readedContents = { ...this.readedContents, ...readedContent };
-          console.log(this.readedContents);
           const icon = coreData.sum ? 'ok' : 'warn';
-          const message = coreData.sum ? `Data has been read successfully` : 'Problem with some data. Using in form too is risky';
+          const message = coreData.sum ? `Data has been read successfully` : 'Using in form is risky...';
 
           this.currentExtractions[key] = new ExtractionState(false, icon, 100, message);
           this.store.dispatch(new TryPutExtractedFile({ text: response.text, key }));

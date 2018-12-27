@@ -19,10 +19,10 @@
 
         <div class="buttons">
           <button (click)="handleClose(key)" *ngIf="currentExtractions[key].finishStatus !== ''" class="label-btn deny-btn">
-            {{currentExtractions[key].finishStatus === 'ok' ? 'DENY' : 'CLOSE'}}
+            {{currentExtractions[key].finishStatus === 'error' ? 'CLOSE' : 'DENY'}}
           </button>
-          <button *ngIf="currentExtractions[key].finishStatus === 'ok'" class="label-btn main-colored">
-            USE IN FORM
+          <button *ngIf="currentExtractions[key].finishStatus === 'ok' || currentExtractions[key].finishStatus === 'warn'" class="label-btn main-colored">
+            USE
           </button>
         </div>
 

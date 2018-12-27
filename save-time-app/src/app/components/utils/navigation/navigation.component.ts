@@ -75,6 +75,8 @@ export class NavigationComponent implements OnInit {
       else {
         productsLinks.childs[0].disabled = true;
         productsLinks.childs[0].func = null;
+        productsLinks.childs[1].label = 'add category';
+
       }
       this.navigationLinks = navigationLinks;
     });

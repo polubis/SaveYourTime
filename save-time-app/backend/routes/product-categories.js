@@ -32,5 +32,13 @@ router.post('', (req, res, next) => {
   })
 });
 
+router.delete('/:id', (req, res, next) => {
+  ProductCategory.deleteOne( {_id: req.params.id }).then(dCat => {
+      res.status(200).json({
+        _id: req.params.id
+      });
+  }).catch(err => res.status(400).json( {error: 'There is a problem with removing category'} ));
+});
+
 
 module.exports = router;
