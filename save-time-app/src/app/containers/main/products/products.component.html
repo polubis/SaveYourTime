@@ -1,55 +1,61 @@
 <div class="grid-wrap">
-  <div class="cart-header">
-    <h2 class="main-colored">Products dashboard</h2>
+  <ng-container *ngIf="!isLoadingCategories">
+    <div class="cart-header">
+      <h2 class="main-colored">Products dashboard</h2>
 
-    <div class="toolbox">
+      <div class="toolbox">
 
-      <button (click)="togleCategoryModal()" class="label-btn">
-        <i class="material-icons">storage</i> CATEGORIES
-      </button>
+        <button (click)="togleCategoryModal()" class="label-btn">
+          <i class="material-icons">storage</i> CATEGORIES
+        </button>
 
-    </div>
-
-  </div>
-
-  <div *ngIf="isCategoriesAdded" class="categories">
-    <div class="category" *ngFor="let category of productCategories">
-      <span>{{category.name}}</span>
-
-      <div class="icons flex-center">
-        <i (click)="setCategoryToRemove(category._id)" class="material-icons danger-color animated-icon">delete</i>
-        <i class="material-icons main-colored animated-icon">edit</i>
       </div>
 
     </div>
-  </div>
 
-  <div class="products-list">
+    <div *ngIf="isCategoriesAdded" class="categories">
+      <div class="category" *ngFor="let category of productCategories">
+        <span>{{category.name}}</span>
 
-    <div *ngIf="!isCategoriesAdded" >
-      <app-empty-list (clicking)="togleModals()" [header]="'Categories'">
-        You must add category of product firstly. <br> If you want add new one
-        and unlock adding products click button bellow
-      </app-empty-list>
-    </div>
-    <div *ngIf="isCategoriesAdded && products.length === 0">
-      <app-empty-list (clicking)="togleModals()" [header]="'Products'">
-        Products list is actualy empty. <br> If you want add new one
-        click button bellow
-      </app-empty-list>
+        <div class="icons flex-center">
+          <i (click)="setCategoryToRemove(category._id)" class="material-icons danger-color animated-icon">delete</i>
+          <i class="material-icons main-colored animated-icon">edit</i>
+        </div>
+
+      </div>
     </div>
 
-    <ng-container *ngIf="isCategoriesAdded && products.length > 0">
-      <app-products-cart
-      (deleting)="togleDeleteModal(product)"
-      (editing)="togleEditModal(product)"
-      *ngFor="let product of products" [classes]="'small-cart-products'"
-      [product]="product">
+    <div class="products-list">
 
-      </app-products-cart>
-    </ng-container>
+      <div *ngIf="!isCategoriesAdded" >
+        <app-empty-list (clicking)="togleModals()" [header]="'Categories'">
+          You must add category of product firstly. <br> If you want add new one
+          and unlock adding products click button bellow
+        </app-empty-list>
+      </div>
+      <div *ngIf="isCategoriesAdded && products.length === 0">
+        <app-empty-list (clicking)="togleModals()" [header]="'Products'">
+          Products list is actualy empty. <br> If you want add new one
+          click button bellow
+        </app-empty-list>
+      </div>
 
-  </div>
+      <ng-container *ngIf="isCategoriesAdded && products.length > 0">
+        <app-products-cart
+        (deleting)="togleDeleteModal(product)"
+        (editing)="togleEditModal(product)"
+        *ngFor="let product of products" [classes]="'small-cart-products'"
+        [product]="product">
+
+        </app-products-cart>
+      </ng-container>
+
+    </div>
+  </ng-container>
+
+  <app-spinner [classes]="'spinner-big'" *ngIf="isLoadingCategories" [containerClasses]="'spinner-form'"></app-spinner>
+
+
 </div>
 
 <app-modal *ngIf="productToEdit || addProductModal" [classes]="'m-w-center product-modal'"

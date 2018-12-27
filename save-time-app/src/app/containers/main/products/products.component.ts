@@ -22,6 +22,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   productToEdit: Product;
   productToDelete: Product;
   isDeletingProduct: boolean;
+  isLoadingCategories: boolean;
   addProductModal = false;
   addCategoryModal = false;
   isCategoriesAdded = false;
@@ -43,6 +44,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
       this.isCategoriesAdded = state.productCategories.length > 0;
       this.productCategories = state.productCategories;
       this.isRemovingCategory = state.isRemovingCategory;
+      this.isLoadingCategories = state.isLoadingCategories;
     });
 
     this.notificationSub = this.store.select(getNotifications).subscribe((notifications: Notification[]) => {

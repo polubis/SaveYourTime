@@ -1,5 +1,6 @@
 @import '../../../../colors.scss';
 div.grid-wrap {
+  position: relative;
   grid-template-rows: auto auto 1fr;
   grid-template-columns: 1fr;
   grid-template-areas:

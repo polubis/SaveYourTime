@@ -98,7 +98,9 @@ export class ProductsEffects {
   @Effect()
   getCategories = this.actions$.ofType(ProductsActions.TRY_GET_PRODUCT_CATEGORIES).pipe(
     switchMap((action: ProductsActions.TryGetProductCategories) => {
-      return this.requestsService.execute('getCategories');
+      return this.requestsService.execute('getCategories', null, () =>
+        this.store.dispatch(new ChangeState({ key: 'isLoadingCategories', value: false }))
+      );
     }),
     map((res: {productCategories: IProductCategory[]}) => {
       if (res.productCategories.length === 0) {
