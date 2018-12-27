@@ -2,6 +2,8 @@ import { createSelector, createFeatureSelector } from "@ngrx/store";
 import * as fromNotifications from './notifications/reducers';
 import * as fromProducts from './products/reducers';
 import * as fromExtractions from './extractions/reducers';
+import * as fromUsers from './users/reducers';
+import { selectIsLogingIn, selectLogInData } from "./users/reducers";
 
 export const selectExtractionsEntity = createFeatureSelector<fromExtractions.State>(
   'extractions'
@@ -12,6 +14,19 @@ export const selectNotificationEntity = createFeatureSelector<fromNotifications.
 export const selectProductsEntity = createFeatureSelector<fromProducts.State>(
   'products'
 );
+export const selectUserEntity = createFeatureSelector<fromUsers.State>(
+  'users'
+);
+
+export const getIsLogingIn = createSelector(
+  selectUserEntity, selectIsLogingIn
+);
+
+export const getLogInData = createSelector(
+  selectUserEntity, selectLogInData
+);
+
+
 
 export const getNotifications = createSelector(
   selectNotificationEntity, fromNotifications.notifications

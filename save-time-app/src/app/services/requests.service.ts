@@ -22,7 +22,8 @@ export class RequestsService {
     deleteProduct: "Product has been succesfully deleted",
     createProductCategory: "Category has been succesfully added",
     removeCategory: 'Category has been succesfully removed',
-    editCategory: 'Category has been succesfully edited'
+    editCategory: 'Category has been succesfully edited',
+    login: 'Succesfully logged!'
   }
 
   settings: Settings = {
@@ -38,6 +39,7 @@ export class RequestsService {
     rateProduct: new RequestSetting('products/rate/', false, RequestTypes.Patch, false, false),
 
     register: new RequestSetting('users/register', false, RequestTypes.Post),
+    login: new RequestSetting('users/login', false, RequestTypes.Post)
   }
 
   mapPayloadIntoFormData(payload: any) {
