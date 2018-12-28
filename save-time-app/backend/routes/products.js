@@ -4,6 +4,7 @@ const Product = require("../models/product");
 const multer = require("multer");
 const fs = require('fs');
 const router = express.Router();
+const checkAuth = require('../middlewares/check-auth');
 
 const ALLOWED_MIME_TYPES = {
   'image/png': 'png',
@@ -27,11 +28,11 @@ const storage = multer.diskStorage({
   }
 });
 
-router.get('', (req, res, next) => {
+router.get('', checkAuth, (req, res, next) => {
 
   const size = +req.query.size;
   const page = +req.query.page;
-  const productsQuery = Product.find();
+  const productsQuery = Product.find({userId: req.userId});
   let products;
   if (size && page) {
     productsQuery.skip((page - 1) * size).limit(size);
@@ -68,10 +69,9 @@ function deleteImage (picPath, cb, delPath = '/backend/images/products/') {
   })
 }
 
-router.post('', multer({ storage: storage }).single("picturePath"), (req, res, next) => {
-
+router.post('', checkAuth, multer({ storage: storage }).single("picturePath"), (req, res, next) => {
   const product = new Product({
-    ...req.body
+    ...req.body, userId: req.userId
   });
 
   if (req.file) {
@@ -90,13 +90,13 @@ router.post('', multer({ storage: storage }).single("picturePath"), (req, res, n
 
 });
 
-router.patch('/rate/:id', (req, res, next) => {
+router.patch('/rate/:id', checkAuth, (req, res, next) => {
   const productId = req.params.id;
   Product.findOne( { _id: productId } ).then(product => {
     const { rate } = req.body;
 
     const newProduct = new Product({
-      ...product, rate, _id: req.params.id
+      ...product, rate, _id: req.params.id, userId: req.userId
     });
 
     Product.updateOne( { _id: productId }, newProduct ).then(addedProduct => {
@@ -114,7 +114,7 @@ router.patch('/rate/:id', (req, res, next) => {
   })
 });
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', checkAuth, (req, res, next) => {
 
   Product.findOne( {_id: req.params.id} ).then(product => {
     if (product.picturePath) {
@@ -162,12 +162,12 @@ function update(product, id, res) {
   });
 }
 
-router.patch('/:id', multer({ storage: storage }).single("picturePath"), (req, res, next) => {
+router.patch('/:id', checkAuth, multer({ storage: storage }).single("picturePath"), (req, res, next) => {
 
     Product.findOne( { _id: req.params.id } ).then(product => {
 
       const newProduct = new Product({
-        ...req.body, _id: req.params.id, picturePath: product.picturePath
+        ...req.body, _id: req.params.id, picturePath: product.picturePath, userId: req.userId
       });
 
       const isImageAlreadyAdded = product.picturePath;

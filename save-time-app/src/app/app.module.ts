@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from "src/app/containers/home/home.component";
@@ -34,7 +34,10 @@ import localePl from '@angular/common/locales/pl';
 import { registerLocaleData } from "@angular/common";
 import { NotificationsEffects } from "src/app/store/notifications/effects";
 import { ExtractionsEffects } from "src/app/store/extractions/effects";
-
+import { CookieService } from 'ngx-cookie-service';
+import { StartPageGuard } from "src/app/services/start-page.quard";
+import { MainPageGuard } from "src/app/services/main-page.guard";
+import { HeaderInterceptor } from "src/app/services/header-interceptor";
 registerLocaleData(localePl);
 
 @NgModule({
@@ -61,6 +64,10 @@ registerLocaleData(localePl);
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true },
+    CookieService,
+    StartPageGuard,
+    MainPageGuard,
     { provide: LOCALE_ID, useValue: 'pl' }
   ],
   bootstrap: [AppComponent]

@@ -1,19 +1,21 @@
 import { Injectable } from "@angular/core";
 import { RequestSetting, Settings, RequestTypes } from "src/app/models/request";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { catchError, take, tap, map, mergeMap, filter } from "rxjs/operators";
 import { Observable, of, throwError } from "rxjs";
 import { AppState } from "src/app/app.reducers";
 import { Store } from "@ngrx/store";
 import { Notification } from '../models/notification';
 import { TryPushNotification } from '../store/notifications/actions';
-import { getNotifications } from '../store/index';
+import { getNotifications, getToken } from '../store/index';
+import { TryLogOut } from "src/app/store/users/actions";
 
 @Injectable({providedIn: 'root'})
 export class RequestsService {
-  baseUrl = "http://localhost:3000/api/";
+
   constructor(private http: HttpClient, private store: Store<AppState>) {
   }
+  baseUrl = "http://localhost:3000/api/";
 
   succesfullMessages = {
     register: 'Your account has been succesfully created',
@@ -23,7 +25,6 @@ export class RequestsService {
     createProductCategory: "Category has been succesfully added",
     removeCategory: 'Category has been succesfully removed',
     editCategory: 'Category has been succesfully edited',
-    login: 'Succesfully logged!'
   }
 
   settings: Settings = {
@@ -55,7 +56,8 @@ export class RequestsService {
     const { url, authorize, type, shouldShowError, formData } = this.settings[settingKey];
     const requestPath: string = this.baseUrl + url + params;
 
-    const request: Observable<any> = this.prepareRequestParams(requestPath, type, formData ? this.mapPayloadIntoFormData(payload) : payload);
+    const request: Observable<any> = this.prepareRequestParams(requestPath, type,
+        formData ? this.mapPayloadIntoFormData(payload) : payload, authorize);
 
     return request.pipe(
       mergeMap((response: any) => {
@@ -86,9 +88,16 @@ export class RequestsService {
   }
 
   handleError(error: HttpErrorResponse): string {
+
     if (error.status === 0) {
       return 'There is a network problem. Check internet connection and try again';
     }
+
+    if (error.status === 401) {
+      // this.store.dispatch(new TryLogOut());
+      return 'You access here is not allowed. Try get permisions first';
+    }
+
     if(error.error.error) {
       return error.error.error;
     }
@@ -97,14 +106,12 @@ export class RequestsService {
       return 'Request parameters not found. Probably wrong request path';
     }
 
-    if (error.status === 401) {
-      return 'You access here is not allowed. Try get permisions first';
-    }
 
     return 'Ups something goes wrong...'
   }
 
-  prepareRequestParams(requestPath: string, type: string, payload?: any): Observable<any> {
+  prepareRequestParams(requestPath: string, type: string, payload?: any, authorize?: boolean): Observable<any> {
+
     switch(type){
       case RequestTypes.Post:
         return this.http.post(requestPath, payload);

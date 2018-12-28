@@ -49,8 +49,23 @@ router.post('/login', (req, res, next) => {
 
   getUserByEmailOrUsername(nameOrEmail,
     (user) => {
-      const userData = { _id: user._id, token: 'dadadas  sdsaasdadadsadadsadasd' };
-      res.status(200).json({user: userData});
+
+      bcrypt.compare(password, user.password).then(result => {
+
+        const token = jwt.sign(
+          { email: user.email, userId: user._id },
+          "secret_this_should_be_longer",
+          { expiresIn: 3600 }
+        );
+
+        const userData = { _id: user._id, token };
+
+        res.status(200).json({user: userData});
+
+      }).catch(error =>
+        res.status(404).json({error})
+      );
+
     },
     (error) => {
       res.status(404).json({error});

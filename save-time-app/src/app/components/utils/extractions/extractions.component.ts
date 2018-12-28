@@ -116,8 +116,12 @@ export class ExtractionsComponent extends ReceiptBase implements OnInit, OnDestr
   }
 
   ngOnDestroy() {
-    this.filesSubscription.unsubscribe();
-    this.checkFreezedSubscription.unsubscribe();
+    if (this.filesSubscription) {
+      this.filesSubscription.unsubscribe();
+    }
+    if (this.checkFreezedSubscription) {
+      this.checkFreezedSubscription.unsubscribe();
+    }
   }
 
   togle(key: string) {

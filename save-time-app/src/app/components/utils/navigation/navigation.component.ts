@@ -3,8 +3,9 @@ import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/app/app.reducers";
 import { ChangeState } from "src/app/store/products/actions";
-import { getCategories } from "src/app/store";
+import { getCategories, getLogoutStatus } from "src/app/store";
 import { IProductCategory } from "src/app/models/product";
+import { TryLogOut } from "src/app/store/users/actions";
 
 @Component({
   selector: 'app-navigation',
@@ -12,6 +13,7 @@ import { IProductCategory } from "src/app/models/product";
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit {
+  isLogingOut = false;
   @Output() onClickLink = new EventEmitter<string>();
   @Input() initial = 'full-nav';
   navigationLinks: any[] = [
@@ -28,8 +30,7 @@ export class NavigationComponent implements OnInit {
       {label: "add new"}, {label: "browse added"}
       ]
     },
-    {icon: "store", name: "Trainings"},
-    {icon: "store", name: "Statistics"}
+    {icon: "store", name: "Trainings"}
   ];
   currentOpenedNavigationBar: number;
 
@@ -80,9 +81,18 @@ export class NavigationComponent implements OnInit {
       }
       this.navigationLinks = navigationLinks;
     });
+
+    this.store.select(getLogoutStatus).subscribe((status: boolean) => {
+      console.log(status);
+      this.isLogingOut = status;
+    });
   }
   changeOpenedNavigationBar(index: number) {
     this.currentOpenedNavigationBar = index;
     this.router.navigate(['main', this.navigationLinks[index].name.toLowerCase()]);
+  }
+
+  logout () {
+    this.store.dispatch(new TryLogOut());
   }
 }

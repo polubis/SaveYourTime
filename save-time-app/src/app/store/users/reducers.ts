@@ -3,13 +3,14 @@ import * as UsersActions from './actions';
 export interface State {
   isCreatingAccount: boolean;
   createAccountStatus: boolean;
+
+  token: string;
   isLogingIn: boolean;
   logInData?: ILoggedUser;
+  isLogingOut: boolean;
 };
 
 export interface ILoggedUser {
-   isAuth?: boolean;
-   token: string;
    _id: string;
 };
 
@@ -17,8 +18,10 @@ const initialState: State = {
   isCreatingAccount: false,
   createAccountStatus: null,
 
+  token: '',
   isLogingIn: false,
-  logInData: null
+  logInData: null,
+  isLogingOut: false
 };
 
 export function usersReducer(state = initialState, action: UsersActions.UsersActions){
@@ -44,11 +47,16 @@ export function usersReducer(state = initialState, action: UsersActions.UsersAct
           ...state,
           isLogingIn: true
         };
+      case UsersActions.TRY_LOG_OUT:
+        return {
+          ...state,
+          isLogingOut: true
+        };
       case UsersActions.SET_LOG_IN_DATA:
         return {
           ...state,
-          isLogingIn: false,
-          logInData: action.payload
+          logInData: action.payload.loggedUserData,
+          token: action.payload.token
         };
       default:
           return state;
@@ -57,3 +65,5 @@ export function usersReducer(state = initialState, action: UsersActions.UsersAct
 
 export const selectIsLogingIn = (state: State) => state.isLogingIn;
 export const selectLogInData = (state: State) => state.logInData;
+export const selectToken = (state: State) => state.token;
+export const selectIsLogingOut = (state: State) => state.isLogingOut;
