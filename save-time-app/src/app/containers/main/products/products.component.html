@@ -59,6 +59,10 @@
 </div>
 
 <app-modal *ngIf="categoryToEdit" [classes]="'m-w-center product-modal'" (closing)="setCategoryToEdit(null)">
+  <header class="modal-header flex-center">
+    <i class="material-icons">store</i>
+    <span>Edit selected category</span>
+  </header>
   <app-product-category-form [elementToEdit]="categoryToEdit">
   </app-product-category-form>
 </app-modal>
