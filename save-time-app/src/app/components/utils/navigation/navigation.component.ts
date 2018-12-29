@@ -11,7 +11,6 @@ import { ILoggedUser } from "src/app/store/users/reducers";
 import { InputBase } from "src/app/services/input-base";
 import { ValidationService } from "src/app/components/utils/form/validation.service";
 import { Setting } from "src/app/components/utils/form/form";
-import { getSalary } from "src/app/containers/main/store";
 
 @Component({
   selector: 'app-navigation',

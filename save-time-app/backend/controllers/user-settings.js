@@ -19,13 +19,14 @@ exports.getUserSettings = (req, res, next) => {
 exports.addUserSettings = (req, res, next) => {
 
   const userSettings = new UserSettings({
-    salary: req.body.salary, userId: req.userId
+    salary: req.body.salary, userId: req.userId, currency: req.body.currency
   });
 
   userSettings.save().then(savedSettings => {
 
     res.status(201).json({
-      salary: savedSettings.salary
+      salary: savedSettings.salary,
+      currency: savedSettings.currency
     });
 
   }).catch(error => {
@@ -35,7 +36,5 @@ exports.addUserSettings = (req, res, next) => {
     });
 
   });
-
-
 
 };

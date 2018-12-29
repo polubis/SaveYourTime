@@ -25,7 +25,8 @@ export class RequestsService {
     createProductCategory: "Category has been succesfully added",
     removeCategory: 'Category has been succesfully removed',
     editCategory: 'Category has been succesfully edited',
-    uploadAvatar: 'User avatar has been succesfully uploaded'
+    uploadAvatar: 'User avatar has been succesfully uploaded',
+    addUserSettings: 'Salary schema has been succesfully added'
   }
 
   settings: Settings = {
@@ -45,7 +46,8 @@ export class RequestsService {
     login: new RequestSetting('users/login', false, RequestTypes.Post),
     uploadAvatar: new RequestSetting('users/avatar', false, RequestTypes.Patch, true, true),
 
-    getUserSettings: new RequestSetting('usersettings')
+    getUserSettings: new RequestSetting('usersettings'),
+    addUserSettings: new RequestSetting('usersettings', false, RequestTypes.Post)
   }
 
   mapPayloadIntoFormData(payload: any) {

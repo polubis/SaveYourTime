@@ -4,7 +4,12 @@
 
     <div *ngIf="formSettings[key].mode === 'input'" class="input-wrapper" [ngClass]="{'section-error': formErrors[key] !== ''}">
 
-      <input class="normal-input" *ngIf="formSettings[key].mode === 'input'"
+      <input class="normal-input" *ngIf="formSettings[key].mode === 'input' && formSettings[key].type !== 'number'"
+      (input)="input($event, key)" (focus)="focus(key)" (blur)="blur()" [value]="formState[key]"
+      [type]="formSettings[key].type" />
+
+      <input min="0.00" max="10000.00" step="0.01"
+      class="normal-input" *ngIf="formSettings[key].mode === 'input' && formSettings[key].type === 'number'"
       (input)="input($event, key)" (focus)="focus(key)" (blur)="blur()" [value]="formState[key]"
       [type]="formSettings[key].type" />
 

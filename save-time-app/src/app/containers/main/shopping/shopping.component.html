@@ -1,7 +1,20 @@
 <router-outlet>
 </router-outlet>
 
+<app-modal *ngIf="salaryModal" [classes]="'m-w-center product-modal'" (closing)="closeSalaryModal()">
 
-<app-modal *ngIf="salaryModal" [classes]="'m-w-center product-modal'" (closing)="togle('openAddProduct')">
-  siema
+  <header class="modal-header flex-center">
+    <i class="material-icons">attach_money</i>
+    <span>Populate your salary</span>
+  </header>
+  <article class="descripton-modal main-colored">
+    Salary is needed for our system to monitor your expenses.
+    This is some kind of limit. This treatment gives you the
+    opportunity to monitor the money spent and how many
+    more have been left.
+    <p>Fill out the box below and confirm to unlock the possibility of creating purchases.</p>
+  </article>
+
+  <app-salary-form></app-salary-form>
+
 </app-modal>

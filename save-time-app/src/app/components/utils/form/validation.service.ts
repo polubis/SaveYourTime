@@ -33,6 +33,16 @@ export class Validators {
     return file.size ? blackList.findIndex(x => x === file.name) === -1 : true;
   }
 
+  protected isMoney(value: string) {
+    console.log(value);
+    const isPopulated = value.length === 0;
+    if (isPopulated) {
+      return true;
+    }
+    const regex = /^[0-9]+(\.[0-9]{1,2})?$/;
+    const result = regex.test(value);
+    return result;
+  }
 }
 
 export class ValidationService extends Validators {
@@ -45,7 +55,8 @@ export class ValidationService extends Validators {
     maxLength: (title, limit) => `${title} field cannot have more than ${limit} characters`,
     isLengthEqualTo: (title, limit) => `${title} field must have ${limit} characters`,
     isPicture: (title) => `${title} field must be jpg/jpeg/png format`,
-    isFileWithCorrectSize: (title, allowedSize) => `${title} field must have size less than ${allowedSize} bytes`
+    isFileWithCorrectSize: (title, allowedSize) => `${title} field must have size less than ${allowedSize} bytes`,
+    money: (title) => `${title} must have cash format`
   };
 
   private validationStagger = {
@@ -54,7 +65,8 @@ export class ValidationService extends Validators {
     maxLength: (value, limit) => super.maxLength(value.length, limit),
     isLengthEqualTo: (value, limit) => super.isLengthEqualTo(value.length, limit),
     isPicture: (file) => super.isPicture(file),
-    isFileWithCorrectSize: (file, limit) => super.isFileWithCorrectSize(file, limit)
+    isFileWithCorrectSize: (file, limit) => super.isFileWithCorrectSize(file, limit),
+    money: (value) => super.isMoney(value)
   };
 
   protected runInputValidation(value: any, setting: Setting) {

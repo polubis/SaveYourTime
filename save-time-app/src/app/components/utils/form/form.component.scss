@@ -163,3 +163,17 @@
     grid-area: name;
   }
 }
+.salary-form {
+  padding: 0 50px;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "salary currency"
+    "button button";
+  .salary {
+    grid-area: salary;
+  }
+  .currency {
+    grid-area: currency;
+  }
+}

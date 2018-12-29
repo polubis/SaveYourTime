@@ -1,0 +1,4 @@
+  <app-form [isSubmiting]="isSubmiting" [btnTitle]="'START SHOPPINGS'"
+  [classes]="'salary-form'" [formSettings]="salarySettings" (submiting)="handleSubmit($event)"></app-form>
+
+  <app-spinner *ngIf="isSubmiting" [backdrop]="true" [classes]="'spinner-big'" [containerClasses]="'spinner-centered'"></app-spinner>
