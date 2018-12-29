@@ -1,25 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Product } from "src/app/models/product";
-import { Store } from "@ngrx/store";
-import { AppState } from "src/app/app.reducers";
-import { FetchProducts } from '../../../store/products/actions';
 @Component({
   selector: 'app-tutorials',
   templateUrl: './tutorials.component.html',
   styleUrls: ['./tutorials.component.scss']
 })
-export class TutorialsComponent implements OnInit {
+export class TutorialsComponent {
   blockNames: string[] = ['main', 'products', 'meals', 'recipes', 'trainings', 'statistics'];
   currentOpenedBlock = 'main';
-  exampleProducts: Product[] = [];
-
-  constructor(private store: Store<AppState>) { }
-  ngOnInit() {
-    this.store.select(state => state.products.products).subscribe((products: Product[]) => {
-      this.exampleProducts = products;
-    });
-    this.store.dispatch(new FetchProducts());
-  }
+  exampleProducts: Product[] = [
+    new Product(0, 'marchewka', 'warzywa', '', 0, 200, 'kcal'),
+    new Product(1, 'chipsy lays', 'łakocie', '', 1, 150, 'kcal'),
+    new Product(2, 'buraki', 'warzywa', '', 2, 80, 'kcal'),
+    new Product(3, 'cukinia', 'warzywa', '', 2, 200, 'kcal'),
+    new Product(4, 'ziemniaki', 'warzywa', '', 2, 300, 'kcal'),
+    new Product(5, 'pomrańcze', 'owoce', '', 1, 200, 'kcal'),
+    new Product(6, 'jogurt naturalny', 'nabiał', '', 2, 100, 'kcal'),
+    new Product(7, 'mleko 2% tłuszczu', 'nabiał', '', 2, 50, 'kcal'),
+    new Product(8, 'jogurt pitny', 'nabiał', '', 2, 120, 'cal'),
+    new Product(9, 'smalec', 'dodatki', '', 1, 120, 'cal'),
+  ];
 
   changeTutorialBlock(block: string) {
     this.currentOpenedBlock = block;

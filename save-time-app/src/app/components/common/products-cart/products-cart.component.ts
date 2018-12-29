@@ -30,8 +30,14 @@ export class ProductsCartComponent implements OnInit {
   }
 
   changePicture(file: File) {
-    const product = {...this.product};
-    product.picturePath = file;
-    this.store.dispatch(new StartEditProduct(product));
+    if (this.allowOperations) {
+      const product = {...this.product};
+      product.picturePath = file;
+      this.store.dispatch(new StartEditProduct(product));
+    }
+    else {
+      alert("Create your account first :)");
+    }
+
   }
 }

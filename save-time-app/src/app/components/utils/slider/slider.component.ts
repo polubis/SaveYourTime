@@ -29,7 +29,6 @@ export class SliderComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
-    console.log(this.progressLabelKey, this.values);
     this.numberOfItems = this.values.length;
     this.isScrollingSubscription = this.onScroll$.subscribe((isScrolling: boolean) => {
       this.isScrolling = isScrolling;
