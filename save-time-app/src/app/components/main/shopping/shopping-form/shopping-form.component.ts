@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppState } from "src/app/app.reducers";
 import { Store } from "@ngrx/store";
-import { FetchProducts, StartRemovingProduct, SetRemovingProductState } from '../../../store/products/actions';
 import { Product } from "src/app/models/product";
 import { Subscription, interval, Observable } from "rxjs";
 import { getFilesToExtract } from "src/app/store";
@@ -10,6 +9,7 @@ import { IDropzone } from "src/app/components/utils/dropzone/dropzone";
 import { IFileToExtract } from "src/app/store/extractions/reducers";
 import { TryPutExtraction } from "src/app/store/extractions/actions";
 import { SelectedProduct } from "src/app/models/shopping";
+import { FetchProducts } from "src/app/store/products/actions";
 
 @Component({
   selector: 'app-shopping-form',

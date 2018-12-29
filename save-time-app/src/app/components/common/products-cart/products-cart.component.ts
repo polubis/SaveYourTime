@@ -3,7 +3,7 @@ import { Input, EventEmitter, Output } from "@angular/core";
 import { Product } from "src/app/models/product";
 import { AppState } from "src/app/app.reducers";
 import { Store } from "@ngrx/store";
-import { StartVoting, StartEditProduct } from '../../../store/products/actions';
+import { StartVoting, StartEditProduct } from "src/app/store/products/actions";
 @Component({
   selector: 'app-products-cart',
   templateUrl: './products-cart.component.html',

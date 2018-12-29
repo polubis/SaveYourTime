@@ -11,6 +11,7 @@ import { ILoggedUser } from "src/app/store/users/reducers";
 import { InputBase } from "src/app/services/input-base";
 import { ValidationService } from "src/app/components/utils/form/validation.service";
 import { Setting } from "src/app/components/utils/form/form";
+import { getSalary } from "src/app/containers/main/store";
 
 @Component({
   selector: 'app-navigation',
@@ -28,7 +29,7 @@ export class NavigationComponent extends ValidationService implements OnInit {
   navigationLinks: any[] = [
     {path: '/main/products', icon: "store", name: "Products", childs: [
         {label: "add product", func: () => this.openAddProduct(), disabled: true},
-        {label: "add category", func: () => this.openAddCategoryModal()}, {label: "templates"}
+        {label: "add category", func: () => this.openAddCategoryModal()}
       ]
     },
     {icon: "local_dining", name: "Shopping", childs: [
@@ -56,6 +57,8 @@ export class NavigationComponent extends ValidationService implements OnInit {
 
   isGettingUserData: boolean;
   loggedUserData: ILoggedUser;
+
+  salary?: number;
 
   constructor(private router: Router, private store: Store<AppState>) {
     super();
@@ -110,6 +113,11 @@ export class NavigationComponent extends ValidationService implements OnInit {
   }
 
   ngOnInit() {
+    this.store.select(getSalary).subscribe((salary: number) => {
+      this.salary = salary;
+      console.log(salary);
+    });
+
     this.categoriesSub = this.store.select(getCategories)
     .subscribe((categories: IProductCategory[]) => {
       const navigationLinks = [...this.navigationLinks];

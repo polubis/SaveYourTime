@@ -2,11 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Form, FormSettings, Setting, FormState } from "src/app/components/utils/form/form";
 import { AppState } from "src/app/app.reducers";
 import { Store } from "@ngrx/store";
-import { StartAddingProduct, StartEditProduct } from '../../../store/products/actions';
-import { getAddingOrEditingState, getCategories } from '../../../store/index';
 import { FormBase } from "src/app/services/form-base";
 import { Product, IProductCategory } from "src/app/models/product";
 import { map } from "rxjs/operators";
+import { getCategories, getAddingOrEditingState } from "src/app/store";
+import { StartEditProduct, StartAddingProduct } from "src/app/store/products/actions";
 @Component({
   selector: 'app-product-form',
   templateUrl: './product-form.component.html',
