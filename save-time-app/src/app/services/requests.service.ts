@@ -43,7 +43,9 @@ export class RequestsService {
     getLoggedUserData: new RequestSetting('users'),
     register: new RequestSetting('users/register', false, RequestTypes.Post),
     login: new RequestSetting('users/login', false, RequestTypes.Post),
-    uploadAvatar: new RequestSetting('users/avatar', false, RequestTypes.Patch, true, true)
+    uploadAvatar: new RequestSetting('users/avatar', false, RequestTypes.Patch, true, true),
+
+    getUserSettings: new RequestSetting('userssettings')
   }
 
   mapPayloadIntoFormData(payload: any) {

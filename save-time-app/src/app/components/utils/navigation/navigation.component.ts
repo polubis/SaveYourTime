@@ -58,8 +58,6 @@ export class NavigationComponent extends ValidationService implements OnInit {
   isGettingUserData: boolean;
   loggedUserData: ILoggedUser;
 
-  salary?: number;
-
   constructor(private router: Router, private store: Store<AppState>) {
     super();
     this.currentOpenedNavigationBar = this.findStartNavigationBarIndex();
@@ -113,11 +111,6 @@ export class NavigationComponent extends ValidationService implements OnInit {
   }
 
   ngOnInit() {
-    this.store.select(getSalary).subscribe((salary: number) => {
-      this.salary = salary;
-      console.log(salary);
-    });
-
     this.categoriesSub = this.store.select(getCategories)
     .subscribe((categories: IProductCategory[]) => {
       const navigationLinks = [...this.navigationLinks];
