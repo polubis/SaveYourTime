@@ -20,10 +20,12 @@ export class UserSettingsEffects {
         ))
       )
     }),
-    map((response: any) => {
+    map((response: {settings: any}) => {
+      const salaryModal: boolean = response.settings === null;
+      const salary: number | boolean = response.settings ? response.settings.salary ? response.settings.salary : null : null;
       return {
         type: UserSettingsActions.FINISH_GET_USER_SETTINGS,
-        payload: { salary: 1000, salaryModal: true }
+        payload: { salary, salaryModal }
       }
     })
   )
