@@ -3,7 +3,7 @@ import * as fromNotifications from './notifications/reducers';
 import * as fromProducts from './products/reducers';
 import * as fromExtractions from './extractions/reducers';
 import * as fromUsers from './users/reducers';
-import { selectIsLogingIn, selectLogInData, selectToken, selectIsLogingOut } from "./users/reducers";
+import { selectIsLogingIn, selectLogInData, selectToken, selectIsLogingOut, selectLoggedUserState } from "./users/reducers";
 
 export const selectExtractionsEntity = createFeatureSelector<fromExtractions.State>(
   'extractions'
@@ -32,6 +32,10 @@ export const getToken = createSelector(
 
 export const getLogoutStatus = createSelector(
   selectUserEntity, selectIsLogingOut
+);
+
+export const getLoggedUserState = createSelector(
+  selectUserEntity, selectLoggedUserState
 );
 
 

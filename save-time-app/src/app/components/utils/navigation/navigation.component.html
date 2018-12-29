@@ -1,21 +1,29 @@
-<nav [ngClass]="{'nav-closed': !navOpen, 'nav-open': navOpen}">
-  <div *ngIf="navOpen" class="avatar-description flex-col-center">
-    <img class="avatar" src="https://images.pexels.com/photos/736716/pexels-photo-736716.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" />
-    <p>
-      Joseph Domuro
-    </p>
+<nav class="nav-open">
+  <div class="flex-col-center user-data-container">
+    <ng-container *ngIf="loggedUserData">
+      <img *ngIf="loggedUserData.picturePath" class="avatar" src="loggedUserData.picturePath" image [baseClass]="'avatar'" [imageClass]="'broken-image'" />
+      <div *ngIf="!loggedUserData.picturePath" class="image-avatar">
+        <i class="material-icons">
+          account_circle
+        </i>
+      </div>
+      <p class="main-colored">
+        {{loggedUserData.username}}
+      </p>
+    </ng-container>
+
+    <button (click)="reloadUserData()" class="label-btn-thin main-colored" *ngIf="!loggedUserData">
+      TRY RELOAD
+    </button>
+    <app-spinner [classes]="'spinner-small'" *ngIf="isGettingUserData" [backdrop]="true" [containerClasses]="'spinner-centered'">
+    </app-spinner>
+
+    <i class="material-icons">
+
+    </i>
   </div>
 
-  <ul *ngIf="!navOpen">
-    <li *ngFor="let link of navigationLinks; let i = index"
-    (click)="changeOpenedNavigationBar(i)"
-    [ngClass]="{'focused-icon': currentOpenedNavigationBar === i}">
-      <i class="material-icons">{{link.icon}}</i>
-    </li>
-
-  </ul>
-
-  <ul *ngIf="navOpen">
+  <ul>
     <li *ngFor="let link of navigationLinks; let i = index"
     [ngClass]="{'focused-link': currentOpenedNavigationBar === i}">
         <div (click)="changeOpenedNavigationBar(i)" class="link-content flex-center clickable">
@@ -41,5 +49,4 @@
     </li>
   </ul>
 
-  <i (click)="togle('navOpen')" class="material-icons side-arrow">chevron_left</i>
 </nav>

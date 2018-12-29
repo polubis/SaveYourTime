@@ -9,11 +9,30 @@ import { ILoggedUser } from "src/app/store/users/reducers";
 import { Router } from "@angular/router";
 import { CookieService } from "ngx-cookie-service";
 import { throwError, of } from "rxjs";
+import { ChangeState } from "../../store/users/actions";
 @Injectable()
 export class UsersEffects {
   constructor(private requestsService: RequestsService, private actions$: Actions,
     private store: Store<AppState>, private router: Router, private cookieService: CookieService) {
   }
+
+
+  @Effect()
+  tryGetLoggedUserData = this.actions$.ofType(UsersActions.TRY_GET_LOGGED_USER_DATA).pipe(
+    switchMap((action: UsersActions.TryGetLoggedUserData) => {
+      return this.requestsService.execute('getLoggedUserData', null,
+        () => this.store.dispatch(new ChangeState( { key: 'isGettingLoggedUserData', value: false } ))
+      )
+    }),
+    map((data: {user: ILoggedUser}) => {
+      const userData: ILoggedUser = {...data.user};
+      return {
+        type: UsersActions.FINISH_GET_LOGGED_USER_DATA,
+        payload: userData
+      };
+    })
+  )
+
   @Effect()
   register = this.actions$.ofType(UsersActions.START_REGISTER).pipe(
     switchMap((action: UsersActions.StartRegister) => {
@@ -29,50 +48,37 @@ export class UsersEffects {
     })
   );
 
-  @Effect()
-  login = this.actions$.ofType(UsersActions.TRY_LOG_IN).pipe(
+  token = '';
+
+  @Effect() login = this.actions$.ofType(UsersActions.TRY_LOG_IN).pipe(
     switchMap((action: UsersActions.TryLogIn) => {
       return this.requestsService.execute('login', action.payload,
         () => this.store.dispatch(new UsersActions.ChangeState( { key: 'isLogingIn', value: false} ))
       );
     }),
-    switchMap((response: any) => {
-      const loggedUserData: ILoggedUser = {
-        _id: response.user._id
-      };
-      this.cookieService.set('token', response.user.token);
-      return of(this.store.dispatch(new UsersActions.SetLogInData(
-        { loggedUserData, token: response.user.token }
-      )));
+    tap((response: any) => {
+      this.token = response.user.token;
     }),
-    switchMap(() => {
-      return of(this.router.navigate(['main']));
-    }),
-    delay(2000),
-    map(() => {
-      return {
-        type: UsersActions.CHANGE_STATE,
-        payload: { key: 'isLogingIn', value: false }
-      };
+    switchMap((response: any) => [
+      new UsersActions.SetLogInData(
+        { loggedUserData: null, token: response.user.token }
+      ),
+      new UsersActions.ChangeState( { key: 'isLogingIn', value: false } )
+    ]),
+    tap(() => {
+      this.cookieService.set('token', this.token);
+      this.router.navigate(['main']);
     })
   )
 
-  @Effect()
-  logout = this.actions$.ofType(UsersActions.TRY_LOG_OUT).pipe(
-    switchMap((action: UsersActions.TryLogOut) => {
-      this.cookieService.delete('token')
-      return of(this.store.dispatch(new UsersActions.SetLogInData({ loggedUserData: null, token: '' })))
+  @Effect() logout = this.actions$.ofType(UsersActions.TRY_LOG_OUT).pipe(
+    tap(() => {
+      this.cookieService.delete('token');
+      this.router.navigateByUrl('/');
     }),
-    delay(1000),
-    switchMap(() => {
-      return of(this.router.navigateByUrl('/'));
-    }),
-    map(() => {
-      return {
-        type: UsersActions.CHANGE_STATE,
-        payload: { key: 'isLogingOut', value: false }
-      };
-    })
+    switchMap(() => [
+      new UsersActions.SetLogInData( { loggedUserData: null, token: '' } ),
+      new UsersActions.ChangeState( { key: 'isLogingOut', value: false } )
+    ])
   )
-
 }

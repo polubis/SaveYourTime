@@ -3,9 +3,11 @@ import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/app/app.reducers";
 import { ChangeState } from "src/app/store/products/actions";
-import { getCategories, getLogoutStatus } from "src/app/store";
+import { getCategories, getLogoutStatus, getLoggedUserState, getLogInData } from "src/app/store";
 import { IProductCategory } from "src/app/models/product";
-import { TryLogOut } from "src/app/store/users/actions";
+import { TryLogOut, TryGetLoggedUserData } from "src/app/store/users/actions";
+import { Subscription } from "rxjs";
+import { ILoggedUser } from "src/app/store/users/reducers";
 
 @Component({
   selector: 'app-navigation',
@@ -40,8 +42,20 @@ export class NavigationComponent implements OnInit {
     this[key] = !this[key];
   }
 
+  categoriesSub: Subscription;
+  logoutSub: Subscription;
+  userDataSub: Subscription;
+  userDataStateSub: Subscription;
+
+  isGettingUserData: boolean;
+  loggedUserData: ILoggedUser;
+
   constructor(private router: Router, private store: Store<AppState>) {
     this.currentOpenedNavigationBar = this.findStartNavigationBarIndex();
+  }
+
+  reloadUserData() {
+    this.store.dispatch(new TryGetLoggedUserData());
   }
 
   openAddProduct() {
@@ -64,7 +78,7 @@ export class NavigationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.select(getCategories)
+    this.categoriesSub = this.store.select(getCategories)
     .subscribe((categories: IProductCategory[]) => {
       const navigationLinks = [...this.navigationLinks];
       const productsLinks = {...navigationLinks[0]};
@@ -82,10 +96,19 @@ export class NavigationComponent implements OnInit {
       this.navigationLinks = navigationLinks;
     });
 
-    this.store.select(getLogoutStatus).subscribe((status: boolean) => {
-      console.log(status);
+    this.logoutSub = this.store.select(getLogoutStatus).subscribe((status: boolean) => {
       this.isLogingOut = status;
     });
+
+    this.userDataSub = this.store.select(getLoggedUserState).subscribe((state: boolean) => {
+      this.isGettingUserData = state
+    });
+
+    this.userDataStateSub = this.store.select(getLogInData)
+      .subscribe((data: ILoggedUser) => {
+        this.loggedUserData = data;
+      });
+      this.store.dispatch(new TryGetLoggedUserData());
   }
   changeOpenedNavigationBar(index: number) {
     this.currentOpenedNavigationBar = index;
@@ -94,5 +117,12 @@ export class NavigationComponent implements OnInit {
 
   logout () {
     this.store.dispatch(new TryLogOut());
+  }
+
+  ngOnDestroy() {
+    this.categoriesSub.unsubscribe();
+    this.logoutSub.unsubscribe();
+    this.userDataSub.unsubscribe();
+    this.userDataStateSub.unsubscribe();
   }
 }

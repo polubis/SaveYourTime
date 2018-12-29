@@ -9,6 +9,9 @@ export const TRY_LOG_OUT = "[Users] TRY_LOG_OUT";
 export const CHANGE_STATE = "[Users] CHANGE_STATE";
 export const SET_LOG_IN_DATA = "[Users] SET_LOG_IN_DATA";
 
+export const TRY_GET_LOGGED_USER_DATA = "[Users] TRY_GET_LOGGED_USER_DATA";
+export const FINISH_GET_LOGGED_USER_DATA = "[Users] FINISH_GET_LOGGED_USER_DATA";
+
 export class SetRegisterState implements Action{
     readonly type = SET_REGISTER_STATE;
     constructor(public payload: boolean){}
@@ -37,10 +40,21 @@ export class ChangeState implements Action {
   constructor(public payload: {key: string, value: any}) {}
 }
 
+export class TryGetLoggedUserData implements Action {
+  readonly type = TRY_GET_LOGGED_USER_DATA;
+}
+
+export class FinishGetLoggedUserData implements Action {
+  readonly type = FINISH_GET_LOGGED_USER_DATA;
+  constructor(public payload: ILoggedUser) {}
+}
+
 export type UsersActions =
   ChangeState |
   SetRegisterState |
   StartRegister |
   TryLogIn |
   TryLogOut |
-  SetLogInData;
+  SetLogInData |
+  TryGetLoggedUserData |
+  FinishGetLoggedUserData;

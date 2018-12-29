@@ -39,6 +39,7 @@ export class RequestsService {
     deleteProduct: new RequestSetting('products/', false, RequestTypes.Delete),
     rateProduct: new RequestSetting('products/rate/', false, RequestTypes.Patch, false, false),
 
+    getLoggedUserData: new RequestSetting('users'),
     register: new RequestSetting('users/register', false, RequestTypes.Post),
     login: new RequestSetting('users/login', false, RequestTypes.Post)
   }

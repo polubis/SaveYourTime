@@ -6,6 +6,12 @@
   border-radius: 50%;
   object-fit: cover;
 }
+.image-avatar {
+  i {
+    color: $main;
+    font-size: 60px;
+  }
+}
 
 nav{
   color: $font;
@@ -14,12 +20,10 @@ nav{
   transition: .4s;
   display: grid;
   box-sizing: border-box;
-  .side-arrow{
-    cursor: pointer;
-    transition: .4s;
-    font-size: 32px;
-    margin: auto;
-    transition: .4s;
+  .user-data-container {
+    button {
+      margin: auto 0;
+    }
   }
 }
 
@@ -69,37 +73,6 @@ nav{
             transform: rotate(180deg);
         }
     }
-  }
-  .side-arrow{
-    transform: rotate(0);
-  }
-}
-.nav-closed{
-  width: 60px;
-  grid-template-rows: 1fr 50px;
-  i:not(.side-arrow) {
-     font-size: 24px;
-  }
-  ul li {
-    display: flex;
-    cursor: pointer;
-    height: 60px;
-    justify-content: center;
-    align-items: center;
-    animation: .4s animate-link forwards;
-    opacity: 0;
-    @for $i from 2 through 20 {
-        &:nth-child(#{$i}) {
-            animation-delay: $i * (1s / 18);
-        }
-    }
-  }
-  .side-arrow{
-    transform: rotate(180deg);
-  }
-  .focused-icon{
-    background: $main;
-    color: $font-white;
   }
 }
 li.dis-link {

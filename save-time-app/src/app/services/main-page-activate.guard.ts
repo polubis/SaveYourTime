@@ -1,4 +1,4 @@
-import { Route, CanLoad, UrlSegment, Router } from "@angular/router";
+import { Router, CanActivate } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { take } from "rxjs/operators";
 import { AppState } from "src/app/app.reducers";
@@ -9,14 +9,15 @@ import { getLogInData } from "src/app/store";
 import { ILoggedUser } from "src/app/store/users/reducers";
 
 @Injectable()
-export class MainPageGuard implements CanLoad {
-  constructor(private router: Router, private store: Store<AppState>, private cookieService: CookieService) {}
-  canLoad(route: Route): boolean{
+export class MainPageActivateGuard implements CanActivate {
+  constructor(private router: Router, private cookieService: CookieService) {}
+  canActivate(): boolean{
+    console.log(this.cookieService.get('token'));
     if (this.cookieService.check('token')) {
       return true;
     }
 
-    this.router.navigate(['']);
+    this.router.navigateByUrl('');
     return false;
   }
 }

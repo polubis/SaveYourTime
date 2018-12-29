@@ -38,6 +38,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { StartPageGuard } from "src/app/services/start-page.quard";
 import { MainPageGuard } from "src/app/services/main-page.guard";
 import { HeaderInterceptor } from "src/app/services/header-interceptor";
+import { MainPageActivateGuard } from "src/app/services/main-page-activate.guard";
 registerLocaleData(localePl);
 
 @NgModule({
@@ -68,6 +69,7 @@ registerLocaleData(localePl);
     CookieService,
     StartPageGuard,
     MainPageGuard,
+    MainPageActivateGuard,
     { provide: LOCALE_ID, useValue: 'pl' }
   ],
   bootstrap: [AppComponent]

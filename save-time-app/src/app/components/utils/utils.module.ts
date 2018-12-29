@@ -23,7 +23,7 @@ import { TextPipe } from "src/app/components/utils/text-pipe";
   declarations: [ NavigationComponent, ProductFormComponent, FormComponent, ModalComponent, SpinnerComponent,
     ProductsCartComponent, RatesComponent, SliderComponent, ConfirmComponent, ImageDirective, FilePickerComponent, EmptyListComponent, TableComponent, PaginationComponent,
     Dropzone, TextPipe,
-    DropzoneComponent
+    DropzoneComponent,
   ],
   imports: [ CommonModule ],
   exports: [ NavigationComponent, ProductFormComponent, FormComponent, ModalComponent, SpinnerComponent,

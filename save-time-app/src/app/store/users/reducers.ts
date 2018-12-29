@@ -8,10 +8,14 @@ export interface State {
   isLogingIn: boolean;
   logInData?: ILoggedUser;
   isLogingOut: boolean;
+  isGettingLoggedUserData: boolean;
 };
 
 export interface ILoggedUser {
    _id: string;
+   username: string;
+   email: string;
+   picturePath?: string;
 };
 
 const initialState: State = {
@@ -21,7 +25,8 @@ const initialState: State = {
   token: '',
   isLogingIn: false,
   logInData: null,
-  isLogingOut: false
+  isLogingOut: false,
+  isGettingLoggedUserData: false
 };
 
 export function usersReducer(state = initialState, action: UsersActions.UsersActions){
@@ -58,6 +63,17 @@ export function usersReducer(state = initialState, action: UsersActions.UsersAct
           logInData: action.payload.loggedUserData,
           token: action.payload.token
         };
+      case UsersActions.TRY_GET_LOGGED_USER_DATA:
+        return {
+          ...state,
+          isGettingLoggedUserData: true
+        };
+      case UsersActions.FINISH_GET_LOGGED_USER_DATA:
+        return {
+          ...state,
+          isGettingLoggedUserData: false,
+          logInData: action.payload
+        };
       default:
           return state;
     }
@@ -67,3 +83,4 @@ export const selectIsLogingIn = (state: State) => state.isLogingIn;
 export const selectLogInData = (state: State) => state.logInData;
 export const selectToken = (state: State) => state.token;
 export const selectIsLogingOut = (state: State) => state.isLogingOut;
+export const selectLoggedUserState = (state: State) => state.isGettingLoggedUserData;
