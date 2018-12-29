@@ -9,13 +9,13 @@ import { Notification } from '../models/notification';
 import { TryPushNotification } from '../store/notifications/actions';
 import { getNotifications, getToken } from '../store/index';
 import { TryLogOut } from "src/app/store/users/actions";
-
+import { environment } from '../../environments/environment';
 @Injectable({providedIn: 'root'})
 export class RequestsService {
 
   constructor(private http: HttpClient, private store: Store<AppState>) {
   }
-  baseUrl = "http://localhost:3000/api/";
+  baseUrl = environment.baseUrl;
 
   succesfullMessages = {
     register: 'Your account has been succesfully created',
