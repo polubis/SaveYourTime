@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Effect, Actions } from "@ngrx/effects";
 import * as UsersActions from '../../store/users/actions';
-import { switchMap, map, tap } from "rxjs/operators";
+import { switchMap, map, tap, delay } from "rxjs/operators";
 import { RequestsService } from "src/app/services/requests.service";
 import { AppState } from "src/app/app.reducers";
 import { Store } from "@ngrx/store";
@@ -48,6 +48,7 @@ export class UsersEffects {
     switchMap(() => {
       return of(this.router.navigate(['main']));
     }),
+    delay(2000),
     map(() => {
       return {
         type: UsersActions.CHANGE_STATE,
@@ -62,6 +63,7 @@ export class UsersEffects {
       this.cookieService.delete('token')
       return of(this.store.dispatch(new UsersActions.SetLogInData({ loggedUserData: null, token: '' })))
     }),
+    delay(1000),
     switchMap(() => {
       return of(this.router.navigateByUrl('/'));
     }),
