@@ -2,9 +2,9 @@ const express = require("express");
 
 const Product = require("../models/product");
 const multer = require("multer");
-const fs = require('fs');
 const router = express.Router();
 const checkAuth = require('../middlewares/check-auth');
+const imagesService = require('../services/image');
 
 const ALLOWED_MIME_TYPES = {
   'image/png': 'png',
@@ -55,20 +55,6 @@ router.get('', checkAuth, (req, res, next) => {
   });
 });
 
-function deleteImage (picPath, cb, delPath = '/backend/images/products/') {
-  const indexOfLastSlash = picPath.lastIndexOf("/");
-  const picName = picPath.slice(indexOfLastSlash + 1, picPath.length);
-  const initPath = process.cwd() + delPath + picName;
-
-  fs.stat(initPath, function(err, stats) {
-    if(!err) {
-      fs.unlink(initPath, function(err){
-        cb(err);
-      });
-    }
-  })
-}
-
 router.post('', checkAuth, multer({ storage: storage }).single("picturePath"), (req, res, next) => {
   const product = new Product({
     ...req.body, userId: req.userId
@@ -83,7 +69,7 @@ router.post('', checkAuth, multer({ storage: storage }).single("picturePath"), (
     res.status(201).json({ product: sProduct });
   })
   .catch(err => {
-    deleteImage(product.picturePath, function(err) {
+    imagesService.deleteImage(product.picturePath, function(err) {
       res.status(400).json({ error: 'There is a problem with adding product' })
     });
   });
@@ -119,7 +105,7 @@ router.delete('/:id', checkAuth, (req, res, next) => {
   Product.findOne( {_id: req.params.id} ).then(product => {
     if (product.picturePath) {
 
-      deleteImage(product.picturePath, function(err) {
+      imagesService.deleteImage(product.picturePath, function(err) {
         Product.deleteOne( {_id: req.params.id } ).then(deletedProduct => {
           res.status(200).json({
             _id: req.params.id
@@ -179,12 +165,12 @@ router.patch('/:id', checkAuth, multer({ storage: storage }).single("picturePath
       }
 
       if (isImageAlreadyAdded && isFileInReq) {
-        deleteImage(product.picturePath, function() {
+        imagesService.deleteImage(product.picturePath, function() {
           update(newProduct, req.params.id, res);
         });
       }
       else if(req.body.picturePath === '' && isImageAlreadyAdded) {
-        deleteImage(product.picturePath, function() {
+        imagesService.deleteImage(product.picturePath, function() {
           newProduct.picturePath = '';
           update(newProduct, req.params.id, res);
         });
@@ -195,7 +181,7 @@ router.patch('/:id', checkAuth, multer({ storage: storage }).single("picturePath
 
 
     }).catch(error => {
-      deleteImage(req.body.picturePath, function() {
+      imagesService.deleteImage(req.body.picturePath, function() {
         res.status(400).json({error: "Product with given id doesn't exists"})
       });
     });

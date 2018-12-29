@@ -44,7 +44,7 @@ export class ValidationService extends Validators {
     minLength: (title, limit) => `${title} field must have more than ${limit} characters`,
     maxLength: (title, limit) => `${title} field cannot have more than ${limit} characters`,
     isLengthEqualTo: (title, limit) => `${title} field must have ${limit} characters`,
-    isPicture: (title) => `${title} field must be graphic format`,
+    isPicture: (title) => `${title} field must be jpg/jpeg/png format`,
     isFileWithCorrectSize: (title, allowedSize) => `${title} field must have size less than ${allowedSize} bytes`
   };
 

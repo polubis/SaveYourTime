@@ -13,7 +13,8 @@ import { ExtractionsComponent } from "src/app/components/utils/extractions/extra
 import { ProductCategoryFormComponent } from "src/app/components/common/product-category-form/product-category-form.component";
 
 @NgModule({
-  declarations: [ MainComponent, DashboardComponent, ProductsComponent, ShoppingComponent, ShoppingFormComponent, ShoppingListComponent, ExtractionsComponent, ProductCategoryFormComponent ],
+  declarations: [ MainComponent, DashboardComponent, ProductsComponent, ShoppingComponent, ShoppingFormComponent, ShoppingListComponent,
+    ExtractionsComponent, ProductCategoryFormComponent ],
   imports: [ MainRoutingModule, CommonModule, UtilsModule ]
 })
 export class MainModule {

@@ -1,8 +1,8 @@
 <nav class="nav-open">
   <div class="flex-col-center user-data-container">
     <ng-container *ngIf="loggedUserData">
-      <img *ngIf="loggedUserData.picturePath" class="avatar" src="loggedUserData.picturePath" image [baseClass]="'avatar'" [imageClass]="'broken-image'" />
-      <div *ngIf="!loggedUserData.picturePath" class="image-avatar">
+      <img (click)="file.click()" *ngIf="loggedUserData.picturePath" [src]="loggedUserData.picturePath" image [baseClass]="'avatar clickable'" [imageClass]="'broken-image'" />
+      <div (click)="file.click()" *ngIf="!loggedUserData.picturePath" class="image-avatar clickable">
         <i class="material-icons">
           account_circle
         </i>
@@ -10,6 +10,9 @@
       <p class="main-colored">
         {{loggedUserData.username}}
       </p>
+
+      <app-spinner [classes]="'spinner-u-small'" *ngIf="isLoadingImage" [backdrop]="true" [containerClasses]="'spinner-centered'"></app-spinner>
+      <input (input)="handleFilePick($event)" [style.display]="'none'" type="file" #file/>
     </ng-container>
 
     <button (click)="reloadUserData()" class="label-btn-thin main-colored" *ngIf="!loggedUserData">
@@ -38,6 +41,13 @@
           </li>
         </ul>
     </li>
+
+    <li class="settings">
+      <div (click)="togleSettings()" class="link-content flex-center clickable">
+        <i class="material-icons">settings</i><span>Settings</span>
+      </div>
+    </li>
+
     <li class="logout">
       <div (click)="logout()" class="link-content flex-center clickable">
         <i class="material-icons">exit_to_app</i><span>Logout</span>
@@ -50,3 +60,7 @@
   </ul>
 
 </nav>
+<p class="abs-validation-message flex-between" *ngIf="isImageOnError" (click)="closeError()">
+  <span>{{isImageOnError}}</span>
+  <button class="label-btn">OK</button>
+</p>

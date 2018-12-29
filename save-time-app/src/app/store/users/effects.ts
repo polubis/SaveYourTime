@@ -8,7 +8,7 @@ import { Store } from "@ngrx/store";
 import { ILoggedUser } from "src/app/store/users/reducers";
 import { Router } from "@angular/router";
 import { CookieService } from "ngx-cookie-service";
-import { throwError, of } from "rxjs";
+import { of } from "rxjs";
 import { ChangeState } from "../../store/users/actions";
 @Injectable()
 export class UsersEffects {
@@ -16,6 +16,23 @@ export class UsersEffects {
     private store: Store<AppState>, private router: Router, private cookieService: CookieService) {
   }
 
+  loggedUserData: ILoggedUser;
+
+  @Effect() tryUploadAvatar = this.actions$.ofType(UsersActions.TRY_UPLOAD_USER_AVATAR).pipe(
+    switchMap((action: UsersActions.TryUploadUserAvatar) => {
+      const file: File = action.payload.file;
+      this.loggedUserData = action.payload.userData;
+      return this.requestsService.execute('uploadAvatar', {file},
+        () => this.store.dispatch(new ChangeState( { key: 'isUploadingUserAvatar', value: false } ))
+      );
+    }),
+    map((response: any) => {
+      return {
+        type: UsersActions.FINISH_UPLOAD_USER_AVATAR,
+        payload: { ...this.loggedUserData, picturePath: response.picturePath }
+      }
+    })
+  )
 
   @Effect()
   tryGetLoggedUserData = this.actions$.ofType(UsersActions.TRY_GET_LOGGED_USER_DATA).pipe(
@@ -62,8 +79,7 @@ export class UsersEffects {
     switchMap((response: any) => [
       new UsersActions.SetLogInData(
         { loggedUserData: null, token: response.user.token }
-      ),
-      new UsersActions.ChangeState( { key: 'isLogingIn', value: false } )
+      )
     ]),
     tap(() => {
       this.cookieService.set('token', this.token);
@@ -74,7 +90,7 @@ export class UsersEffects {
   @Effect() logout = this.actions$.ofType(UsersActions.TRY_LOG_OUT).pipe(
     tap(() => {
       this.cookieService.delete('token');
-      this.router.navigateByUrl('/');
+      this.router.navigate(['']);
     }),
     switchMap(() => [
       new UsersActions.SetLogInData( { loggedUserData: null, token: '' } ),

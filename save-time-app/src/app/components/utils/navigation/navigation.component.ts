@@ -5,17 +5,24 @@ import { AppState } from "src/app/app.reducers";
 import { ChangeState } from "src/app/store/products/actions";
 import { getCategories, getLogoutStatus, getLoggedUserState, getLogInData } from "src/app/store";
 import { IProductCategory } from "src/app/models/product";
-import { TryLogOut, TryGetLoggedUserData } from "src/app/store/users/actions";
+import { TryLogOut, TryGetLoggedUserData, TryUploadUserAvatar } from "src/app/store/users/actions";
 import { Subscription } from "rxjs";
 import { ILoggedUser } from "src/app/store/users/reducers";
+import { InputBase } from "src/app/services/input-base";
+import { ValidationService } from "src/app/components/utils/form/validation.service";
+import { Setting } from "src/app/components/utils/form/form";
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.scss']
+  styleUrls: ['../shared.scss', './navigation.component.scss']
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent extends ValidationService implements OnInit {
   isLogingOut = false;
+  isLoadingImage = false;
+  isImageOnError = '';
+  validationSetting = new Setting('user avatar', { isPicture: true, isFileWithCorrectSize: 300000 } );
+
   @Output() onClickLink = new EventEmitter<string>();
   @Input() initial = 'full-nav';
   navigationLinks: any[] = [
@@ -51,7 +58,12 @@ export class NavigationComponent implements OnInit {
   loggedUserData: ILoggedUser;
 
   constructor(private router: Router, private store: Store<AppState>) {
+    super();
     this.currentOpenedNavigationBar = this.findStartNavigationBarIndex();
+  }
+
+  closeError() {
+    this.isImageOnError = '';
   }
 
   reloadUserData() {
@@ -64,6 +76,26 @@ export class NavigationComponent implements OnInit {
 
   openAddCategoryModal() {
     this.store.dispatch(new ChangeState( { key: 'categoryModal', value: true}));
+  }
+
+  handleFilePick(event) {
+    event.preventDefault();
+    this.isLoadingImage = true;
+    const file = (event.target as HTMLInputElement).files[0];
+    const reader = new FileReader();
+    try {
+      reader.onload = () => {
+        this.isImageOnError  = super.runInputValidation(file, this.validationSetting);
+        this.isLoadingImage = false;
+        if (!this.isImageOnError) {
+          this.store.dispatch(new TryUploadUserAvatar({file, userData: this.loggedUserData}));
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+    catch(err) {
+      this.isLoadingImage = false;
+    }
   }
 
   findStartNavigationBarIndex() {

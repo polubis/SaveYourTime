@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const imageService = require('../services/image');
 const User = require("../models/user");
 
 function getUserByEmailOrUsername(nameOrEmail, cbSucc, cbErr) {
@@ -26,6 +26,37 @@ function getUserByEmailOrUsername(nameOrEmail, cbSucc, cbErr) {
     cbErr('Wrong username/email or password');
   });
 }
+
+exports.uploadAvatar = (req, res, next) => {
+
+  User.findOne( {_id: req.userId} ).then(fUser => {
+    const savePath = req.protocol + '://' + req.get('host') + '/images/avatars/';
+    const user = {
+      _id: req.userId, picturePath: savePath + req.file.filename
+    };
+
+    imageService.deleteImage(fUser.picturePath, function(err) {
+      User.updateOne( {_id: req.userId}, user ).then(uUser => {
+        res.status(200).json({
+          picturePath: user.picturePath
+        });
+      }).catch(error => {
+        res.status(400).json({
+          error: 'There is a problem with saving user data'
+        })
+      })
+
+    }, '/backend/images/avatars/');
+
+
+  }).catch(error => {
+    console.log(error);
+    res.status(400).json({
+      error: 'Cannot upload user avatar'
+    })
+  })
+
+};
 
 exports.logIn = (req, res, next) => {
   const { nameOrEmail, password } = req.body;
@@ -75,7 +106,7 @@ exports.getLoggedUserData = (req, res, next) => {
   const userId = req.userId;
 
   User.findOne( { _id: userId } ).then(fUser => {
-    const user = { _id: fUser._id, username: fUser.username, email: fUser.email };
+    const user = { _id: fUser._id, username: fUser.username, email: fUser.email, picturePath: fUser.picturePath };
     res.status(200).json({
       user
     });

@@ -12,6 +12,9 @@ export const SET_LOG_IN_DATA = "[Users] SET_LOG_IN_DATA";
 export const TRY_GET_LOGGED_USER_DATA = "[Users] TRY_GET_LOGGED_USER_DATA";
 export const FINISH_GET_LOGGED_USER_DATA = "[Users] FINISH_GET_LOGGED_USER_DATA";
 
+export const TRY_UPLOAD_USER_AVATAR = "[Users] TRY_UPLOAD_USER_AVATAR";
+export const FINISH_UPLOAD_USER_AVATAR = "[Users] FINISH_UPLOAD_USER_AVATAR";
+
 export class SetRegisterState implements Action{
     readonly type = SET_REGISTER_STATE;
     constructor(public payload: boolean){}
@@ -49,6 +52,16 @@ export class FinishGetLoggedUserData implements Action {
   constructor(public payload: ILoggedUser) {}
 }
 
+export class TryUploadUserAvatar implements Action {
+  readonly type = TRY_UPLOAD_USER_AVATAR;
+  constructor(public payload: {file: File, userData: ILoggedUser}) {}
+}
+
+export class FinishUploadUserAvatar implements Action {
+  readonly type = FINISH_UPLOAD_USER_AVATAR;
+  constructor(public payload: ILoggedUser) {}
+}
+
 export type UsersActions =
   ChangeState |
   SetRegisterState |
@@ -57,4 +70,6 @@ export type UsersActions =
   TryLogOut |
   SetLogInData |
   TryGetLoggedUserData |
-  FinishGetLoggedUserData;
+  FinishGetLoggedUserData |
+  TryUploadUserAvatar |
+  FinishUploadUserAvatar;

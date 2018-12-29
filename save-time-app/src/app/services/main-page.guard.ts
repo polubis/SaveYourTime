@@ -15,8 +15,10 @@ export class MainPageGuard implements CanLoad {
     if (this.cookieService.check('token')) {
       return true;
     }
+    else {
+      this.router.navigate(['']);
+      return false;
+    }
 
-    this.router.navigate(['']);
-    return false;
   }
 }

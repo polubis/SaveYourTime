@@ -7,13 +7,12 @@ export class StartPageGuard implements CanActivate {
     constructor(private router: Router, private cookieService: CookieService) { }
 
     canActivate(): boolean {
-
       if (!this.cookieService.check('token')) {
         return true;
       }
-
-      this.router.navigate(['main']);
-      return false;
-
+      else {
+        this.router.navigate(['main']);
+        return false;
+      }
     }
 }

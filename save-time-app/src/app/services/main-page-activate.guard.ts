@@ -12,12 +12,13 @@ import { ILoggedUser } from "src/app/store/users/reducers";
 export class MainPageActivateGuard implements CanActivate {
   constructor(private router: Router, private cookieService: CookieService) {}
   canActivate(): boolean{
-    console.log(this.cookieService.get('token'));
     if (this.cookieService.check('token')) {
       return true;
     }
+    else {
+      this.router.navigateByUrl('');
+      return false;
+    }
 
-    this.router.navigateByUrl('');
-    return false;
   }
 }
