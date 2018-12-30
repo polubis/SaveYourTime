@@ -90,11 +90,13 @@ export class UsersEffects {
   @Effect() logout = this.actions$.ofType(UsersActions.TRY_LOG_OUT).pipe(
     tap(() => {
       this.cookieService.delete('token');
-      this.router.navigate(['']);
     }),
     switchMap(() => [
       new UsersActions.SetLogInData( { loggedUserData: null, token: '' } ),
       new UsersActions.ChangeState( { key: 'isLogingOut', value: false } )
-    ])
+    ]),
+    tap(() => {
+      this.router.navigate(['']);
+    })
   )
 }
