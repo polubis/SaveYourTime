@@ -61,7 +61,7 @@ After sign up create your product list by typing some core data in form. Product
 All products contains basic data like name, optional picture, cost and many others. You can import products from other account or from other users.'"
 >
   <app-slider *ngIf="exampleProducts.length > 0" [infinitiveTime]="4500" [values]="exampleProducts" [progressLabelKey]="['name']">
-    <app-products-cart [allowOperations]="false" *ngFor="let product of exampleProducts" [classes]="'marginated-cart'"
+    <app-products-cart [allowOperations]="false" *ngFor="let product of exampleProducts" [classes]="'marginated-cart small-cart-products'"
       [product]="product">
     </app-products-cart>
   </app-slider>
