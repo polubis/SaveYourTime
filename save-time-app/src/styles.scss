@@ -235,3 +235,19 @@ button{
   font-size: 14px;
   line-height: 20px;
 }
+.abs-validation-message{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
+  width: 100%;
+  z-index: 2;
+  background: $error;
+  color: $font-white;
+  span{
+    font-size: 14px;
+  }
+  button{
+    color: $font-white;
+  }
+}

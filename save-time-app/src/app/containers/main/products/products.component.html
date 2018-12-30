@@ -1,5 +1,5 @@
 <div class="grid-wrap">
-  <ng-container *ngIf="!isLoadingCategories">
+  <ng-container *ngIf="!isLoadingCategories && !isLoadingProducts">
     <div class="cart-header">
       <h2 class="main-colored">Products dashboard</h2>
 
@@ -53,7 +53,7 @@
     </div>
   </ng-container>
 
-  <app-spinner [classes]="'spinner-big'" *ngIf="isLoadingCategories" [containerClasses]="'spinner-form'"></app-spinner>
+  <app-spinner [classes]="'spinner-big'" *ngIf="isLoadingCategories || isLoadingProducts" [containerClasses]="'spinner-centered'"></app-spinner>
 
 
 </div>

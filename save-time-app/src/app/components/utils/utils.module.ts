@@ -16,19 +16,18 @@ import { DropzoneComponent } from './dropzone/dropzone.component';
 import { Dropzone } from "src/app/components/utils/dropzone/dropzone";
 import { TextPipe } from "src/app/components/utils/text-pipe";
 import { ProductsCartComponent } from "src/app/components/common/products-cart/products-cart.component";
-import { NavigationComponent } from "src/app/components/utils/navigation/navigation.component";
 
 @NgModule({
   declarations: [ FormComponent, ModalComponent, SpinnerComponent,
     RatesComponent, SliderComponent, ConfirmComponent, ImageDirective, FilePickerComponent, EmptyListComponent, TableComponent, PaginationComponent,
     Dropzone, TextPipe,
-    DropzoneComponent, ProductsCartComponent, NavigationComponent
+    DropzoneComponent, ProductsCartComponent
   ],
   imports: [ CommonModule ],
   exports: [ FormComponent, ModalComponent, SpinnerComponent,
     RatesComponent, SliderComponent, ConfirmComponent, ImageDirective,
     FilePickerComponent, EmptyListComponent, TableComponent, PaginationComponent, Dropzone, TextPipe,
-    DropzoneComponent, ProductsCartComponent, NavigationComponent ]
+    DropzoneComponent, ProductsCartComponent ]
 })
 export class UtilsModule{
 

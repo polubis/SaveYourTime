@@ -5,7 +5,7 @@ import { FetchProducts, StartRemovingProduct, SetRemovingProductState, ChangeSta
 import { Product, IProductCategory } from "src/app/models/product";
 import { Subscription } from "rxjs";
 import { State } from '../../../store/products/reducers';
-import { getNotifications } from "src/app/store";
+import { getNotifications, getIsLoadingProducts } from "src/app/store";
 import { Notification } from '../../../models/notification';
 @Component({
   selector: 'app-products',
@@ -18,6 +18,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
   products: Product[];
   deleteProductSub: Subscription;
   notificationSub: Subscription;
+  loadingProductsSub: Subscription;
+  isLoadingProducts: boolean;
 
   productToEdit: Product;
   productToDelete: Product;
@@ -57,11 +59,17 @@ export class ProductsComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.loadingProductsSub = this.store.select(getIsLoadingProducts)
+      .subscribe((status: boolean) => {
+        this.isLoadingProducts = status;
+      });
+
     this.store.dispatch(new FetchProducts());
   }
   ngOnDestroy() {
     this.deleteProductSub.unsubscribe();
     this.notificationSub.unsubscribe();
+    this.loadingProductsSub.unsubscribe();
   }
   removeCategory() {
     this.store.dispatch(new TryRemoveCategory(this.categoryToRemove_ID));

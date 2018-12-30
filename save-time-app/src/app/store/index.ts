@@ -4,6 +4,7 @@ import * as fromProducts from './products/reducers';
 import * as fromExtractions from './extractions/reducers';
 import * as fromUsers from './users/reducers';
 import { selectIsLogingIn, selectLogInData, selectToken, selectIsLogingOut, selectLoggedUserState, selectUploadingAvatarStatus } from "./users/reducers";
+import { selectIsLoadingProducts } from "./products/reducers";
 
 export const selectExtractionsEntity = createFeatureSelector<fromExtractions.State>(
   'extractions'
@@ -16,6 +17,10 @@ export const selectProductsEntity = createFeatureSelector<fromProducts.State>(
 );
 export const selectUserEntity = createFeatureSelector<fromUsers.State>(
   'users'
+);
+
+export const getIsLoadingProducts = createSelector(
+  selectProductsEntity, selectIsLoadingProducts
 );
 
 export const getIsLogingIn = createSelector(

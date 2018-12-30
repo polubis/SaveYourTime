@@ -17,10 +17,11 @@ import { ShoppingFormComponent } from "src/app/components/main/shopping/shopping
 import { ShoppingListComponent } from "src/app/components/main/shopping/shopping-list/shopping-list.component";
 import { ProductCategoryFormComponent } from "src/app/components/main/products/product-category-form/product-category-form.component";
 import { SalaryFormComponent } from "src/app/components/main/shopping/salary-form/salary-form.component";
+import { NavigationComponent } from "src/app/components/main/navigation/navigation.component";
 
 @NgModule({
   declarations: [ MainComponent, DashboardComponent, ProductsComponent, ShoppingComponent, ShoppingFormComponent, ShoppingListComponent,
-    ExtractionsComponent, ProductCategoryFormComponent, ProductFormComponent, SalaryFormComponent ],
+    ExtractionsComponent, ProductCategoryFormComponent, ProductFormComponent, SalaryFormComponent, NavigationComponent ],
   imports: [ MainRoutingModule, CommonModule, UtilsModule,
     StoreModule.forFeature('userSettings', userSettingsReducer),
     EffectsModule.forFeature( [UserSettingsEffects] ) ]

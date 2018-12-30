@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from "src/app/containers/home/home.component";
 import { TimerComponent } from './components/utils/timer/timer.component';
 import { StartPageComponent } from './containers/start-page/start-page.component';
 import { TutorialsComponent } from "src/app/components/start-page/tutorials/tutorials.component";
@@ -41,7 +40,6 @@ registerLocaleData(localePl);
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     TimerComponent,
     StartPageComponent,
     TutorialsComponent,

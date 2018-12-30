@@ -3,6 +3,7 @@ import { Product, IProductCategory } from "src/app/models/product";
 import * as ProductsActions from './actions';
 export interface State {
   products: Product[];
+  isLoadingProducts: boolean;
   productsCount: number;
   isAddingOrEditingProduct: boolean;
   isRemovingProduct: boolean;
@@ -17,6 +18,7 @@ export interface State {
 
 const initialState: State = {
   products: [],
+  isLoadingProducts: false,
   productsCount: 0,
   isAddingOrEditingProduct: false,
   isRemovingProduct: false,
@@ -36,11 +38,17 @@ export function productsReducer(state = initialState, action: ProductsActions.Pr
           ...state,
           [action.payload.key]: action.payload.status
         };
+      case ProductsActions.FETCH_PRODUCTS:
+        return {
+          ...state,
+          isLoadingProducts: true
+        };
       case ProductsActions.SET_PRODUCTS:
         return {
             ...state,
             products: [...action.payload.products],
-            productsCount: action.payload.productsCount
+            productsCount: action.payload.productsCount,
+            isLoadingProducts: false
         };
       case ProductsActions.PUSH_PRODUCT:
         return {
@@ -137,3 +145,4 @@ export const isAddingOrEditing = (state: State) => state.isAddingOrEditingProduc
 export const products = (state: State) => state.products;
 export const productsCount = (state: State) => state.productsCount;
 export const selectCategories = (state: State) => state.productCategories;
+export const selectIsLoadingProducts = (state: State) => state.isLoadingProducts;

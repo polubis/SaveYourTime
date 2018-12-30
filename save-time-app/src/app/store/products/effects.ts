@@ -12,7 +12,7 @@ import { RequestsService } from "src/app/services/requests.service";
 import * as ProductsActions from '../../store/products/actions';
 import { Product, IProductCategory } from "src/app/models/product";
 import { AppState } from "src/app/app.reducers";
-import { ChangeState } from "../../store/products/actions";
+import { ChangeState, ChangeLoadingState } from "../../store/products/actions";
 import { getCategories } from "src/app/store";
 @Injectable()
 export class ProductsEffects {
@@ -25,7 +25,9 @@ export class ProductsEffects {
   @Effect()
   productsFetching = this.actions$.ofType(ProductsActions.FETCH_PRODUCTS).pipe(
     switchMap((action: ProductsActions.FetchProducts) => {
-      return this.requestsService.execute('products', {}, null, action.payload);
+      return this.requestsService.execute('products', {},
+        () => this.store.dispatch(new ChangeLoadingState( { key: 'isLoadingProducts', status: true } )),
+        action.payload);
     }),
     map((response: {products: Product[], count: number}) => {
       return {
