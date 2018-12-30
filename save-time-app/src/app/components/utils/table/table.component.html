@@ -56,6 +56,8 @@
 
     </app-pagination>
 
+    <app-spinner *ngIf="isLoading" [classes]="'spinner-small'" [containerClasses]="'spinner-table'"></app-spinner>
+
   </div>
   <ng-container *ngIf="items.length > 0">
 
@@ -82,7 +84,7 @@
   </ng-container>
 
 
-  <div class="empty-table" *ngIf="items.length === 0">
+  <div class="empty-table" *ngIf="items.length === 0 && !isLoading">
     {{emptyTitle}}
   </div>
 

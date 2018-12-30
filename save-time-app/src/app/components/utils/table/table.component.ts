@@ -10,6 +10,7 @@ import { Subscription } from "rxjs";
 export class TableComponent implements OnInit {
   @ViewChild('pagination') pagination: any;
 
+  @Input() isLoading = false;
   @Input() tableClass = 'table-add';
   @Input() title = 'Products';
   @Input() subTitle = 'click row for select';
