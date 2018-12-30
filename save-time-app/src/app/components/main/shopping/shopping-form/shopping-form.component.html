@@ -1,31 +1,42 @@
-<app-dropzone (dropped)="handleDropReceipt($event)" [config]="receiptConfig">
+<app-dropzone (dropped)="handleDropReceipt($event)" [config]="receiptConfig" *ngIf="!isLoadingSettings">
   <div class="shopping">
 
     <div class="cart-header">
       <h2 class="main-colored">Add new shopping</h2>
     </div>
 
-    <div class="products-to-add">
-      <app-table
-      (settingChanges)="fetchProducts($event)"
-      [keysTitle]="'productsToSelectKeys'"
-      (rowClick)="addProductToSelected($event)"
-      [items]="productsToSelect"></app-table>
+    <div *ngIf="!salarySchema" class="empty-salary">
+      <app-empty-list [header]="'Salary schema'" (clicking)="openSalarySchema()">
+        Your salary schema is not set. <br>Click button bellow to set salary schema
+      </app-empty-list>
     </div>
 
-    <div class="selected-products">
-      <app-table [tableClass]="'table-remove'" [emptyTitle]="'This table is already empty. Start selecting products'"
-      [keysTitle]="'selectedProducts'" (rowClick)="removeProductFromSelected($event)"
-      [enableChangingPageSize]="false" [enableFilters]="false" [enablePagination]="false"
-      [title]="'Selected products'" [subTitle]="'click at row for remove product'"
-      [items]="selectedProducts">
-        <div class="whole-cost main-colored" *ngIf="sum > 0">
-          {{sum}} zł
-        </div>
-      </app-table>
-    </div>
+    <ng-container *ngIf="salarySchema">
+      <div class="products-to-add">
+        <app-table
+        (settingChanges)="fetchProducts($event)"
+        [keysTitle]="'productsToSelectKeys'"
+        (rowClick)="addProductToSelected($event)"
+        [items]="productsToSelect"></app-table>
+      </div>
+
+      <div class="selected-products">
+        <app-table [tableClass]="'table-remove'" [emptyTitle]="'This table is already empty. Start selecting products'"
+        [keysTitle]="'selectedProducts'" (rowClick)="removeProductFromSelected($event)"
+        [enableChangingPageSize]="false" [enableFilters]="false" [enablePagination]="false"
+        [title]="'Selected products'" [subTitle]="'click at row for remove product'"
+        [items]="selectedProducts">
+          <div class="whole-cost main-colored" *ngIf="sum > 0">
+            {{sum}} zł
+          </div>
+        </app-table>
+      </div>
+    </ng-container>
+
 
   </div>
 
 </app-dropzone>
 
+
+<app-spinner *ngIf="isLoadingSettings" [classes]="'spinner-big'" [containerClasses]="'spinner-centered'"></app-spinner>

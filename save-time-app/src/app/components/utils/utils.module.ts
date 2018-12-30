@@ -1,7 +1,6 @@
 
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { NavigationComponent } from "src/app/components/utils/navigation/navigation.component";
 import { FormComponent } from "src/app/components/utils/form/form.component";
 import { ModalComponent } from "src/app/components/utils/modal/modal.component";
 import { SpinnerComponent } from "src/app/components/utils/spinner/spinner.component";
@@ -17,18 +16,19 @@ import { DropzoneComponent } from './dropzone/dropzone.component';
 import { Dropzone } from "src/app/components/utils/dropzone/dropzone";
 import { TextPipe } from "src/app/components/utils/text-pipe";
 import { ProductsCartComponent } from "src/app/components/common/products-cart/products-cart.component";
+import { NavigationComponent } from "src/app/components/utils/navigation/navigation.component";
 
 @NgModule({
-  declarations: [ NavigationComponent, FormComponent, ModalComponent, SpinnerComponent,
+  declarations: [ FormComponent, ModalComponent, SpinnerComponent,
     RatesComponent, SliderComponent, ConfirmComponent, ImageDirective, FilePickerComponent, EmptyListComponent, TableComponent, PaginationComponent,
     Dropzone, TextPipe,
-    DropzoneComponent, ProductsCartComponent
+    DropzoneComponent, ProductsCartComponent, NavigationComponent
   ],
   imports: [ CommonModule ],
-  exports: [ NavigationComponent, FormComponent, ModalComponent, SpinnerComponent,
+  exports: [ FormComponent, ModalComponent, SpinnerComponent,
     RatesComponent, SliderComponent, ConfirmComponent, ImageDirective,
     FilePickerComponent, EmptyListComponent, TableComponent, PaginationComponent, Dropzone, TextPipe,
-    DropzoneComponent, ProductsCartComponent ]
+    DropzoneComponent, ProductsCartComponent, NavigationComponent ]
 })
 export class UtilsModule{
 

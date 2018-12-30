@@ -1,11 +1,18 @@
-<div class="grid-wrap">
+<div class="grid-wrap" *ngIf="!isLoadingSettings">
   <div class="cart-header">
       <h2 class="main-colored">Your shoppings list</h2>
 
   </div>
+
   <div [style.margin]="'auto'">
-    <app-empty-list *ngIf="shopping.length === 0" [header]="'Shopping list'">
+    <app-empty-list *ngIf="shopping.length === 0 && salarySchema" [header]="'Shopping list'">
       Your shopping list is already empty. <br>Click button bellow to add new one
+    </app-empty-list>
+
+    <app-empty-list *ngIf="!salarySchema" [header]="'Salary schema'" (clicking)="openSalarySchema()">
+      Your salary schema is not set. <br>Click button bellow to set salary schema
     </app-empty-list>
   </div>
 </div>
+
+<app-spinner *ngIf="isLoadingSettings" [classes]="'spinner-big'" [containerClasses]="'spinner-centered'"></app-spinner>

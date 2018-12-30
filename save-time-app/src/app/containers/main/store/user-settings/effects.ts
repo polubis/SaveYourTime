@@ -22,11 +22,14 @@ export class UserSettingsEffects {
       )
     }),
     map((response: {settings: any}) => {
-      const salaryModal: boolean = response.settings === null;
-      const salary: number | boolean = response.settings ? response.settings.salary ? response.settings.salary : null : null;
+      const { settings } = response;
+      const salaryModal: boolean = settings === null;
+      const salarySchema: ISalarySchema | boolean = settings !== null ?
+        { salary: settings.salary, currency: settings.currency} : null;
+
       return {
         type: UserSettingsActions.FINISH_GET_USER_SETTINGS,
-        payload: { salary, salaryModal }
+        payload: { salaryModal, salarySchema }
       }
     })
   )

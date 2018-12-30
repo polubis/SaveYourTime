@@ -65,3 +65,4 @@ export function userSettingsReducer(state = initialState, action: UserSettingAct
 export const selectSalarySchema = (state: State) => state.salarySchema;
 export const selectSalaryModal = (state: State) => state.salaryModal;
 export const selectIsAddingSalarySchema = (state: State) => state.isAddingSalarySchema;
+export const selectIsLoadingSettings = (state: State) => state.isLoadingSettings;

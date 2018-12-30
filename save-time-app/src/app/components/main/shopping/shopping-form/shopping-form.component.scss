@@ -1,5 +1,6 @@
 @import '../../../../../colors.scss';
 .shopping {
+  height: 100%;
   grid-gap: 10px 30px;
   display: grid;
   grid-template-rows: auto 1fr;
@@ -24,6 +25,10 @@
       top: 10px;
       right: 10px;
     }
+  }
+  .empty-salary {
+    margin: auto;
+    grid-column: 1/3;
   }
 }
 

@@ -10,6 +10,9 @@ import { IFileToExtract } from "src/app/store/extractions/reducers";
 import { TryPutExtraction } from "src/app/store/extractions/actions";
 import { SelectedProduct } from "src/app/models/shopping";
 import { FetchProducts } from "src/app/store/products/actions";
+import { ISalarySchema } from "src/app/containers/main/store/user-settings/reducers";
+import { getIsLoadingSettings, getSalarySchema } from "src/app/containers/main/store";
+import { ChangeState } from "src/app/containers/main/store/user-settings/actions";
 
 @Component({
   selector: 'app-shopping-form',
@@ -23,6 +26,8 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
 
   productsSubscription: Subscription;
   extractedFileSub: Subscription;
+  settingsSub: Subscription;
+  salarySchemaSub: Subscription;
 
   productsToSelect: Product[];
 
@@ -39,6 +44,9 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
 
   putFilesInterval: Observable<number> = interval(200);
 
+  isLoadingSettings: boolean;
+  salarySchema: ISalarySchema;
+
   ngOnInit() {
     this.extractedFileSub = this.store.select(getFilesToExtract).subscribe((extractedFiles: IFileToExtract) => {
       if (extractedFiles) {
@@ -48,6 +56,16 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
     this.productsSubscription = this.store.select(state => state.products.products).subscribe((products: Product[]) => {
       this.productsToSelect = products;
     });
+
+    this.settingsSub = this.store.select(getIsLoadingSettings)
+    .subscribe((status: boolean) => {
+      this.isLoadingSettings = status;
+    });
+    this.salarySchemaSub = this.store.select(getSalarySchema)
+    .subscribe((schema: ISalarySchema) => {
+      this.salarySchema = schema;
+    });
+
     this.fetchProducts({size: 10, page: 1});
   }
 
@@ -59,6 +77,8 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.productsSubscription.unsubscribe();
     this.extractedFileSub.unsubscribe();
+    this.settingsSub.unsubscribe();
+    this.salarySchemaSub.unsubscribe();
   }
 
   removeProductFromSelected (item: { item: Product, index: number } ) {
@@ -108,4 +128,11 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
       .subscribe();
     }
   }
+
+  openSalarySchema() {
+    this.store.dispatch(new ChangeState(
+      {key: 'salaryModal', value: true}
+    ));
+  }
+
 }

@@ -26,7 +26,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NotificationsComponent } from './components/utils/notifications/notifications.component';
 import { NotificationComponent } from './components/utils/notifications/notification/notification.component';
 import { ProductsInstructionComponent } from './components/home/products/products-instruction/products-instruction.component';
-import { NavigationComponent } from "src/app/components/utils/navigation/navigation.component";
 import { UtilsModule } from "src/app/components/utils/utils.module";
 import localePl from '@angular/common/locales/pl';
 import { registerLocaleData } from "@angular/common";

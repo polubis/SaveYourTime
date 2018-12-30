@@ -11,11 +11,12 @@ import { ILoggedUser } from "src/app/store/users/reducers";
 import { InputBase } from "src/app/services/input-base";
 import { ValidationService } from "src/app/components/utils/form/validation.service";
 import { Setting } from "src/app/components/utils/form/form";
+import { getSalaryModal } from "src/app/containers/main/store";
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
-  styleUrls: ['../shared.scss', './navigation.component.scss']
+  styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent extends ValidationService implements OnInit {
   isLogingOut = false;
@@ -32,7 +33,7 @@ export class NavigationComponent extends ValidationService implements OnInit {
       ]
     },
     {icon: "local_dining", name: "Shopping", childs: [
-      {label: "add new", func: () =>  this.router.navigate(['main', 'shopping', 'add'])}
+      {label: "add new", func: () =>  this.router.navigate(['main', 'shopping', 'add']), disabled: true}
      ]
     },
     {icon: "accessibility", name: "Diets", childs: [
@@ -53,6 +54,7 @@ export class NavigationComponent extends ValidationService implements OnInit {
   logoutSub: Subscription;
   userDataSub: Subscription;
   userDataStateSub: Subscription;
+  getSalaryModalSub: Subscription;
 
   isGettingUserData: boolean;
   loggedUserData: ILoggedUser;
@@ -140,7 +142,12 @@ export class NavigationComponent extends ValidationService implements OnInit {
       .subscribe((data: ILoggedUser) => {
         this.loggedUserData = data;
       });
-      this.store.dispatch(new TryGetLoggedUserData());
+
+    this.getSalaryModalSub = this.store.select(getSalaryModal).subscribe((status: boolean) => {
+      this.navigationLinks[1].childs[0].disabled = status;
+    });
+
+    this.store.dispatch(new TryGetLoggedUserData());
   }
   changeOpenedNavigationBar(index: number) {
     this.currentOpenedNavigationBar = index;
@@ -156,5 +163,6 @@ export class NavigationComponent extends ValidationService implements OnInit {
     this.logoutSub.unsubscribe();
     this.userDataSub.unsubscribe();
     this.userDataStateSub.unsubscribe();
+    this.getSalaryModalSub.unsubscribe();
   }
 }

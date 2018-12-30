@@ -10,11 +10,11 @@ import { TryPushNotification } from '../store/notifications/actions';
 import { getNotifications, getToken } from '../store/index';
 import { TryLogOut } from "src/app/store/users/actions";
 import { environment } from '../../environments/environment';
+
 @Injectable({providedIn: 'root'})
 export class RequestsService {
 
-  constructor(private http: HttpClient, private store: Store<AppState>) {
-  }
+  constructor(private http: HttpClient, private store: Store<AppState>) {}
   baseUrl = environment.baseUrl;
 
   succesfullMessages = {
@@ -27,7 +27,7 @@ export class RequestsService {
     editCategory: 'Category has been succesfully edited',
     uploadAvatar: 'User avatar has been succesfully uploaded',
     addUserSettings: 'Salary schema has been succesfully added'
-  }
+  };
 
   settings: Settings = {
     getCategories: new RequestSetting('product/categories'),

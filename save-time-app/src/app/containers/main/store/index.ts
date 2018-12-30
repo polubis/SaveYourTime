@@ -1,6 +1,6 @@
 import { createSelector, createFeatureSelector } from "@ngrx/store";
 import * as fromUserSettings from './user-settings/reducers';
-import { selectSalarySchema, selectSalaryModal, selectIsAddingSalarySchema } from "./user-settings/reducers";
+import { selectSalarySchema, selectSalaryModal, selectIsAddingSalarySchema, selectIsLoadingSettings } from "./user-settings/reducers";
 export const selectUserSettingsEntity = createFeatureSelector<fromUserSettings.State>(
   'userSettings'
 );
@@ -12,4 +12,7 @@ export const getSalaryModal = createSelector(
 );
 export const getIsAddingSalarySchema = createSelector(
   selectUserSettingsEntity, selectIsAddingSalarySchema
+);
+export const getIsLoadingSettings = createSelector(
+  selectUserSettingsEntity, selectIsLoadingSettings
 );
