@@ -25,8 +25,8 @@ div.grid-wrap {
     }
   }
   .categories {
-    padding: 1em 0;
     grid-area: categories;
+    padding-bottom: 2em;
     display: flex;
     align-items: center;
     justify-content: flex-end;
