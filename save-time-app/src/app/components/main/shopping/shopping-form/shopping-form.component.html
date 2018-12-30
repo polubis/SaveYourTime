@@ -2,7 +2,12 @@
   <div class="shopping">
 
     <div class="cart-header">
-      <h2 class="main-colored">Add new shopping</h2>
+      <h2 class="main-colored">
+        <span>Add new shopping</span>
+      </h2>
+      <div class="informations">
+        dadsaad
+      </div>
     </div>
 
     <div *ngIf="!salarySchema" class="empty-salary">
@@ -22,19 +27,35 @@
       </div>
 
       <div class="selected-products">
-        <app-table [tableClass]="'table-remove'" [emptyTitle]="'This table is already empty. Start selecting products'"
+        <app-table
+        [tableClass]="'table-remove'" [emptyTitle]="'This table is already empty. Start selecting products'"
         [keysTitle]="'selectedProducts'" (rowClick)="removeProductFromSelected($event)"
         [enableChangingPageSize]="false" [enableFilters]="false" [enablePagination]="false"
         [title]="'Selected products'" [subTitle]="'click at row for remove product'"
         [items]="selectedProducts">
-          <div class="whole-cost main-colored" *ngIf="sum > 0">
+          <!-- <div class="whole-cost main-colored" *ngIf="sum > 0">
             {{sum}} zł
+          </div> -->
+
+          <div *ngIf="allItemsCountWithQuantity" class="s-footer flex-center">
+            <span class="main-colored">{{allItemsCountWithQuantity}} items</span>
+
+            <div class="s-footer-operations">
+              <button (click)="clearSelectedProducts()" class="label-btn-thin danger-color">
+                CLEAR ALL
+              </button>
+            </div>
+
           </div>
         </app-table>
       </div>
     </ng-container>
 
-
+    <footer>
+      <button class="main-btn-md">
+        CONTINUE
+      </button>
+    </footer>
   </div>
 
 </app-dropzone>

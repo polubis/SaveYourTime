@@ -5,6 +5,7 @@ import { getIsLoadingSettings, getSalarySchema } from "src/app/containers/main/s
 import { Subscription } from "rxjs";
 import { ChangeState } from "src/app/containers/main/store/user-settings/actions";
 import { FeatureState, ISalarySchema } from "../../../../containers/main/store/user-settings/reducers";
+import { Router } from "@angular/router";
 @Component({
   selector: 'app-shopping-list',
   templateUrl: './shopping-list.component.html',
@@ -19,7 +20,7 @@ export class ShoppingListComponent {
   settingsSub: Subscription;
   salarySchemaSub: Subscription;
 
-  constructor(private store: Store<FeatureState>) { }
+  constructor(private store: Store<FeatureState>, private router: Router) { }
   ngOnInit() {
     this.settingsSub = this.store.select(getIsLoadingSettings)
       .subscribe((status: boolean) => {
@@ -40,5 +41,8 @@ export class ShoppingListComponent {
     this.store.dispatch(new ChangeState(
       {key: 'salaryModal', value: true}
     ));
+  }
+  navigateIntoAdding() {
+    this.router.navigate(['main', 'shopping', 'add']);
   }
 }

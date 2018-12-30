@@ -3,15 +3,20 @@
   height: 100%;
   grid-gap: 10px 30px;
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto 1fr auto;
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
     "header header"
-    "products selected";
+    "products selected"
+    "footer footer";
   .cart-header {
     grid-area: header;
     h2 {
+      padding-bottom: 1em;
       margin: 0;
+    }
+    .informations {
+      padding-bottom: 1em;
     }
   }
   .products-to-add {
@@ -29,6 +34,21 @@
   .empty-salary {
     margin: auto;
     grid-column: 1/3;
+  }
+  footer {
+    grid-area: footer;
+    padding: 0 1em;
+    display: flex;
+    button {
+      margin-left: auto;
+    }
+  }
+  .s-footer {
+    padding: 12.5px;
+    background: $side;
+    .s-footer-operations {
+      margin-left: auto;
+    }
   }
 }
 

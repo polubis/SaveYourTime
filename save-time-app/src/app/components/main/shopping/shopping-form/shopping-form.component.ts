@@ -35,7 +35,7 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
   productsToSelect: Product[];
 
   selectedProducts: SelectedProduct[] = [];
-  sum: number = 0;
+  allItemsCountWithQuantity = 0;
 
   filesNamesInExtractingProcess: string[];
 
@@ -100,6 +100,7 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
       selectedProduct.quantity = selectedProduct.quantity - 1;
     }
     this.selectedProducts = selectedProducts;
+    this.countAllItems();
   }
 
   addProductToSelected(item: { item: Product, index: number }) {
@@ -119,6 +120,7 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
     }
 
     this.selectedProducts = selectedProducts;
+    this.countAllItems();
   }
 
   handleDropReceipt(files: File[]) {
@@ -143,4 +145,16 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
     ));
   }
 
+  countAllItems() {
+    let count = 0;
+    this.selectedProducts.forEach((element: SelectedProduct) => {
+      count += element.quantity
+    });
+    this.allItemsCountWithQuantity = count;
+  }
+
+  clearSelectedProducts() {
+    this.selectedProducts = [];
+    this.allItemsCountWithQuantity = 0;
+  }
 }

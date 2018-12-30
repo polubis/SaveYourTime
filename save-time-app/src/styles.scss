@@ -251,3 +251,10 @@ button{
     color: $font-white;
   }
 }
+.main-btn-md {
+  padding: 10px;
+  border-radius: 40px;
+  background: $main;
+  color: $font-white;
+  min-width: 150px;
+}

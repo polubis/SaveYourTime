@@ -3,12 +3,6 @@
 .table-wrapper{
   box-shadow: $shadow;
   position: relative;
-  .filter-form-wrapper {
-    p {
-      padding: 0 0 1em 0;
-      color: $content-grey;
-    }
-  }
   .filter-wrapper {
     & > div {
       padding: 12.5px;

@@ -1,93 +1,92 @@
 <div class="table-wrapper">
 
-  <div *ngIf="enableFilters" class="filter-wrapper">
-    <div *ngIf="filters" class="filter-form-wrapper">
-      <p>Apply filters for searching from server</p>
-      <app-form [btnTitle]="'add'" [btnType]="'circle'" (submiting)="aplyFilter($event)"
-      [indexOfInputToFocusAfterSubmit]="'0'"
-      [classes]="'filter-form'" [formSettings]="filterFormSettings" ></app-form>
-    </div>
+    <div *ngIf="enableFilters" class="filter-wrapper">
+      <div *ngIf="filters" class="filter-form-wrapper">
+        <app-form [btnTitle]="'add'" [btnType]="'circle'" (submiting)="aplyFilter($event)"
+        [indexOfInputToFocusAfterSubmit]="'0'"
+        [classes]="'filter-form'" [formSettings]="filterFormSettings" ></app-form>
+      </div>
 
-    <div *ngIf="filters" class="filters flex-center">
+      <div *ngIf="filters" class="filters flex-center">
 
-      <p *ngIf="filtersList.length === 0; else filtersRef">
-        Any filters applied
-      </p>
+        <p *ngIf="filtersList.length === 0; else filtersRef">
+          Any filters applied
+        </p>
 
-      <div *ngFor="let filter of filtersList" (click)="removeFilter(filter)"
-      #filtersRef class="filter flex-column">
-        <span class="main-colored">{{filter.category}}</span>
-        <span>{{filter.value}}</span>
+        <div *ngFor="let filter of filtersList" (click)="removeFilter(filter)"
+        #filtersRef class="filter flex-column">
+          <span class="main-colored">{{filter.category}}</span>
+          <span>{{filter.value}}</span>
+        </div>
+
       </div>
 
     </div>
 
-  </div>
+    <header>
+      <span class="main-colored">{{title}}</span>
+      <span>{{subTitle}}</span>
 
-  <header>
-    <span class="main-colored">{{title}}</span>
-    <span>{{subTitle}}</span>
+      <button *ngIf="enableFilters" (click)="togle('filters')" class="label-btn-thin flex-center">
+        <i class="material-icons">filter_list</i>
+        {{filters ? 'HIDE' : 'SHOW'}} FILTERS
+      </button>
 
-    <button *ngIf="enableFilters" (click)="togle('filters')" class="label-btn-thin flex-center">
-      <i class="material-icons">filter_list</i>
-      {{filters ? 'HIDE' : 'SHOW'}} FILTERS
-    </button>
+      <button *ngIf="enableChangingPageSize" (click)="togle('settings')" class="label-btn-thin flex-center">
+        <i class="material-icons">settings</i>
+        {{settings ? 'HIDE' : 'SHOW'}} SETTINGS
+      </button>
+    </header>
 
-    <button *ngIf="enableChangingPageSize" (click)="togle('settings')" class="label-btn-thin flex-center">
-      <i class="material-icons">settings</i>
-      {{settings ? 'HIDE' : 'SHOW'}} SETTINGS
-    </button>
-  </header>
+    <div class="pagination-wrapper">
 
-  <div class="pagination-wrapper">
-
-    <div *ngIf="settings && enableChangingPageSize" class="filtering-settings flex-center">
-      <span>{{rowsLimit}} records per page / {{maxRowsLimit}}</span>
-      <div class="progress">
-        <div class="progress-val" [style.width]="percentageLimit + '%'">
-        </div>
-        <div class="markers">
-          <span (click)="changeRowsLimit(limit)" *ngFor="let limit of rowsLimiters" [style.width]="'10%'"></span>
+      <div *ngIf="settings && enableChangingPageSize" class="filtering-settings flex-center">
+        <span>{{rowsLimit}} records per page / {{maxRowsLimit}}</span>
+        <div class="progress">
+          <div class="progress-val" [style.width]="percentageLimit + '%'">
+          </div>
+          <div class="markers">
+            <span (click)="changeRowsLimit(limit)" *ngFor="let limit of rowsLimiters" [style.width]="'10%'"></span>
+          </div>
         </div>
       </div>
+
+      <app-pagination #pagination *ngIf="enablePagination" [limit]="rowsLimit" (changingPage)="changePage($event)">
+
+      </app-pagination>
+
+      <app-spinner *ngIf="isLoading" [classes]="'spinner-small'" [containerClasses]="'spinner-table'"></app-spinner>
+
+    </div>
+    <ng-container *ngIf="items.length > 0">
+
+      <table [class]="tableClass">
+        <thead>
+          <tr>
+            <th *ngFor="let key of keys">
+              {{key.display}}
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of items; let i = index" (click)="rowClick.emit({item: item, index: i})">
+            <td *ngFor="let key of keys" >
+              {{item[key.key]}}
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+
+    </ng-container>
+
+
+    <div class="empty-table" *ngIf="items.length === 0 && !isLoading">
+      {{emptyTitle}}
     </div>
 
-    <app-pagination #pagination *ngIf="enablePagination" [limit]="rowsLimit" (changingPage)="changePage($event)">
-
-    </app-pagination>
-
-    <app-spinner *ngIf="isLoading" [classes]="'spinner-small'" [containerClasses]="'spinner-table'"></app-spinner>
-
-  </div>
-  <ng-container *ngIf="items.length > 0">
-
-    <table [class]="tableClass">
-      <thead>
-        <tr>
-          <th *ngFor="let key of keys">
-            {{key.display}}
-          </th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr *ngFor="let item of items; let i = index" (click)="rowClick.emit({item: item, index: i})">
-          <td *ngFor="let key of keys" >
-            {{item[key.key]}}
-          </td>
-        </tr>
-      </tbody>
-
-    </table>
-
-
-  </ng-container>
-
-
-  <div class="empty-table" *ngIf="items.length === 0 && !isLoading">
-    {{emptyTitle}}
-  </div>
-
-  <ng-content></ng-content>
+    <ng-content></ng-content>
 
   </div>
