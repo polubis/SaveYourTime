@@ -1,4 +1,4 @@
-<app-dropzone (dropped)="handleDropReceipt($event)" [config]="receiptConfig" *ngIf="!isLoadingSettings">
+<app-dropzone (dropped)="handleDropReceipt($event)" [config]="receiptConfig" *ngIf="!isLoadingSettings && !isLoadingProducts">
   <div class="shopping">
 
     <div class="cart-header">
@@ -39,4 +39,4 @@
 </app-dropzone>
 
 
-<app-spinner *ngIf="isLoadingSettings" [classes]="'spinner-big'" [containerClasses]="'spinner-centered'"></app-spinner>
+<app-spinner *ngIf="isLoadingSettings || isLoadingProducts" [classes]="'spinner-big'" [containerClasses]="'spinner-centered'"></app-spinner>

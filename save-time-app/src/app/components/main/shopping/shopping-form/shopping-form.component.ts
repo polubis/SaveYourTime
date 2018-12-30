@@ -3,7 +3,7 @@ import { AppState } from "src/app/app.reducers";
 import { Store } from "@ngrx/store";
 import { Product } from "src/app/models/product";
 import { Subscription, interval, Observable } from "rxjs";
-import { getFilesToExtract } from "src/app/store";
+import { getFilesToExtract, getIsLoadingProducts } from "src/app/store";
 import { take, map } from "rxjs/operators";
 import { IDropzone } from "src/app/components/utils/dropzone/dropzone";
 import { IFileToExtract } from "src/app/store/extractions/reducers";
@@ -28,6 +28,9 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
   extractedFileSub: Subscription;
   settingsSub: Subscription;
   salarySchemaSub: Subscription;
+  loadingProductsSub: Subscription;
+
+  isLoadingProducts: boolean;
 
   productsToSelect: Product[];
 
@@ -64,6 +67,11 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
     this.salarySchemaSub = this.store.select(getSalarySchema)
     .subscribe((schema: ISalarySchema) => {
       this.salarySchema = schema;
+    });
+
+    this.loadingProductsSub = this.store.select(getIsLoadingProducts)
+    .subscribe((status: boolean) => {
+      this.isLoadingProducts = status;
     });
 
     this.fetchProducts({size: 10, page: 1});
