@@ -33,9 +33,6 @@
         [enableChangingPageSize]="false" [enableFilters]="false" [enablePagination]="false"
         [title]="'Selected products'" [subTitle]="'click at row for remove product'"
         [items]="selectedProducts">
-          <!-- <div class="whole-cost main-colored" *ngIf="sum > 0">
-            {{sum}} zł
-          </div> -->
 
           <div *ngIf="allItemsCountWithQuantity" class="s-footer flex-center">
             <span class="main-colored">{{allItemsCountWithQuantity}} items</span>
@@ -48,6 +45,12 @@
 
           </div>
         </app-table>
+        <div class="drag-drop-bg perf-flex">
+          <div>
+            <i class="material-icons">file_upload</i>
+            <span>drag and drop receipts on screen for load them into selected products</span>
+          </div>
+        </div>
       </div>
     </ng-container>
 
@@ -56,9 +59,11 @@
         CONTINUE
       </button>
     </footer>
+
   </div>
 
 </app-dropzone>
+
 
 
 <app-spinner *ngIf="isLoadingSettings" [classes]="'spinner-big'" [containerClasses]="'spinner-centered'"></app-spinner>

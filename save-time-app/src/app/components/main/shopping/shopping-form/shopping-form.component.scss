@@ -24,11 +24,46 @@
   }
   .selected-products {
     grid-area: selected;
+    position: relative;
     .whole-cost {
       font-size: 22px;
       position: absolute;
       top: 10px;
       right: 10px;
+    }
+    .s-footer {
+      padding: 12.5px;
+      background: $side;
+      .s-footer-operations {
+        margin-left: auto;
+      }
+    }
+    .drag-drop-bg {
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      padding: 1em;
+      margin: auto;
+      top: 0; bottom: 0;
+      background: $side;
+      z-index: -1;
+      border-radius: 50%;
+      right: 0;
+      left: 0;
+      div {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        color: $font;
+        i {
+          font-size: 34px;
+        }
+        span {
+          padding: 1em;
+          text-align: center;
+          font-size: 12px;
+        }
+      }
     }
   }
   .empty-salary {
@@ -43,12 +78,4 @@
       margin-left: auto;
     }
   }
-  .s-footer {
-    padding: 12.5px;
-    background: $side;
-    .s-footer-operations {
-      margin-left: auto;
-    }
-  }
 }
-

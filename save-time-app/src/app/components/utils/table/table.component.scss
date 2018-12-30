@@ -3,6 +3,7 @@
 .table-wrapper{
   box-shadow: $shadow;
   position: relative;
+  background: $font-white;
   .filter-wrapper {
     & > div {
       padding: 12.5px;
