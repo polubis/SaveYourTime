@@ -37,10 +37,9 @@ router.get('', checkAuth, (req, res, next) => {
   if (size && page) {
     productsQuery.skip((page - 1) * size).limit(size);
   }
-
   productsQuery.then(documents => {
     products = documents;
-    return Product.countDocuments();
+    return Product.countDocuments( {userId: req.userId} );
   })
   .then(count => {
     res.status(200).json({
