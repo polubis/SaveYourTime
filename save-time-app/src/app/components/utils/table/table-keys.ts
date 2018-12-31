@@ -10,3 +10,11 @@ export const selectedProducts: {display: string, key: any}[] = [
   { display: 'Name', key: 'name' },
   { display: 'Quantity', key: 'quantity' }
 ];
+
+export const selectedProductsWithPrices: {display: string, key: any}[] = [
+  { display: 'Name', key: 'name' },
+  { display: 'Quantity', key: 'quantity' },
+  { display: 'Price', key: 'price' },
+  { display: 'Discount', key: 'discount' },
+  { display: 'Sum', key: 'sum' },
+];

@@ -62,6 +62,7 @@ export class Dropzone extends DropzoneBase implements OnInit {
   @Input() dragingClass: string = 'dragging';
   @Input() droppingClass: string = 'dropped';
   @Input() config?: IDropzone;
+  @Input() disabled = false;
 
   @HostBinding('class')
   elementClass = '';
@@ -71,60 +72,67 @@ export class Dropzone extends DropzoneBase implements OnInit {
   }
   constructor(private store: Store<AppState>) {super();}
 
-
   @HostListener('drop', ['$event'])
     onDrop($event) {
       $event.preventDefault();
-      const files: File[] = $event.dataTransfer.files;
-      const filesLength = files.length;
-      const correctFiles: File[] = [];
 
-      if(filesLength > 0) {
+      if (!this.disabled) {
+        const files: File[] = $event.dataTransfer.files;
+        const filesLength = files.length;
+        const correctFiles: File[] = [];
 
-        const { value, content } = this.config.maxFiles;
-          //filesLengty > valuye
-        if (filesLength === 0) {
-          this.handlePromptingErrors(content + value.toString(), 'dropzone');
-          this.elementClass = this.defaultClass;
-        }
-        else {
-          this.elementClass = this.defaultClass + ' ' + this.droppingClass;
-          setTimeout(() => {
+        if(filesLength > 0) {
+
+          const { value, content } = this.config.maxFiles;
+            //filesLengty > valuye
+          if (filesLength === 0) {
+            this.handlePromptingErrors(content + value.toString(), 'dropzone');
             this.elementClass = this.defaultClass;
-          }, 500);
+          }
+          else {
+            this.elementClass = this.defaultClass + ' ' + this.droppingClass;
+            setTimeout(() => {
+              this.elementClass = this.defaultClass;
+            }, 500);
 
-          for(let key in files) {
-            if(files[key].size) {
-              const file: File = files[key];
-              const error = super.check(file, this.config);
-              if (error) {
-                setTimeout(() => {
-                  this.handlePromptingErrors(error, 'dropzone' + file.name);
-                }, 150);
-                this.elementClass = this.defaultClass;
-              } else {
-                correctFiles.push(file);
+            for(let key in files) {
+              if(files[key].size) {
+                const file: File = files[key];
+                const error = super.check(file, this.config);
+                if (error) {
+                  setTimeout(() => {
+                    this.handlePromptingErrors(error, 'dropzone' + file.name);
+                  }, 150);
+                  this.elementClass = this.defaultClass;
+                } else {
+                  correctFiles.push(file);
+                }
               }
             }
+
+            this.filesDropped.emit(correctFiles);
           }
 
-          this.filesDropped.emit(correctFiles);
+        } else {
+          this.elementClass = this.defaultClass;
         }
-
-      } else {
-        this.elementClass = this.defaultClass;
       }
+
     }
 
   @HostListener('dragover', ['$event'])
     onDragOver($event) {
       $event.preventDefault();
-      this.elementClass = this.defaultClass + ' ' + this.dragingClass;
+      if (!this.disabled) {
+        this.elementClass = this.defaultClass + ' ' + this.dragingClass;
+      }
     }
 
   @HostListener('dragleave', ['$event'])
     onDragleave($event) {
-      this.elementClass = this.defaultClass;
+      if (!this.disabled) {
+        this.elementClass = this.defaultClass;
+      }
     }
 
   handlePromptingErrors(content: string, id: any) {

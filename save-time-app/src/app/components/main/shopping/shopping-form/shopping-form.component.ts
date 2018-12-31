@@ -24,6 +24,8 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<AppState>) { }
 
+  selectPricesOpen = false;
+
   productsSubscription: Subscription;
   extractedFileSub: Subscription;
   settingsSub: Subscription;
@@ -103,6 +105,13 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
     this.countAllItems();
   }
 
+  removeProductWithAllQuantity(selectedProduct: {index: number, item: SelectedProduct}) {
+    const selectedProducts: SelectedProduct[] = [...this.selectedProducts];
+    selectedProducts.splice(selectedProduct.index, 1);
+    this.selectedProducts = selectedProducts;
+    this.allItemsCountWithQuantity = this.allItemsCountWithQuantity - selectedProduct.item.quantity;
+  }
+
   addProductToSelected(item: { item: Product, index: number }) {
     const { item: product, index } = item;
     const selectedProducts: SelectedProduct[] = [...this.selectedProducts];
@@ -156,5 +165,32 @@ export class ShoppingFormComponent implements OnInit, OnDestroy {
   clearSelectedProducts() {
     this.selectedProducts = [];
     this.allItemsCountWithQuantity = 0;
+    if (this.selectPricesOpen) {
+      this.selectPricesOpen = false;
+    }
+  }
+
+  handleContinueClick() {
+    if (!this.selectPricesOpen) {
+      this.selectPricesOpen = true;
+    }
+
+    return;
+  }
+
+  togleSelectPrices() {
+    this.selectPricesOpen = !this.selectPricesOpen;
+  }
+
+  chooseOperation(data: { item: any, index: number, operation?: string }) {
+    if (data.operation === 'add-one') {
+      this.addProductToSelected( { item: data.item, index: data.index } );
+    }
+    else if (data.operation === 'remove-one') {
+      this.removeProductFromSelected( { item: data.item, index: data.index } )
+    }
+    else {
+      this.removeProductWithAllQuantity( { item: data.item, index: data.index } );
+    }
   }
 }

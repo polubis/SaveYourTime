@@ -1,4 +1,4 @@
-<app-dropzone (dropped)="handleDropReceipt($event)" [config]="receiptConfig" *ngIf="!isLoadingSettings">
+<app-dropzone (dropped)="handleDropReceipt($event)" [config]="receiptConfig" *ngIf="!isLoadingSettings" [disabled]="selectPricesOpen">
   <div class="shopping">
 
     <div class="cart-header">
@@ -6,7 +6,10 @@
         <span>Add new shopping</span>
       </h2>
       <div class="informations">
-        dadsaad
+        <button class="label-btn-thin" *ngIf="selectPricesOpen" (click)="togleSelectPrices()">BACK</button>
+        <button class="main-btn-md" (click)="handleContinueClick()" [disabled]="!allItemsCountWithQuantity">
+          {{selectPricesOpen ? 'ADD SHOPPING' : 'CONTINUE'}}
+        </button>
       </div>
     </div>
 
@@ -16,14 +19,15 @@
       </app-empty-list>
     </div>
 
-    <ng-container *ngIf="salarySchema">
+    <ng-container *ngIf="salarySchema && !selectPricesOpen">
       <div class="products-to-add">
         <app-table
         [isLoading]="isLoadingProducts"
         (settingChanges)="fetchProducts($event)"
         [keysTitle]="'productsToSelectKeys'"
         (rowClick)="addProductToSelected($event)"
-        [items]="productsToSelect"></app-table>
+        [items]="productsToSelect">
+        </app-table>
       </div>
 
       <div class="selected-products">
@@ -54,12 +58,30 @@
       </div>
     </ng-container>
 
-    <footer>
-      <button class="main-btn-md">
-        CONTINUE
-      </button>
-    </footer>
+    <ng-container *ngIf="selectPricesOpen">
+      <div class="products-to-add">
+        <app-table
+        [tableClass]="''"
+        [crud]="true"
+        [keysTitle]="'selectedProductsWithPrices'" (rowClick)="chooseOperation($event)"
+        [enableChangingPageSize]="false" [enableFilters]="false" [enablePagination]="false"
+        [title]="'Selected products settings'" [subTitle]="'click at row to attach prices, change quantity or set discount'"
+        [items]="selectedProducts">
 
+          <div *ngIf="allItemsCountWithQuantity" class="s-footer flex-center">
+            <span class="main-colored">{{allItemsCountWithQuantity}} items</span>
+
+            <div class="s-footer-operations">
+              <button (click)="clearSelectedProducts()" class="label-btn-thin danger-color">
+                CLEAR ALL
+              </button>
+            </div>
+
+          </div>
+
+        </app-table>
+      </div>
+    </ng-container>
   </div>
 
 </app-dropzone>
@@ -67,3 +89,4 @@
 
 
 <app-spinner *ngIf="isLoadingSettings" [classes]="'spinner-big'" [containerClasses]="'spinner-centered'"></app-spinner>
+<!-- selectedProductsWithPrices -->

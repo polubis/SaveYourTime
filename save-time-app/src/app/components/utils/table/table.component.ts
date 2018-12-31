@@ -11,6 +11,7 @@ export class TableComponent implements OnInit {
   @ViewChild('pagination') pagination: any;
 
   @Input() isLoading = false;
+  @Input() crud = false;
   @Input() tableClass = 'table-add';
   @Input() title = 'Products';
   @Input() subTitle = 'click row for select';
@@ -25,7 +26,7 @@ export class TableComponent implements OnInit {
   @Input() enablePagination = true;
 
   @Input() items: any[];
-  @Output() rowClick = new EventEmitter< { item: any, index: number } >();
+  @Output() rowClick = new EventEmitter< { item: any, index: number, operation?: string } >();
   @Output() settingChanges = new EventEmitter< { size: number, page: number } >();
   filterFormSettings: FormSettings = {
     category: new Setting('product category'),

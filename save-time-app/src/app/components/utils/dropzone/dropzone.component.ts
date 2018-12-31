@@ -9,6 +9,7 @@ import { IDropzone } from "src/app/components/utils/dropzone/dropzone";
   styleUrls: ['./dropzone.component.scss']
 })
 export class DropzoneComponent implements OnInit {
+  @Input() disabled = false;
   @Input() config: IDropzone;
   @Output() dropped = new EventEmitter<File | File[]>();
 

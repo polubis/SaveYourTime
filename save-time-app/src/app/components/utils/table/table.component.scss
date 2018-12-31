@@ -58,7 +58,10 @@
   .table-add {
     tbody {
       tr {
+        cursor: pointer;
         &:hover:not(.selected-row) {
+          background: $table-row;
+          color: $main;
           td:last-of-type{
             border-right-color: $main;
           }
@@ -69,7 +72,10 @@
   .table-remove {
     tbody {
       tr {
+        cursor: pointer;
         &:hover:not(.selected-row) {
+          background: $table-row;
+          color: $main;
           td:last-of-type{
             border-right-color: $error;
           }
@@ -91,14 +97,17 @@
       word-break: break-word;
     }
     tbody {
+      .table-operations {
+        display: flex;
+        justify-content: flex-end;
+        i {
+          margin-left: 10px;
+          cursor: pointer;
+        }
+      }
       tr {
-        cursor: pointer;
         td:last-of-type{
           border-right: 2px solid transparent;
-        }
-        &:hover:not(.selected-row) {
-          background: $table-row;
-          color: $main;
         }
       }
       .selected-row {

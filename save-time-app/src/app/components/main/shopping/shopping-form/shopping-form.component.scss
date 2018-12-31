@@ -3,12 +3,18 @@
   height: 100%;
   grid-gap: 10px 30px;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr;
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
     "header header"
-    "products selected"
-    "footer footer";
+    "products selected";
+  .s-footer {
+    padding: 12.5px;
+    background: $side;
+    .s-footer-operations {
+      margin-left: auto;
+    }
+  }
   .cart-header {
     grid-area: header;
     h2 {
@@ -17,6 +23,12 @@
     }
     .informations {
       padding-bottom: 1em;
+      display: flex;
+      justify-content: flex-end;
+      .label-btn-thin {
+        color: $font;
+        margin-right: 40px;
+      }
     }
   }
   .products-to-add {
@@ -30,13 +42,6 @@
       position: absolute;
       top: 10px;
       right: 10px;
-    }
-    .s-footer {
-      padding: 12.5px;
-      background: $side;
-      .s-footer-operations {
-        margin-left: auto;
-      }
     }
     .drag-drop-bg {
       position: absolute;
@@ -69,9 +74,5 @@
   .empty-salary {
     margin: auto;
     grid-column: 1/3;
-  }
-  footer {
-    grid-area: footer;
-    padding: 0 1em;
   }
 }

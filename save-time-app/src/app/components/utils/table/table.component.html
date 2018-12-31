@@ -70,11 +70,26 @@
         </thead>
 
         <tbody>
-          <tr *ngFor="let item of items; let i = index" (click)="rowClick.emit({item: item, index: i})">
-            <td *ngFor="let key of keys" >
-              {{item[key.key]}}
-            </td>
-          </tr>
+          <ng-container *ngIf="crud">
+            <tr *ngFor="let item of items; let i = index">
+              <td *ngFor="let key of keys" >
+                {{item[key.key]}}
+              </td>
+              <td class="table-operations">
+                <i class="material-icons" (click)="rowClick.emit({item: item, index: i, operation: 'add-one'})">plus_one</i>
+                <i class="material-icons" (click)="rowClick.emit({item: item, index: i, operation: 'remove-one'})">exposure_neg_1</i>
+                <i class="material-icons danger-color" (click)="rowClick.emit({item: item, index: i, operation: 'remove-all'})">close</i>
+              </td>
+            </tr>
+          </ng-container>
+          <ng-container *ngIf="!crud">
+            <tr *ngFor="let item of items; let i = index" (click)="rowClick.emit({item: item, index: i})">
+              <td *ngFor="let key of keys" >
+                {{item[key.key]}}
+              </td>
+            </tr>
+          </ng-container>
+
         </tbody>
 
       </table>
